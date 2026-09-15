@@ -1,0 +1,12 @@
+{
+  "name": "assurance-run",
+  "version": "0.1.0",
+  "description": "Executable corpus for the four Phase 1 evidence semantics: four-state verdicts, capture relationship, per-state evidence binding, typed references. Zero dependencies.",
+  "license": "MIT",
+  "scripts": {
+    "test": "node selftest.cjs && node selftest-semantics.cjs",
+    "cross-rail": "node cross-rail.cjs"
+  },
+  "keywords": ["x402", "evidence", "conformance", "scitt", "rfc9162"],
+  "private": false
+}

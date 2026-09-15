@@ -12,6 +12,7 @@
 const K = require('./kernel.cjs');
 const A = require('./adapters.cjs');
 
+const FIXED = '2026-09-15T00:00:00Z';
 const P = { source: 'https://example.test/x', observer: 'test', capture_method: 'unit',
   observed_at: '2026-09-15T00:00:00Z', raw_digest: 'd', adapter_version: 'test/0.1' };
 
@@ -57,6 +58,11 @@ const CASES = [
     spec: { ...SPEC, scheme: 'escrow', expected: { state: 'PAID' } },
     ev: { attempted: true, reachable: true, independence_class: K.INDEPENDENT, ...P,
       observed: { state: 'ZERO_OBSERVED' } } },
+
+  { id: 'AC-11', name: 'OUR adapter threw -> NOT_EVALUATED, never "source unreachable"',
+    spec: SPEC, want: K.NOT_EVALUATED, wantReason: 'ADAPTER_FAILED',
+    ev: { attempted: true, adapter_failed: true, error: 'ReferenceError: now is not defined',
+      independence_class: K.INDEPENDENT, ...P } },
 
   { id: 'AC-09', name: 'third-party attested match is still not independent -> INDETERMINATE',
     spec: SPEC, want: K.INDETERMINATE, wantReason: 'INSUFFICIENT_INDEPENDENCE',
@@ -114,7 +120,24 @@ function runSuite(evaluator) {
   console.log(`  ${replayOk ? 'ok  ' : 'FAIL'}  AC-10  replay reproduces verdict, digest and signature`);
   console.log(`        verdict=${rec.verdict}/${rec.reason}  digest_match=${rp.digest_matches}  sig_valid=${rp.signature_valid}`);
 
-  const allOk = failed.length === 0 && brokenCaught.length >= 3 && replayOk;
+  // ADAPTER SMOKE: every exported adapter must survive one real invocation.
+  // All three suites passed for hours while httpPublic threw on every call,
+  // because nothing ever invoked it. A suite that never runs a component is not
+  // evidence that the component works.
+  console.log('\n  ADAPTER SMOKE — every adapter must produce a verdict that is not ADAPTER_FAILED');
+  const smokeAdapters = [
+    ['httpPublic', A.httpPublic, { source: 'https://example.com/', expected: { unused: '1' } }],
+    ['counterpartyReport', A.counterpartyReport({ unused: '1' }, { observed_at: FIXED }), { source: 'about:blank', expected: { unused: '1' } }],
+  ];
+  let smokeOk = true;
+  for (const [nm, ad, extra] of smokeAdapters) {
+    const r = await K.run({ ...SPEC, ...extra }, ad, { observed_at: FIXED });
+    const bad = r.reason === 'ADAPTER_FAILED';
+    if (bad) smokeOk = false;
+    console.log(`  ${bad ? 'FAIL' : 'ok  '}  ${nm.padEnd(20)} ${r.verdict}/${r.reason}${bad ? '  ' + (r.detail || r.evidence.error) : ''}`);
+  }
+
+  const allOk = failed.length === 0 && brokenCaught.length >= 3 && replayOk && smokeOk;
   console.log('\n  ' + '-'.repeat(68));
   console.log('  RESULT: ' + (allOk ? 'all prohibitions held' : 'CONTRACT VIOLATED') + '\n');
   process.exit(allOk ? 0 : 1);

@@ -11,7 +11,7 @@ refuse to violate, with a control that proves the suite can actually fail.
 
 ```
 git clone https://github.com/stillmarcus24/assurance-run && cd assurance-run
-node selftest.cjs            # the four-state evaluator          (10 cases)
+node selftest.cjs            # the four-state evaluator          (11 cases + adapter smoke)
 node selftest-semantics.cjs  # the three missing semantics       (17 cases)
 node cross-rail.cjs          # same evaluator, unrelated rails   (6 cases, 2 live)
 ```
@@ -28,7 +28,7 @@ comment](https://github.com/x402-foundation/tsc/issues/4#issuecomment-5680248416
 
 | # | Gap | Implemented in | Cases |
 |---|---|---|---|
-| 1 | Verdict vocabulary: `verified / contradicted / indeterminate / not-evaluated` | `kernel.cjs` | AC-01 … AC-10 |
+| 1 | Verdict vocabulary: `verified / contradicted / indeterminate / not-evaluated` | `kernel.cjs` | AC-01 … AC-11 |
 | 2 | The capture relationship — who observed vs who executed | `semantics.cjs` | SC-01 … SC-05 |
 | 3 | An evidence anchor per state | `semantics.cjs` | SC-06 … SC-10 |
 | 4 | The `ref=` slot — pre-action verification reference | `semantics.cjs` | SC-11 … SC-17 |
@@ -108,6 +108,34 @@ common:
 `observed`; the evaluator was not modified for either rail. Had it needed a
 new verdict or a new provenance field, the semantics would have been
 rail-specific — and that is worth knowing *before* a group adopts them.
+
+## The defect this corpus committed against itself
+
+Published 2026-09-15. Within the hour, `httpPublic` was found throwing
+`ReferenceError: now is not defined` on **every successful fetch** — the
+helper was scoped inside a different adapter.
+
+The failure mode is the point. `kernel.run()` caught the exception and
+recorded `reachable: false`, which the evaluator correctly reads as
+`INDETERMINATE / SOURCE_UNREACHABLE` — *"we asked, and the source could not
+settle it."* That is a claim about the world, and it was false. We never
+asked. **Our instrument had broken, and the result was dressed as evidence
+about someone else's system.** One of three adapters was completely dead
+while all three suites reported green, because nothing ever invoked it.
+
+Two fixes, both permanent:
+
+- An adapter fault now yields `NOT_EVALUATED / ADAPTER_FAILED`, never a
+  verdict about the source (AC-11). *Our* failure and *their* unavailability
+  are different statements and must never share a verdict.
+- An **adapter smoke stage**: every exported adapter must survive one real
+  invocation. A suite that never runs a component is not evidence the
+  component works.
+
+This is the exact collapse the corpus exists to prohibit, committed by the
+corpus itself, on day one. It is documented here rather than quietly patched
+because a conformance suite that hides its own failures is worth less than no
+suite at all.
 
 ## What this run found in its own adapter
 

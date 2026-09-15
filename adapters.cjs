@@ -16,6 +16,13 @@ const K = require('./kernel.cjs');
 
 function sha256(s) { return crypto.createHash('sha256').update(s).digest('hex'); }
 
+// Wall-clock at the moment an adapter actually touched a source. Adapters may
+// record a real observation time; the KERNEL is what must never invent one
+// (see freeze(): frozen_at is caller-supplied). Module-level because more than
+// one adapter needs it — it was previously defined inside baseX402.observe,
+// which left httpPublic throwing ReferenceError on every successful fetch.
+function now() { return new Date().toISOString(); }
+
 // ------------------------------------------------- adapter 1: public record
 /**
  * Generic HTTP/public-record observation. We fetch the source ourselves,

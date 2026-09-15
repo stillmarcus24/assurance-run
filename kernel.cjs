@@ -165,6 +165,14 @@ function evaluate(frozen, evidence) {
     return { verdict: NOT_EVALUATED, reason: 'MISSING_PROVENANCE:' + prov.missing.join(',') };
   }
 
+  // 2b. Our own instrument failed. Never a statement about the source.
+  if (evidence.adapter_failed === true) {
+    return { verdict: NOT_EVALUATED, reason: 'ADAPTER_FAILED',
+      note: 'the adapter raised before producing an observation; this says nothing ' +
+            'about the source and must never be recorded as one',
+      error: evidence.error || null };
+  }
+
   // 3. A schema we do not understand is never a pass and never a failure.
   if (evidence.schema_supported === false) {
     return { verdict: NOT_EVALUATED, reason: 'UNSUPPORTED_SCHEMA' };
@@ -234,8 +242,22 @@ async function run(spec, adapter, opts = {}) {
     // to pass the timestamp through on the success path, only on the throw path.
     evidence = await adapter.observe(frozen, opts);
   } catch (err) {
+    // AN ADAPTER THAT THREW IS NOT A STATEMENT ABOUT THE SOURCE.
+    //
+    // This previously set `reachable: false`, which the evaluator correctly reads
+    // as INDETERMINATE / SOURCE_UNREACHABLE -- i.e. "we asked and the source could
+    // not settle it". That is a claim about the world, and it is false: we never
+    // asked. The instrument broke.
+    //
+    // Found 2026-09-15, in this repo, the day it was published: httpPublic threw
+    // ReferenceError on EVERY successful fetch and every run reported the source
+    // as unreachable. Three green suites, one of three adapters totally dead.
+    // This is precisely the collapse this corpus exists to prohibit, committed by
+    // the corpus itself -- an instrument failure wearing evidence's clothes.
+    //
+    // An adapter fault is OUR failure, so the verdict is NOT_EVALUATED.
     evidence = {
-      attempted: true, reachable: false,
+      attempted: true, adapter_failed: true,
       source: frozen.source, observer: adapter.name, capture_method: adapter.capture_method,
       observed_at: opts.observed_at || null, raw_digest: sha256('ADAPTER_THREW:' + err.message),
       adapter_version: adapter.version, independence_class: adapter.independence_class,

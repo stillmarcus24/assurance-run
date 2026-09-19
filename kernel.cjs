@@ -50,6 +50,59 @@ const INDEPENDENT = 'independent_retrieval'; // we fetched the source ourselves
 const SELF_REPORTED = 'self_reported';       // counterparty told us what it saw
 const THIRD_PARTY = 'third_party_attested';  // a third party we do not control
 
+// ------------------------------------------------------- fault classification
+/**
+ * Did OUR instrument break, or did the SOURCE fail to answer?
+ *
+ * `reachable: false` is a claim about the counterparty's system: we asked and
+ * they could not settle it. An exception raised inside our own process is not
+ * that claim — we may never have asked at all. Every adapter used to collapse
+ * the two by catching everything into `reachable: false`, which put the exact
+ * defect AC-11 prohibits one layer BELOW the kernel's guard, where AC-11 could
+ * not see it (proved 2026-09-19: a `require()` of a missing module and a
+ * malformed URL both reported the source as unreachable).
+ *
+ * The rule is positive identification, and it is deliberately asymmetric:
+ * we say "the source was unreachable" ONLY when we can name the network-layer
+ * failure that says so. Anything we cannot positively attribute to the wire is
+ * charged to our own instrument, because an unclassified fault filed against a
+ * counterparty is a claim we did not earn.
+ */
+const TRANSPORT_CODES = new Set([
+  // POSIX / c-ares resolution and connection failures
+  'ENOTFOUND', 'EAI_AGAIN', 'ECONNREFUSED', 'ECONNRESET', 'ECONNABORTED',
+  'EHOSTUNREACH', 'ENETUNREACH', 'ENETDOWN', 'EPIPE', 'ETIMEDOUT', 'EPROTO',
+  // undici transport
+  'UND_ERR_CONNECT_TIMEOUT', 'UND_ERR_HEADERS_TIMEOUT', 'UND_ERR_BODY_TIMEOUT',
+  'UND_ERR_SOCKET', 'UND_ERR_RESPONSE_STATUS_CODE', 'UND_ERR_CLOSED',
+  // TLS: the peer's certificate or handshake, i.e. still about them
+  'CERT_HAS_EXPIRED', 'DEPTH_ZERO_SELF_SIGNED_CERT', 'ERR_TLS_CERT_ALTNAME_INVALID',
+  'UNABLE_TO_VERIFY_LEAF_SIGNATURE', 'SELF_SIGNED_CERT_IN_CHAIN', 'ERR_SSL_WRONG_VERSION_NUMBER',
+]);
+
+function classifyFault(err) {
+  const name = err && err.name;
+  const msg = err && err.message ? String(err.message) : String(err);
+  // A timeout is a real observation about the source: we asked and it did not
+  // answer inside the window we declared. The window is ours, so we record it.
+  if (name === 'TimeoutError' || name === 'AbortError' || name === 'HeadersTimeoutError') {
+    return { instrument: false, kind: 'TIMEOUT', detail: msg };
+  }
+  for (const e of [err, err && err.cause]) {
+    if (e && e.code && TRANSPORT_CODES.has(e.code)) {
+      return { instrument: false, kind: 'TRANSPORT:' + e.code, detail: msg };
+    }
+  }
+  // Everything else — ReferenceError, MODULE_NOT_FOUND, a URL we malformed
+  // ourselves ("unknown scheme" arrives as a TypeError with no network code) —
+  // is ours until proven otherwise.
+  return {
+    instrument: true,
+    kind: 'INSTRUMENT:' + (name || 'Error') + ((err && err.code) ? ':' + err.code : ''),
+    detail: msg,
+  };
+}
+
 // ------------------------------------------------------------- canonical JSON
 /**
  * Deterministic serialisation. Keys sorted, no floats that cannot round-trip,
@@ -170,6 +223,16 @@ function evaluate(frozen, evidence) {
     return { verdict: NOT_EVALUATED, reason: 'ADAPTER_FAILED',
       note: 'the adapter raised before producing an observation; this says nothing ' +
             'about the source and must never be recorded as one',
+      error: evidence.error || null };
+  }
+
+  // 2c. The adapter was never wired. Not a failed check — no check exists yet.
+  //     This used to return `reachable: false`, i.e. INDETERMINATE, which told a
+  //     reader that we asked a source and it could not settle the claim. Nothing
+  //     was ever asked: the operator did not configure the reader.
+  if (evidence.not_configured === true) {
+    return { verdict: NOT_EVALUATED, reason: 'ADAPTER_NOT_CONFIGURED',
+      note: 'the adapter has no source wired; nothing was asked of anyone',
       error: evidence.error || null };
   }
 
@@ -319,5 +382,5 @@ module.exports = {
   VERSION, AGREE, DISAGREE, INDETERMINATE, NOT_EVALUATED,
   INDEPENDENT, SELF_REPORTED, THIRD_PARTY,
   canonical, sha256, freeze, evaluate, run, replay, persist,
-  sign, verifySignature, provenanceOf,
+  sign, verifySignature, provenanceOf, classifyFault,
 };

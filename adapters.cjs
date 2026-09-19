@@ -53,8 +53,15 @@ const httpPublic = {
       res = await fetch(frozen.source, { redirect: 'follow', signal: AbortSignal.timeout(25000) });
       text = await res.text();
     } catch (err) {
-      return { ...base, reachable: false, observed_at: new Date().toISOString(),
-        raw_digest: sha256('UNREACHABLE:' + err.message), error: err.message };
+      // An exception here is not automatically "the source was unreachable".
+      // A URL we malformed, or any fault we cannot attribute to the wire, never
+      // left this process — see K.classifyFault. Filing it as `reachable: false`
+      // is the AC-11 collapse committed one layer below where AC-11 looks.
+      const f = K.classifyFault(err);
+      const stamp = { ...base, observed_at: now(), error: f.detail, fault_kind: f.kind };
+      return f.instrument
+        ? { ...stamp, adapter_failed: true, raw_digest: sha256('ADAPTER_THREW:' + f.kind + ':' + f.detail) }
+        : { ...stamp, reachable: false, raw_digest: sha256('UNREACHABLE:' + f.kind + ':' + f.detail) };
     }
 
     const observed_at = now();
@@ -153,7 +160,8 @@ const baseX402 = {
     const MODULE = process.env.ASSURANCE_X402_TRUTH;
     const now = () => opts.observed_at || frozen.observed_at || null;
     if (!MODULE) {
-      return { ...base, reachable: false, observed_at: now(),
+      // Not wired is not unreachable. Nobody was asked anything.
+      return { ...base, not_configured: true, observed_at: now(),
         raw_digest: sha256('X402_TRUTH_NOT_CONFIGURED'),
         error: 'ASSURANCE_X402_TRUTH not set; EVM settlement reader not wired' };
     }
@@ -161,13 +169,20 @@ const baseX402 = {
     try {
       truth = require(MODULE);
     } catch (err) {
-      return { ...base, reachable: false, observed_at: now(),
+      // A require() that failed is unambiguously our own instrument. This
+      // previously reported the SOURCE as unreachable on a module resolution
+      // error — a statement about a counterparty's system produced by a file
+      // that was never opened on ours.
+      const f = K.classifyFault(err);
+      return { ...base, adapter_failed: true, observed_at: now(), fault_kind: f.kind,
         raw_digest: sha256('MODULE_LOAD_FAILED:' + err.message), error: err.message };
     }
     if (typeof truth.observeAddress !== 'function') {
       // The underlying module does not expose a per-address entry point yet.
-      // NOT a pass, NOT a failure — an unsupported shape.
-      return { ...base, reachable: true, schema_supported: false,
+      // NOT a pass, NOT a failure — an unsupported shape, and specifically an
+      // unsupported shape of OUR reader. `reachable: true` here asserted we had
+      // reached the source; we had only loaded a local file missing an export.
+      return { ...base, not_configured: true,
         observed_at: now(),
         raw_digest: sha256('NO_OBSERVE_ADDRESS_EXPORT'),
         note: 'x402_settlement_truth exposes no observeAddress(); wire before use' };

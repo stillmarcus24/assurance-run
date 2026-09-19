@@ -3,3 +3,7 @@ node_modules/
 *.key
 *.pub
 runs/
+
+# The signing PUBLIC key is published deliberately: a signed verdict whose key
+# nobody holds is a commitment only its author can check.
+!verdicts/signing.pub

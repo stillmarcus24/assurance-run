@@ -157,7 +157,7 @@ const starknetFact = {
       }, 'latest'],
     };
 
-    let body, lastErr = null;
+    let body, lastErr = null, lastFault = null;
     for (let attempt = 1; attempt <= 3; attempt++) {
       try {
         const res = await fetch(STARKNET_SEPOLIA_RPC, {
@@ -166,7 +166,10 @@ const starknetFact = {
         });
         body = await res.json();
       } catch (err) {
-        lastErr = 'TRANSPORT:' + err.message; body = null;
+        // Same rule as the HTTP adapter: only a named network failure licenses
+        // a claim that the RPC endpoint was unreachable. Anything else is ours.
+        lastFault = K.classifyFault(err);
+        lastErr = lastFault.kind + ':' + lastFault.detail; body = null;
       }
 
       // A JSON-RPC error arrives as HTTP 200 with an `error` member. Treating that
@@ -184,8 +187,12 @@ const starknetFact = {
 
     if (!body) {
       // Unreachable is INDETERMINATE by the kernel's rules, never "not anchored".
-      return { ...base, reachable: false, raw_digest: sha256('RPC_ERROR:' + String(lastErr)),
-        error: lastErr, attempts: 3 };
+      // But an RPC error member is the endpoint answering us, whereas a fault we
+      // could not attribute to the wire is our own — those are different claims.
+      const ours = lastFault && lastFault.instrument === true;
+      const stamp = { ...base, raw_digest: sha256('RPC_ERROR:' + String(lastErr)),
+        error: lastErr, attempts: 3, fault_kind: lastFault ? lastFault.kind : 'RPC_ERROR_MEMBER' };
+      return ours ? { ...stamp, adapter_failed: true } : { ...stamp, reachable: false };
     }
 
     const result = (body && body.result) || [];

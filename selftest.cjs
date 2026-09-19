@@ -137,7 +137,53 @@ function runSuite(evaluator) {
     console.log(`  ${bad ? 'FAIL' : 'ok  '}  ${nm.padEnd(20)} ${r.verdict}/${r.reason}${bad ? '  ' + (r.detail || r.evidence.error) : ''}`);
   }
 
-  const allOk = failed.length === 0 && brokenCaught.length >= 3 && replayOk && smokeOk;
+  // ADAPTER FAULT BOUNDARY — AC-11 was pinned at the wrong layer.
+  //
+  // AC-11 hands the evaluator `adapter_failed: true` and checks it answers
+  // NOT_EVALUATED. It passed from the day it was written. What it never checked
+  // is whether any adapter SETS that flag — and none did: every one caught its
+  // own exceptions into `reachable: false` before the kernel's guard could see
+  // them. Proved 2026-09-19 against the shipped 0.1.1: a `require()` of a
+  // missing module and a URL we malformed ourselves BOTH reported the source as
+  // unreachable. A conformance case that cannot reach the code path it names is
+  // the false-green this corpus exists to prohibit, committed by the corpus.
+  //
+  // These cases run the REAL adapters against real faults. AC-14 is the control:
+  // if the classifier simply charged everything to the instrument, the split
+  // would be worthless, so a genuinely dead host must still read as the source.
+  console.log('\n  ADAPTER FAULT BOUNDARY — our fault vs theirs, decided at the adapter');
+  const savedTruth = process.env.ASSURANCE_X402_TRUTH;
+  process.env.ASSURANCE_X402_TRUTH = require('path').join(__dirname, 'no-such-module.cjs');
+  const faultCases = [
+    ['AC-12', 'require() of a missing reader -> NOT_EVALUATED/ADAPTER_FAILED',
+      A.baseX402, { source: 'https://example.test/x', resource: '0xdead', expected: { state: 'PAID' } },
+      K.NOT_EVALUATED, 'ADAPTER_FAILED'],
+    ['AC-13', 'a URL WE malformed -> NOT_EVALUATED, never "source unreachable"',
+      A.httpPublic, { source: 'htp:/not a url', expected: { unused: '1' } },
+      K.NOT_EVALUATED, 'ADAPTER_FAILED'],
+    ['AC-14', 'CONTROL: a genuinely dead host -> INDETERMINATE/SOURCE_UNREACHABLE',
+      A.httpPublic, { source: 'https://host-that-cannot-resolve-xyzzy.invalid/x', expected: { unused: '1' } },
+      K.INDETERMINATE, 'SOURCE_UNREACHABLE'],
+  ];
+  let faultOk = true;
+  for (const [id, name, ad, extra, wantV, wantR] of faultCases) {
+    const r = await K.run({ ...SPEC, ...extra }, ad, { observed_at: FIXED });
+    const pass = r.verdict === wantV && r.reason === wantR;
+    if (!pass) faultOk = false;
+    console.log(`  ${pass ? 'ok  ' : 'FAIL'}  ${id}  ${name}`);
+    if (!pass) console.log(`        wanted ${wantV}/${wantR}, got ${r.verdict}/${r.reason}`);
+  }
+  // Not wired at all is a fourth thing: nobody was asked anything.
+  delete process.env.ASSURANCE_X402_TRUTH;
+  const nw = await K.run({ ...SPEC, source: 'https://example.test/x', resource: '0xdead',
+    expected: { state: 'PAID' } }, A.baseX402, { observed_at: FIXED });
+  const nwPass = nw.verdict === K.NOT_EVALUATED && nw.reason === 'ADAPTER_NOT_CONFIGURED';
+  if (!nwPass) faultOk = false;
+  console.log(`  ${nwPass ? 'ok  ' : 'FAIL'}  AC-15  an unwired adapter -> NOT_EVALUATED/ADAPTER_NOT_CONFIGURED`);
+  if (!nwPass) console.log(`        wanted NOT_EVALUATED/ADAPTER_NOT_CONFIGURED, got ${nw.verdict}/${nw.reason}`);
+  if (savedTruth !== undefined) process.env.ASSURANCE_X402_TRUTH = savedTruth;
+
+  const allOk = failed.length === 0 && brokenCaught.length >= 3 && replayOk && smokeOk && faultOk;
   console.log('\n  ' + '-'.repeat(68));
   console.log('  RESULT: ' + (allOk ? 'all prohibitions held' : 'CONTRACT VIOLATED') + '\n');
   process.exit(allOk ? 0 : 1);

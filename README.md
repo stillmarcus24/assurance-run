@@ -152,6 +152,68 @@ but to refuse to let one flaky response become a permanent fact about a rail.
 A persistently unreachable source is `INDETERMINATE / SOURCE_UNREACHABLE`,
 never "not anchored".
 
+## The second instance: AC-11 was pinned at the wrong layer
+
+0.1.1 shipped `AC-11` — *our adapter threw → `NOT_EVALUATED`, never "source
+unreachable"* — and it passed from the day it was written. It hands the
+evaluator `adapter_failed: true` and checks the answer.
+
+**What it never checked is whether any adapter sets that flag.** None did.
+Every adapter caught its own exceptions into `reachable: false`, one layer
+*below* the kernel's guard, where AC-11 could not see them. Run against the
+shipped 0.1.1:
+
+| fault | 0.1.1 said | truth |
+|---|---|---|
+| `require()` of a missing reader | `INDETERMINATE / SOURCE_UNREACHABLE` | we never opened a file on our own disk |
+| a URL **we** malformed | `INDETERMINATE / SOURCE_UNREACHABLE` | the request never left the process |
+| reader not configured at all | `INDETERMINATE / SOURCE_UNREACHABLE` | nobody was asked anything |
+| a genuinely dead host | `INDETERMINATE / SOURCE_UNREACHABLE` | correct |
+
+Three of four were statements about a counterparty's system produced by code
+that never contacted one. A conformance case that cannot reach the path it
+names is the false-green this corpus exists to prohibit, committed by the
+corpus — the second time, and the first fix is what hid the second.
+
+`AC-12` / `AC-13` / `AC-15` now run the **real adapters against real faults**,
+and `AC-14` is the control: a genuinely dead host must still read as the
+source, or the split is just charging everything to ourselves. All three new
+cases fail against 0.1.1; the control passes against both.
+
+The rule is positive identification and it is deliberately asymmetric
+(`K.classifyFault`): we report a source as unreachable **only** when we can
+name the network-layer failure that says so. Anything we cannot attribute to
+the wire is charged to our own instrument, because an unclassified fault filed
+against a counterparty is a claim we did not earn.
+
+## Auditing a live service, with a verdict its subject can check
+
+`live-claim-audit.cjs` asks one question of a deployed system: **does it do
+what its operator publicly claims?** Read-only by construction — GET only,
+never a payment, never a write.
+
+```
+node live-claim-audit.cjs https://example.com --signed --at=2026-09-19T21:52:29Z
+node verify-verdict.cjs verdicts/example-2026-09-19.json
+```
+
+- **`observed_at` is supplied, never invented.** A wall-clock the tool stamps
+  itself makes the artifact unreproducible by its own subject: re-run it and
+  you get every verdict back and never the digest.
+- **The public key is in the repo** (`verdicts/signing.pub`), and the verdict
+  does **not** carry one. A key travelling inside the artifact it signs lets a
+  re-signed forgery verify against itself; a signed verdict whose key nobody
+  else holds is a commitment only its author can check.
+- **`not_established`** is reported next to the counts, because every verdict
+  that is not `AGREE` or `DISAGREE` is something the run did not settle, and a
+  reader is owed that number beside the ones that sound like conclusions.
+
+The first published verdict is against **our own** service and carries two
+`DISAGREE`s: `/notary/commit` and `/notary/dispute` answer an unpaid GET with
+`402 method_not_allowed` — a payment-required status with no `accepts[]` and
+no `PAYMENT-REQUIRED` header, which no conforming client can pay. If the real
+condition is "wrong method", that is a 405.
+
 ## Known limits, stated rather than omitted
 
 - Reading the fact registry answers whether a fact is **registered**. It does

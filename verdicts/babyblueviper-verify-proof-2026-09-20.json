@@ -1,0 +1,60 @@
+{
+  "payload": {
+    "tool": "live-babyblueviper/0.1",
+    "kernel": "assurance-run/0.1",
+    "target": "https://api.babyblueviper.com",
+    "observed_at": "2026-09-20T04:44:08Z",
+    "routes_examined": [
+      "https://api.babyblueviper.com/ledger/1",
+      "https://api.babyblueviper.com/verify-proof"
+    ],
+    "findings": [
+      {
+        "verdict": "AGREE",
+        "reason": "LEDGER_PUBLIC_SIGNED",
+        "claim": "GET /ledger/1 serves a signed entry, no key, no account",
+        "detail": "HTTP 200; event_id eb22294404b20215…; schnorr sig present; pubkey 6786e18a864893a9…"
+      },
+      {
+        "verdict": "AGREE",
+        "reason": "RECIPE_SERVED",
+        "claim": "POST /verify-proof (no body) returns a self-recompute recipe",
+        "detail": "HTTP 200; names NIP-01 id recompute + schnorr verify + RFC 8785 JCS; published_pubkey pinned in-band"
+      },
+      {
+        "verdict": "AGREE",
+        "reason": "HONEST_NOT_EVALUATED",
+        "claim": "wg-identity#21: a proof it cannot resolve returns a DISTINCT not-evaluated signal, not a pass",
+        "detail": "POST /verify-proof {event_id:eb22294404b2…} → HTTP 404 naming the reason (\"no durably-stored event … predates this fix … HMAC fallback\"); it does not return valid:true"
+      },
+      {
+        "verdict": "AGREE",
+        "reason": "HONEST_UNVERIFIABLE",
+        "claim": "a mis-shaped event yields valid:false, never a silent pass",
+        "detail": "POST /verify-proof {event:<ledger wrapper>} → valid:false, recompute_depth.tier=\"unverifiable\""
+      },
+      {
+        "verdict": "INDETERMINATE",
+        "reason": "PREIMAGE_UNKNOWN",
+        "claim": "record_sha256 independently recomputes from the published record",
+        "detail": "naive canonicalisation ≠ published record_sha256; exact preimage not published, so we did NOT establish this. Not a defect claim about their hash — a gap in our reconstruction. Resolvable with the operator's preimage dict."
+      },
+      {
+        "verdict": "NOT_EVALUATED",
+        "reason": "AWAITING_POSTDATED_PROOF",
+        "claim": "preimage_fields_authorized:true on a proof postdating commit 78e6a921",
+        "detail": "the public ledger's newest entry predates the fix, so no published proof exercises preimage_fields_authorized yet. One input completes it: a proof id postdating 78e6a921 plus its preimage dict. Recorded as not-evaluated — no check performed — never as a pass."
+      }
+    ],
+    "counts": {
+      "AGREE": 4,
+      "DISAGREE": 0,
+      "INDETERMINATE": 1,
+      "NOT_EVALUATED": 1
+    },
+    "not_established": 2
+  },
+  "digest": "630c280f44bf6111a2d7e94de5756d4a06292cb4e37c709c83e92eeb93a75697",
+  "signature": "e3BNHLLf9ZVQ2vPcpt4Tu4nB/Wda3tJQ9bvdtxHIulXRRsKEbIaGIza5sp8SD49Nqfw/1j9IbAYD8tu/kc8MAg==",
+  "algorithm": "ed25519"
+}

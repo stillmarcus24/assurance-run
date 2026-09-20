@@ -31,7 +31,23 @@ comment](https://github.com/x402-foundation/tsc/issues/4#issuecomment-5680248416
 | 1 | Verdict vocabulary: `verified / contradicted / indeterminate / not-evaluated` | `kernel.cjs` | AC-01 … AC-11 |
 | 2 | The capture relationship — who observed vs who executed | `semantics.cjs` | SC-01 … SC-05 |
 | 3 | An evidence anchor per state | `semantics.cjs` | SC-06 … SC-10 |
-| 4 | The `ref=` slot — pre-action verification reference | `semantics.cjs` | SC-11 … SC-17 |
+| 4 | The `ref=` slot — pre-action verification reference | `semantics.cjs` | SC-11 … SC-14 |
+| 5 | The optional `supersedes { digest, reason }` slot — correction without mutation | `semantics.cjs` | SC-15 … SC-17 |
+
+Point 5 was added to the baseline at
+[tsc#4](https://github.com/x402-foundation/tsc/issues/4) on 2026-09-19. The
+cases existed before the slot was proposed and were previously listed under
+point 4; this table corrects that.
+
+### The interop matrix
+
+`node interop-matrix.cjs` measures which implementations named in
+[wg-identity#21](https://github.com/x402-foundation/wg-identity/issues/21) can
+express the four states distinctly and where they collapse. It clones peer
+sources read-only at their current head, executes the live reference vector,
+and records **how each row was established** — refusing to print a row whose
+evidence it did not obtain in that run. An implementation it cannot reach is
+`NOT_EVALUATED`, never a finding about that implementation.
 
 ### 1. Four states, never two
 
@@ -213,6 +229,44 @@ The first published verdict is against **our own** service and carries two
 `402 method_not_allowed` — a payment-required status with no `accepts[]` and
 no `PAYMENT-REQUIRED` header, which no conforming client can pay. If the real
 condition is "wrong method", that is a 405.
+
+## Named live reference vector: babyblueviper1's proof endpoint
+
+AC-11 — *"not evaluated" and "could not check" must never read as
+"verified"* — is the runnable core of
+[wg-identity#21](https://github.com/x402-foundation/wg-identity/issues/21).
+Until now it carried no live vector from a system other than ours.
+`live-babyblueviper.cjs` adds one, by name, because it is the only public
+surface in that thread a stranger can execute with no key and no account:
+
+```
+node live-babyblueviper.cjs
+node verify-verdict.cjs verdicts/babyblueviper-verify-proof-2026-09-20.json
+```
+
+Four behaviours execute and confirm today, all of them the clause working:
+the ledger is public and signed; the endpoint publishes its own recompute
+recipe; an unresolvable proof id returns a **distinct 404 naming the reason**
+rather than `valid:true`; a mis-shaped event returns `valid:false /
+unverifiable`, never a silent pass.
+
+Two findings this run **did not** establish, recorded as such rather than
+dressed up:
+
+- **`PREIMAGE_UNKNOWN` (`INDETERMINATE`).** A naive canonicalisation of the
+  published `record` does not reproduce `record_sha256`, and the exact
+  preimage is not exposed. That is a gap in *our* reconstruction, not a defect
+  claim about their hash — AC-11 applied to ourselves. Resolvable with the
+  operator's preimage dict.
+- **`AWAITING_POSTDATED_PROOF` (`NOT_EVALUATED`).** The
+  `preimage_fields_authorized:true` positive needs a proof id postdating
+  commit `78e6a921`; the public ledger's newest entry predates it, so no
+  published proof exercises it yet. One input completes the case. It is
+  **not** counted as a pass.
+
+That is the whole discipline in one artifact: a signed verdict anyone can
+replay, where the four things that hold are AGREE and the two that do not are
+named, not hidden.
 
 ## Known limits, stated rather than omitted
 

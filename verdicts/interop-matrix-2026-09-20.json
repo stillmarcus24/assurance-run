@@ -1,0 +1,111 @@
+{
+  "corpus": "assurance-run/interop-matrix",
+  "question": "which implementations can express the four verification states distinctly, and where do they collapse",
+  "observed_at": "2026-09-20T04:44:10.899Z",
+  "rows": [
+    {
+      "id": "assurance-run",
+      "operator": "@stillmarcus24",
+      "surface": "https://github.com/stillmarcus24/assurance-run",
+      "kind": "executable",
+      "verdict": "AGREE",
+      "established": true,
+      "method": "executed",
+      "pin": "b98e5e2",
+      "states": [
+        "AGREE",
+        "DISAGREE",
+        "INDETERMINATE",
+        "NOT_EVALUATED"
+      ],
+      "cardinality": 4,
+      "distinguishes_absence": true,
+      "detail": "17 semantic cases executed, all prohibitions held"
+    },
+    {
+      "id": "elara-verify",
+      "operator": "@navigatorbuilds",
+      "surface": "https://github.com/navigatorbuilds/elara-mesh",
+      "kind": "source",
+      "verdict": "INDETERMINATE",
+      "established": true,
+      "method": "source_read",
+      "pin": "e44d4a6",
+      "states": [
+        "Verified",
+        "Partial",
+        "Failed"
+      ],
+      "cardinality": 3,
+      "distinguishes_absence": false,
+      "detail": "Verdict{Verified, Partial, Failed} in crates/elara-verify/src/lib.rs; its own docstring assigns \"absent or pending evidence\" to a single Partial"
+    },
+    {
+      "id": "x402-measure",
+      "operator": "@meloliva14",
+      "surface": "https://github.com/meloliva14/x402-measure",
+      "kind": "source",
+      "verdict": "AGREE",
+      "established": true,
+      "method": "source_read",
+      "pin": "8b5513d",
+      "states": [
+        "NO_402",
+        "UNREACHABLE",
+        "TIMEOUT",
+        "NOT_ASSESSED",
+        "PASS",
+        "FAIL"
+      ],
+      "cardinality": 6,
+      "distinguishes_absence": true,
+      "detail": "labels NO_402 / UNREACHABLE / TIMEOUT / NOT_ASSESSED / PASS / FAIL across 41 probe modules; no single verdict enum"
+    },
+    {
+      "id": "babyblueviper-verify-proof",
+      "operator": "@babyblueviper1",
+      "surface": "https://api.babyblueviper.com",
+      "kind": "live",
+      "verdict": "AGREE",
+      "established": true,
+      "method": "executed_live",
+      "pin": null,
+      "states": [
+        "valid:boolean",
+        "sibling reason/status fields"
+      ],
+      "cardinality": 2,
+      "distinguishes_absence": true,
+      "detail": "no four-state enum; a boolean with sibling status fields. Absence separated by sibling (preimage_fields_authorized, recon_status), not by verdict value"
+    },
+    {
+      "id": "draft-krausz-verification-state",
+      "operator": "@TKCollective",
+      "surface": "https://datatracker.ietf.org/doc/draft-krausz-verification-state/",
+      "kind": "specification",
+      "verdict": "NOT_EVALUATED",
+      "established": false,
+      "method": "no_executable_surface",
+      "pin": null,
+      "states": null,
+      "cardinality": null,
+      "distinguishes_absence": null,
+      "detail": "draft is published (datatracker returns 1 matching document) and carries the four-state term; no public implementation surface is named in wg-identity#21 or tsc#4, so nothing was executed"
+    }
+  ],
+  "summary": {
+    "subjects": 5,
+    "four_state_emitters": [
+      "assurance-run"
+    ],
+    "absence_side_collapsed": [
+      "elara-verify"
+    ],
+    "not_established_by_this_run": [
+      {
+        "id": "draft-krausz-verification-state",
+        "why": "no_executable_surface"
+      }
+    ]
+  }
+}

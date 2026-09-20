@@ -7,3 +7,9 @@ runs/
 # The signing PUBLIC key is published deliberately: a signed verdict whose key
 # nobody holds is a commitment only its author can check.
 !verdicts/signing.pub
+
+# self-serve checker submission log — carries IPs, never publish
+verdicts/checker-submissions.jsonl
+
+# peer source trees cloned read-only by interop-matrix.cjs
+.peers/

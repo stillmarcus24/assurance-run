@@ -593,4 +593,11 @@ async function main() {
   console.log(`  written: ${file}\n`);
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+// Exported so the classifier can be pinned by known-answer fixtures in
+// selftest.cjs. It was unreachable from any test until 2026-09-20, which is why
+// a rule that decided every row in the matrix had zero cases against it.
+module.exports = { classifyVocabulary, NAME_ROLES, SETTLED, WORLD, INSTRUMENT };
+
+if (require.main === module) {
+  main().catch(err => { console.error(err); process.exit(1); });
+}

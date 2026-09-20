@@ -1,0 +1,157 @@
+{
+  "payload": {
+    "tool": "x402-payto-concentration/0.1",
+    "kernel": "assurance-run/0.1",
+    "observed_at": "2026-09-20T03:09:53Z",
+    "source": "https://x402-list.com/api/v1/services",
+    "attribution": "Data: x402-list.com (CC BY 4.0)",
+    "doors_total": 733,
+    "doors_advertising_payto": 226,
+    "unique_payto_wallets": 292,
+    "reused_wallets": 15,
+    "doors_behind_reused_wallets": 47,
+    "hhi_over_doors_per_wallet": 45,
+    "top_wallets": [
+      {
+        "wallet": "0xa8B061d96F69426f11bcC807BfA00f0AF79541a7",
+        "doors": 7,
+        "sample_slugs": [
+          "jsonguard",
+          "chainfeed",
+          "chainkit",
+          "difftool",
+          "agentmail-ms0hdbvm-0",
+          "graded-x402-gateway"
+        ]
+      },
+      {
+        "wallet": "0x38c9F689274E2fC3AE360744eF88ce212077a584",
+        "doors": 6,
+        "sample_slugs": [
+          "japan-weather-forecast-warnings-api",
+          "japan-holiday-business-day-api",
+          "japan-diet-api",
+          "japan-transit-api",
+          "japan-address-api",
+          "japan-furigana-api"
+        ]
+      },
+      {
+        "wallet": "2BTzdCAcCLaNA2SSZ1YjJvTtscNCpUMUEjLY3LyBpNMk",
+        "doors": 6,
+        "sample_slugs": [
+          "japan-weather-forecast-warnings-api",
+          "japan-holiday-business-day-api",
+          "japan-diet-api",
+          "japan-transit-api",
+          "japan-address-api",
+          "japan-furigana-api"
+        ]
+      },
+      {
+        "wallet": "0xf444abc53f5e1e73caec7df64d147ddb119514a0",
+        "doors": 4,
+        "sample_slugs": [
+          "signalis",
+          "orcatrace",
+          "moltalyzer",
+          "gitbeacon"
+        ]
+      },
+      {
+        "wallet": "0xc87a06DEE4c0E85912296002617120BBfd5EF990",
+        "doors": 3,
+        "sample_slugs": [
+          "nsgoods-payable-preflight",
+          "nsgoods-sanctions-screening-oracle",
+          "nsgoods-agent-trust-oracle"
+        ]
+      },
+      {
+        "wallet": "0x48aD35617e5F8B70D8c693a0c9295AB7A16634EC",
+        "doors": 3,
+        "sample_slugs": [
+          "delvorn-asset-test-fe2b3590",
+          "delvorn-mthix4zm-0",
+          "delvorn"
+        ]
+      },
+      {
+        "wallet": "35tCuyL3E7M88jfhTeEaRxhrbuKFyQLWgxJQyf5QcLLe",
+        "doors": 2,
+        "sample_slugs": [
+          "nsgoods-payable-preflight",
+          "nsgoods-sanctions-screening-oracle"
+        ]
+      },
+      {
+        "wallet": "0xd63e74bCB00757C8fDb1817F1558ed8b97C608b6",
+        "doors": 2,
+        "sample_slugs": [
+          "umpire",
+          "stumble"
+        ]
+      },
+      {
+        "wallet": "8c9r8kxtkcsv7wARq3wBy2csm1ySRQQmdy6hrPnga4qs",
+        "doors": 2,
+        "sample_slugs": [
+          "umpire",
+          "stumble"
+        ]
+      },
+      {
+        "wallet": "0x212686404A7D1E1fD88F35eD6200c3aF7A78ae31",
+        "doors": 2,
+        "sample_slugs": [
+          "council-of-ai",
+          "council-of-ai-gspc"
+        ]
+      },
+      {
+        "wallet": "0xa61446444dAE6c570813656CEd71C18D68A5f0Fd",
+        "doors": 2,
+        "sample_slugs": [
+          "aura-agent-persistence",
+          "kortex-service-trust"
+        ]
+      },
+      {
+        "wallet": "0x9863aB6242663FCc84c33632741711dB78f8Fd15",
+        "doors": 2,
+        "sample_slugs": [
+          "fiatdock-marketplace",
+          "agentservices"
+        ]
+      },
+      {
+        "wallet": "0x1111111111111111111111111111111111111111",
+        "doors": 2,
+        "sample_slugs": [
+          "hermes-plant",
+          "delx-agent-commerce"
+        ]
+      },
+      {
+        "wallet": "0x6382E6929A20B7Eb02BdACfb5368362984B24C15",
+        "doors": 2,
+        "sample_slugs": [
+          "verza",
+          "zaref"
+        ]
+      },
+      {
+        "wallet": "0xFFc458dB291b4ABcE020fE3de4f91F2770E537b1",
+        "doors": 2,
+        "sample_slugs": [
+          "payapi-market-uk-property-data-api",
+          "uk-hmo-licence-api"
+        ]
+      }
+    ],
+    "note": "payTo grouped verbatim across rails; a shared payTo across distinct slugs means those doors settle to the same recipient. Facilitator-shared payTos will inflate reuse — flagged, not judged."
+  },
+  "digest": "abfdcc0239e76394f477e403d73a7f3bf86797a78d8ea0f66ee563720a60b79d",
+  "signature": "J/sPxn/+IJkMtZCM7gp3opuNCLFq1pRdtGtnhoYYwFKK8FgwAiaZBstXBsmxc+Pv81IKcbA5YmximatQ7YnDDw==",
+  "algorithm": "ed25519"
+}

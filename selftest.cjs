@@ -219,7 +219,70 @@ function runSuite(evaluator) {
     catch (e) { return e.code === 'DERIVATION_GATE' && e.undeclared[0].value_typed_in === '(missing)'; }
   });
 
-  const allOk = failed.length === 0 && brokenCaught.length >= 3 && replayOk && smokeOk && faultOk && gateOk;
+  // ---- AC-20..27: KNOWN-ANSWER fixtures for the classifier.
+  // The derivation gate proves a value was computed. It cannot prove the
+  // computation is right — a wrong derivation passes it cleanly. The mechanism
+  // that closes that is a fixture whose answer is known independently of the
+  // code under test, so a rule that runs but decides wrongly fails here.
+  // Until 2026-09-20 classifyVocabulary() was not exported and had zero cases
+  // against it, while deciding every row in the published matrix.
+  const IM = require('./interop-matrix.cjs');
+  let kaOk = true;
+  const ka = (id, name, vocab, wantColumn, extra) => {
+    let pass = false, got;
+    try {
+      const c = IM.classifyVocabulary(vocab);
+      got = c.distinguishes;
+      pass = got === wantColumn && (!extra || extra(c) === true);
+    } catch (e) { got = 'threw: ' + e.message; }
+    if (!pass) kaOk = false;
+    console.log(`  ${pass ? 'ok  ' : 'FAIL'}  ${id}  ${name}`);
+    if (!pass) console.log(`        wanted column=${JSON.stringify(wantColumn)}, got ${JSON.stringify(got)}`);
+  };
+
+  ka('AC-20', 'four-state kernel vocabulary -> column true',
+    ['AGREE', 'DISAGREE', 'INDETERMINATE', 'NOT_EVALUATED'], true);
+
+  ka('AC-21', 'elara three-state (world side only, no instrument value) -> column FALSE',
+    { Verified: '', Partial: 'absent or pending evidence', Failed: '' }, false,
+    (c) => c.world_side.length > 0 && c.instrument_side.length === 0);
+
+  ka('AC-22', 'x402-measure real vocabulary -> column true, on operator notes alone', {
+    OK: 'a stock v2 client can sign this', WARN: 'signable, with caveats',
+    BLOCKED: 'a stock v2 client CANNOT construct a payment',
+    V1: 'v1 challenge - a v2 client cannot read it at all',
+    NON_EVM: 'not assessed', NO_402: 'not payment-gated',
+    RATE_LIMITED: 'not assessed - the probe was rate-limited',
+    UNPARSEABLE: '402 with no readable challenge', UNREACHABLE: 'no response',
+    UNKNOWN_NETWORK: 'unrecognised network id',
+  }, true, (c) => {
+    // The conclusion must survive on THEIR published meanings alone. If it only
+    // holds because of our name map, the row is our opinion wearing their data.
+    const note = c.roles.filter(r => r.basis === 'operator_note');
+    return note.some(r => r.role === 'WORLD') && note.some(r => r.role === 'INSTRUMENT');
+  });
+
+  ka('AC-23', 'instrument side present but NO world value -> column FALSE, not true',
+    ['OK', 'FAILED', 'NOT_EVALUATED'], false);
+
+  ka('AC-24', 'settled values only -> column FALSE',
+    ['OK', 'WARN', 'BLOCKED'], false);
+
+  ka('AC-25', 'an entirely unknown vocabulary -> NULL (undecidable), never a default',
+    ['FOO', 'BAR', 'BAZ'], null, (c) => c.unclassified.length === 3);
+
+  ka('AC-26', "the operator's own note OUTRANKS our name map",
+    { OK: 'not assessed', UNREACHABLE: 'no response' }, true,
+    // OK maps to SETTLED by name; the note says this prober did not assess it.
+    (c) => c.roles.find(r => r.value === 'OK').role === 'INSTRUMENT' &&
+           c.roles.find(r => r.value === 'OK').basis === 'operator_note');
+
+  ka('AC-27', 'one unclassified value cannot flip a decided TRUE to undecidable',
+    { UNREACHABLE: 'no response', RATE_LIMITED: 'not assessed', ZZZ_NOVEL: '' }, true,
+    (c) => c.unclassified.length === 1);
+
+  const allOk = failed.length === 0 && brokenCaught.length >= 3 && replayOk && smokeOk &&
+    faultOk && gateOk && kaOk;
   console.log('\n  ' + '-'.repeat(68));
   console.log('  RESULT: ' + (allOk ? 'all prohibitions held' : 'CONTRACT VIOLATED') + '\n');
   process.exit(allOk ? 0 : 1);

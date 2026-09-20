@@ -1,0 +1,5907 @@
+{
+  "payload": {
+    "tool": "x402-census/0.1",
+    "kernel": "assurance-run/0.1",
+    "scope": "entire x402-list.com directory",
+    "question": "serves a machine-readable x402 discovery document to an unpaid GET, no key no account",
+    "observed_at": "2026-09-20T02:59:23Z",
+    "source": "https://x402-list.com/api/v1/services",
+    "attribution": "Data: x402-list.com (CC BY 4.0)",
+    "directory_total": 733,
+    "doors_fetched": 733,
+    "doors_with_base_url": 733,
+    "tally": {
+      "DISCOVERY_JSON_PAYTO": 226,
+      "HTTP_200_NOT_JSON": 16,
+      "HTTP_530": 14,
+      "JSON_NOT_X402": 213,
+      "NO_DISCOVERY_404": 157,
+      "DISCOVERY_JSON_NO_PAYTO": 55,
+      "HTTP_503": 7,
+      "UNREACHABLE": 27,
+      "HTTP_502": 7,
+      "HTTP_402": 5,
+      "HTTP_403": 2,
+      "HTTP_525": 1,
+      "HTTP_401": 1,
+      "HTTP_204": 1,
+      "HTTP_410": 1
+    },
+    "ratios": {
+      "machine_readable_discovery_over_directory": "281/733",
+      "machine_readable_discovery_pct": 38.3,
+      "resolvable_payto_over_directory": "226/733",
+      "resolvable_payto_pct": 30.8,
+      "denominator_note": "denominator is every door in the directory; NO_BASE_URL / UNREACHABLE / TIMEOUT are counted, not dropped"
+    },
+    "doors": [
+      {
+        "slug": "askzephy-solana-anchor-static-security-scan",
+        "base_url": "https://audit.askzephy.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "torquantis",
+        "base_url": "https://torquantis.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 200,
+        "state": "HTTP_200_NOT_JSON"
+      },
+      {
+        "slug": "shopify-csv-catalog-qa-by-unlav",
+        "base_url": "https://7days.unlavsofts.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 530,
+        "state": "HTTP_530"
+      },
+      {
+        "slug": "url2md",
+        "base_url": "https://url2md.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "blue-cap-machine-commerce",
+        "base_url": "https://machine.soundiq.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "romny-crypto-alerts",
+        "base_url": "https://api2.romny.dpdns.org",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "HTTP_200_NOT_JSON"
+      },
+      {
+        "slug": "openpay",
+        "base_url": "https://open-pay.jp",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "taskforge-agent-assurance-by-black-knight-technology",
+        "base_url": "https://qaegxjxaavxdqihfgzhr.supabase.co/functions/v1/taskforge-x402-gateway",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "sagg-gateway",
+        "base_url": "https://api.privatedeskai.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "maha-context-compiler-and-deep-context-evaluation",
+        "base_url": "https://www.mahastrategies.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "usaref-north-american-government-reference-data",
+        "base_url": "https://usaref.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "pageproof",
+        "base_url": "https://pageproof.alert-crab-1890.chatgpt.site",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "eventedge-oracle",
+        "base_url": "https://edge.arakelproof.space",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "neurodynamic-audio",
+        "base_url": "https://api.neurodynamic.tech",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "yiduochan-api-credits",
+        "base_url": "https://yiduochan.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "phion-agent-trust",
+        "base_url": "https://phion.systems",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "proofdesk-website-qa-audit-kit",
+        "base_url": "https://resolved.sh/proofdesk-website-qa-kit-b82b",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "snowsignals-home-of-trendvane",
+        "base_url": "https://pay.snowsignals.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "sharvora",
+        "base_url": "https://sharvora.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "brok-x402-neobanx",
+        "base_url": "https://brok.neobanx.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "catalogbot",
+        "base_url": "https://x402.hydratrader.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "forgemesh-x402-notary",
+        "base_url": "https://notary.forgemesh.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "scry-wallet-intelligence",
+        "base_url": "https://scry.solanahub.de",
+        "dir_payment_ready": true,
+        "dir_verified": true,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "cse-intelligence-suite",
+        "base_url": "https://strategic-divergence-engine.johntaylor1online.workers.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "desk-lead-x402",
+        "base_url": "https://desk-x402.desk-x402-gh.workers.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "loophole-tape",
+        "base_url": "https://htrlhl3y49.execute-api.us-east-2.amazonaws.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "geolithic",
+        "base_url": "https://geolithicintelligence.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "proofivy-library-cryptoslate-the-phoblographer",
+        "base_url": "https://library.proofivy.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "marketplace-for-ai-agents",
+        "base_url": "https://marketplaceforaiagents.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "kilawatt-cloud",
+        "base_url": "https://www.kilawattcloud.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "aarn-web-content-extraction",
+        "base_url": "https://api.aarn.space",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "queryspigot",
+        "base_url": "https://api.queryspigot.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "forgemesh-voice",
+        "base_url": "https://voice.forgemesh.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "locale-format-api",
+        "base_url": "https://localeformat.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "agent-control-agent-meter",
+        "base_url": "https://agent-control.net/api/v1/meter/pass",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "x402-discovery-launch-pack",
+        "base_url": "https://icqhmxcsdzwscikwrmom.supabase.co/functions/v1/x402-launch-pack",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "signal-forge-prospect-qualifier",
+        "base_url": "https://signalforgestudios.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "wines-bet-wine-market-data-api",
+        "base_url": "https://api.wines.bet",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "basalt",
+        "base_url": "https://basalt-n6lt.onrender.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "grawwww-studio-ai-character-video-image-api",
+        "base_url": "https://grawwww.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "d-007-document-classify-and-rename-plan",
+        "base_url": "https://friction-product-commerce-production.id4-score.workers.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 503,
+        "state": "HTTP_503"
+      },
+      {
+        "slug": "kael-ecosystem-pulse",
+        "base_url": "https://kael-ecosystem-pulse.onrender.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "nsgoods-payable-preflight",
+        "base_url": "https://payable.nsgoods.org",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "umpire",
+        "base_url": "https://umpire.vimabrosta.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "apex-on-x1",
+        "base_url": "https://apexfaucet.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "The operation was aborted due to timeout"
+      },
+      {
+        "slug": "glianaai",
+        "base_url": "https://api.glianalabs.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "zfinia-machine-economy-intelligence",
+        "base_url": "https://api.zfinia.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "quentrix-x402-api",
+        "base_url": "https://x402.minioffice.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "x402-swag",
+        "base_url": "https://x402swag.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "shehriyars-api",
+        "base_url": "https://api.shehriyar.ink",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "felipe-agents-web-evidence",
+        "base_url": "https://felipeandrade.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "orbylon",
+        "base_url": "https://orbylon.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "scope-research-api",
+        "base_url": "https://scopeapi.dev",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "qotien-api-fiscal-retraite-fr",
+        "base_url": "https://app.qotien.fr",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "video-download-ai",
+        "base_url": "https://video-download.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "402cron",
+        "base_url": "https://402cron.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "x402-crypto-research-api",
+        "base_url": "https://x402-crypto-research-api-production.up.railway.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "spotify-api",
+        "base_url": "https://spotify.jojapi.net",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "crypto-technicals-web-utilities",
+        "base_url": "https://vmi3089643.contaboserver.net",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "agentwork-web-evidence",
+        "base_url": "https://api.agentwork.run",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "postopz-framework-agent-api",
+        "base_url": "https://api.postopz.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "basecheck",
+        "base_url": "https://www.basecheck.info/",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "ogena-token-risk",
+        "base_url": "https://api.ogenalabs.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "butiful-agent-commerce",
+        "base_url": "https://agent.butiful.org",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "HTTP_200_NOT_JSON"
+      },
+      {
+        "slug": "hlrisk",
+        "base_url": "https://hlrisk.paidapis.net",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "veriton-html-to-json",
+        "base_url": "https://veriton-html-json-api.netlify.app",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 502,
+        "state": "HTTP_502"
+      },
+      {
+        "slug": "agenttrustapi",
+        "base_url": "https://api.agenttrustapi.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 502,
+        "state": "HTTP_502"
+      },
+      {
+        "slug": "daxpt",
+        "base_url": "https://daxpt.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "worxai-synthetic-datasets",
+        "base_url": "https://worxai.tech",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "badhttp",
+        "base_url": "https://badhttp.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "stumble",
+        "base_url": "https://stumble.vimabrosta.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "agentstools",
+        "base_url": "https://api.agentstools.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "bozaaagh-paid-micro-api",
+        "base_url": "http://107.189.20.242:3131",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "toll402",
+        "base_url": "https://toll402.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "survival-colony-x402-ai-services",
+        "base_url": "https://service.31-207-45-250.sslip.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "japan-weather-forecast-warnings-api",
+        "base_url": "https://weather.agentic-jp.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "argus",
+        "base_url": "https://arguswire.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "recall-kitchen",
+        "base_url": "https://app.recallkitchen.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "criptonous-market-intelligence",
+        "base_url": "https://app.criptonous.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "central-command",
+        "base_url": "https://rtcelwjnrbmfmrywacky.supabase.co/functions/v1/x402-gateway",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "kronos-quant-signal-api",
+        "base_url": "https://kronos.seshat.markets",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "tiebreaker",
+        "base_url": "https://api.redactedpartners.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "humanmirror",
+        "base_url": "https://humanmirror.fr",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "wall-street-wiki-canon",
+        "base_url": "https://canon.wallstreet.wiki",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "sendcheck",
+        "base_url": "https://api.pennyforge.org",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "onchain-query-api",
+        "base_url": "https://chain.cyberwarex.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "agentbit",
+        "base_url": "https://agentbit.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "email-verifier",
+        "base_url": "https://email-verifier.underscoredone.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "agentpay",
+        "base_url": "https://agentpay.tools",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "money-mind",
+        "base_url": "https://money-mind-extract.onrender.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 502,
+        "state": "HTTP_502"
+      },
+      {
+        "slug": "xrpreflight",
+        "base_url": "https://destinationpreflight.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "automaton-colony-flash-audit",
+        "base_url": "https://automatoncolony.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "cantu-actionable-buyer-demand",
+        "base_url": "https://cantu-radar-flow.base44.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "agentic-endpoints",
+        "base_url": "https://ai.oliverkiss.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "synergy",
+        "base_url": "https://api.exo-trust.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 530,
+        "state": "HTTP_530"
+      },
+      {
+        "slug": "x402vid-ai-intelligence-for-youtube-videos",
+        "base_url": "https://x402vid.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "profit-goblin-security-header-audit",
+        "base_url": "https://91-200-102-159.nip.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "agentum-apis-brasil-cnpj-cep-taxas",
+        "base_url": "https://agentum.lat",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "fetcher",
+        "base_url": "https://api.fetcher.cloud",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "steve-guard",
+        "base_url": "https://api.stevesignals.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "deploid-enrich",
+        "base_url": "https://enrich.deploid.now",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "pitchpilot-outreach-api",
+        "base_url": "https://pitchpilot-outreach-api.pitchpilot-agents.workers.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "the-clinic",
+        "base_url": "https://clinic.sapthumbprint.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "x402check",
+        "base_url": "https://x402check.arden-instance.workers.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "crypto-etf-sentinel",
+        "base_url": "https://api.cryptoetfsentinel.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "wallettriage",
+        "base_url": "https://api.wallettriage.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "arakel-machine-evidence-network",
+        "base_url": "https://proof.arakelproof.space",
+        "dir_payment_ready": true,
+        "dir_verified": true,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "rootcrak-preflight",
+        "base_url": "https://intel.rootcrak.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "radhikachain-kernel-threat-intelligence-zk-proofs",
+        "base_url": "https://x402.radhikachain.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 530,
+        "state": "HTTP_530"
+      },
+      {
+        "slug": "dns-doctor",
+        "base_url": "https://dnsdoctor.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "aiworker-data",
+        "base_url": "https://aiworker.duckdns.org",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "fetcher-sh-twitter-tiktok-instagram-web-data-apis",
+        "base_url": "https://fetcher.sh",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "voix-off-tts-fr-french-neural-voiceovers-pay-per-call",
+        "base_url": "http://187.77.111.249.sslip.io:8402",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "agentgate-x402",
+        "base_url": "https://x402.agentsea.vn",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "global-intelligence-exchange",
+        "base_url": "https://intelexchange-ox.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "HTTP_200_NOT_JSON"
+      },
+      {
+        "slug": "nano-empire-parse",
+        "base_url": "https://nanoempireai.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "ash-ops-dev-tools-api",
+        "base_url": "https://x402-api-catalog.onrender.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "particle-pro",
+        "base_url": "https://api.particle.pro",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "brian-booms-agent-merch-kit",
+        "base_url": "https://pay.brianbooms.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "irs-internal-revenue-bulletin-api",
+        "base_url": "https://irb-precedent-api.canvas-cart.workers.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "council-of-ai",
+        "base_url": "https://councilof.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "council-of-ai-gspc",
+        "base_url": "https://councilof.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "venture-reader",
+        "base_url": "https://api.venturebot.party",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 530,
+        "state": "HTTP_530"
+      },
+      {
+        "slug": "molduk-daily-signal",
+        "base_url": "https://api.moldukbot.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "the-402-wall",
+        "base_url": "https://404humans.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "prism-network",
+        "base_url": "https://api.prismnetwork.tech",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "solmachina",
+        "base_url": "https://api.solmachina.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "anansi-data",
+        "base_url": "https://anansidata.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "quantjourney-research-agent-fabric",
+        "base_url": "https://agents.quantjourney.cloud",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "grokzilla-x402-micro-pay",
+        "base_url": "https://grokzilla.shop",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "openzoo",
+        "base_url": "https://api.openzoo.fun",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "hype-signal-api",
+        "base_url": "https://hype.fortknoxx.pro",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 530,
+        "state": "HTTP_530"
+      },
+      {
+        "slug": "blusky-sentinel",
+        "base_url": "https://bluskyscamdetector.onrender.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "milliapi",
+        "base_url": "https://milliapi.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "sentinel-global-check",
+        "base_url": "https://sentinel.rootstuff.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "cloudmaxi0x",
+        "base_url": "https://cloudmaxi0x.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "HTTP_200_NOT_JSON"
+      },
+      {
+        "slug": "helpmyagent",
+        "base_url": "https://api.helpmyagent.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "hostdefi-token-risk-api",
+        "base_url": "https://hostdefi.com/api",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "forgemesh-library",
+        "base_url": "https://library.forgemesh.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "warppay402-mcp-gateway",
+        "base_url": "https://api.warppay402.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "The operation was aborted due to timeout"
+      },
+      {
+        "slug": "m2m-sentinel",
+        "base_url": "https://api.m2msentinel.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "x402-dex-data-agent-utilities-uniswap-v4-hook-risk-api",
+        "base_url": "https://x402.donnyautomation.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "penny402",
+        "base_url": "https://penny402.fun",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "ephemeral-cloud",
+        "base_url": "https://kat3jr5vny647y4sobq6ot2mvq0ewqjt.lambda-url.us-east-1.on.aws",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "parallax",
+        "base_url": "https://parallax402.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "ace-autonomous-commerce-engine-by-black-knight-technologies",
+        "base_url": "https://qaegxjxaavxdqihfgzhr.supabase.co/functions/v1/ace-x402-gateway",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "latamref-latin-american-government-reference-data",
+        "base_url": "https://latamref.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "ausca",
+        "base_url": "https://ausca.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "nsgoods-verifiable-x402-oracle-suite",
+        "base_url": "https://x402.nsgoods.org",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "liquid-agent",
+        "base_url": "https://api.liquidagent.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "pkgproof",
+        "base_url": "https://x402.pkgproof.net",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "preape",
+        "base_url": "https://mcp.preape.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "agent-utility-network",
+        "base_url": "https://agent-utility-network.frosty-sound-4560.workers.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "kino402",
+        "base_url": "https://kino402.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "x402-voice-to-text",
+        "base_url": "https://voice.cyberwarex.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "x1-baas-scraping-api",
+        "base_url": "https://api.tazpal.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "ukintel-uk",
+        "base_url": "https://api.ukintel.uk",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "tokenaddy",
+        "base_url": "https://tokenaddy.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "textus",
+        "base_url": "https://api.textus.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "sourcey-startup-review",
+        "base_url": "https://api.sourcey.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "sniperx-x402",
+        "base_url": "https://x402.sniperx.fun/",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "sentinel-01",
+        "base_url": "https://mungi.qd.je",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "saylor-innovations-watchdog-token-intelligence",
+        "base_url": "https://saylorinnovations.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "salt19-agent-utility-grid",
+        "base_url": "https://api.salt19.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "profitcollector-utility-node",
+        "base_url": "https://api.bakhour.ca",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "pennyrail",
+        "base_url": "https://pennyrail.vercel.app",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 503,
+        "state": "HTTP_503"
+      },
+      {
+        "slug": "osha-inspection-search-api",
+        "base_url": "https://osha-search.krimskrams.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "orbitwan-orbitpay-premium-data",
+        "base_url": "https://orbitwan.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "northeast-deal-intel",
+        "base_url": " https://api.northeastdealintel.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "m0-email-verification",
+        "base_url": "https://m0.aiverall.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "ibanforge",
+        "base_url": "https://api.ibanforge.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "forgekit",
+        "base_url": "https://useforgekit.dev",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 503,
+        "state": "HTTP_503"
+      },
+      {
+        "slug": "endpoint-liveness-probe",
+        "base_url": "https://x402.shortforge.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "dont-die-page-audits",
+        "base_url": "https://d539bcf11964422e8cb73ad62ccc1bc3.api.mockbin.io/",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 402,
+        "state": "HTTP_402"
+      },
+      {
+        "slug": "delvorn-asset-test-fe2b3590",
+        "base_url": "https://delvorn.site",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "delvorn-mthix4zm-0",
+        "base_url": "https://delvorn.site",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "delvorn",
+        "base_url": "https://delvorn.site",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "contextiq",
+        "base_url": "https://contextiq.trango-compute.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "content-moderation-api",
+        "base_url": "https://content-moderation-api-hhy1.onrender.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 503,
+        "state": "HTTP_503"
+      },
+      {
+        "slug": "citable",
+        "base_url": "https://citable.run",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "chainpeek",
+        "base_url": "https://chainpeek.chainpeek.workers.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "aizamon-bot-fuel",
+        "base_url": "https://aizamon.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "ai-agents-archive",
+        "base_url": "https://aiagentsarchive.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "agishub",
+        "base_url": "https://api.agishub.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "agenttax",
+        "base_url": "https://www.agenttax.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "agentshop",
+        "base_url": "https://x402.bankr.bot/0x40ac5d07e1426e4626ed0989b8ff26e932b76555",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "agent-exec",
+        "base_url": "https://agent-exec.45.67.221.128.sslip.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "767-2676-com-popcorn",
+        "base_url": "https://767-2676.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "402x-agent-services",
+        "base_url": "https://api.genesistokenlabs.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "bountysignal-mth0kxjc-0",
+        "base_url": "https://bountysignal-radar-v2.minhtuan36zzz97948.chatgpt.site",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "21millionpixels-art",
+        "base_url": "https://21millionpixels.art",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "thirdmade-shelf",
+        "base_url": "https://shelf.thirdmade.net",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "wake402",
+        "base_url": "https://wake402.agentwake.workers.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "402signal",
+        "base_url": "https://402signal.com/",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "agentpulse",
+        "base_url": "https://agentpulse.tail7cf8fc.ts.net",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "would-pay-again-ad-slot-booking",
+        "base_url": "https://wouldpayagain.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "cognilode-ticket-resale-underwriter",
+        "base_url": "https://cognilode.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "robinx",
+        "base_url": "https://api.robinx.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "neurobird-search",
+        "base_url": "https://search.neurobird.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "witness",
+        "base_url": "https://witness.outbid.sh",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "tariffmonkee",
+        "base_url": "https://tariffmonkee.com",
+        "dir_payment_ready": true,
+        "dir_verified": true,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "genesis",
+        "base_url": "https://genesis.palsus2023.workers.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "spoolis",
+        "base_url": "https://spoolis.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "musicwire",
+        "base_url": "https://musicwire.5432wire.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "survival-colony-github-opportunity-due-diligence",
+        "base_url": "https://service.185-70-184-213.sslip.io",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "sepolia-eth-merchant",
+        "base_url": "https://merchant-production-c224.up.railway.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "greater-good-grants-grantsignal-us",
+        "base_url": "https://genuinegood.online",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "khotem-cryptographic-witness",
+        "base_url": "https://khotem.com",
+        "dir_payment_ready": true,
+        "dir_verified": true,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "clink-forge",
+        "base_url": "https://api.clinkforge.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "cyberdeck-market",
+        "base_url": "https://api.madeeshmarkets.xyz",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 530,
+        "state": "HTTP_530"
+      },
+      {
+        "slug": "treza",
+        "base_url": "https://www.trezalabs.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "popdot-ai-wire-api",
+        "base_url": "https://popdot.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "base-usdc-lending-apy",
+        "base_url": "https://raptor-base-yields.vercel.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "selfagent-bounty-radar",
+        "base_url": "https://agent.zbang.net",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "melssa",
+        "base_url": "https://melssa.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "supreme-audiobooks",
+        "base_url": "https://supremeaudiobooks.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "nesebar-travel-corpus",
+        "base_url": "https://nesebar.net",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "euroref-european-government-reference-data",
+        "base_url": "https://euroref.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "gambit",
+        "base_url": "https://gambit.barrioenergy.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "54ch10-brief-api",
+        "base_url": "https://54ch10.uk",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "outfight",
+        "base_url": "https://outfight.lol",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "magent",
+        "base_url": "https://api.magentlab.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "The operation was aborted due to timeout"
+      },
+      {
+        "slug": "aura-agent-persistence",
+        "base_url": "https://aura.rohnelt.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "cloudpayx-agent",
+        "base_url": "https://api.cloudpayxagent.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "xingchen-sentriscan-asp",
+        "base_url": "https://asp.xhdym.sbs",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 530,
+        "state": "HTTP_530"
+      },
+      {
+        "slug": "stacktree",
+        "base_url": "https://api.stacktr.ee",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "fetchgate",
+        "base_url": "https://fetchgate.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "moneytest-402-radar",
+        "base_url": "https://moneytest-x402-api.indierepo.chatgpt.site",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "kortex-service-trust",
+        "base_url": "https://kortex.rohnelt.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "hardware-hunter-price-intelligence",
+        "base_url": "https://hardwarehunter.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "japan-holiday-business-day-api",
+        "base_url": "https://holiday.agentic-jp.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "xfuel",
+        "base_url": "https://api.xfuel.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "cleared-index-paid-probe",
+        "base_url": "https://clearedindex.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "feeless402",
+        "base_url": "https://feeless402.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "x402-tools-openclaw-productions-diagnostics",
+        "base_url": "https://openclawproductions.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "arkbrowser-api",
+        "base_url": "https://api-arkbrowser.arksystemes.fr",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "saymon-ru-data-api",
+        "base_url": "https://payforapi.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "attention-is-currency",
+        "base_url": "https://www.attentioniscurrency.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "ni-biashara-africa-fx-services-for-agents",
+        "base_url": "https://agents.nibiashara.biz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "black-label-continuum-agent-audit",
+        "base_url": "https://continuum.blacklabelbots.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "adfreellm-research-apis-on-sui",
+        "base_url": "https://www.speecship.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "HTTP_200_NOT_JSON"
+      },
+      {
+        "slug": "old2new-agent-api",
+        "base_url": "https://old2new.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "whaletape",
+        "base_url": "https://whaletape.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "tinyops-automation-integration-preflight",
+        "base_url": "https://x402-preflight.tinyopsstudio.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "cortexcloud",
+        "base_url": "https://api.cortexcloud.org",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "probe402",
+        "base_url": "https://probe402.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "animica-x402-apis",
+        "base_url": "https://animica.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "The operation was aborted due to timeout"
+      },
+      {
+        "slug": "frantic",
+        "base_url": "https://gofrantic.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "fingers",
+        "base_url": "https://fingersai.co",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "disruptive-concepts",
+        "base_url": "https://disruptive-concepts.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "zgas-001-zero-gas-agent-commerce-field-guide",
+        "base_url": "https://publish.new",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "eve-s-wire",
+        "base_url": "https://www.watchevelive.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "fueltax-ifta-rates-api",
+        "base_url": "https://api.freestylevault.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "ledgerproof-settlement-army",
+        "base_url": "https://ledgerproofhq.io",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "sornkan-worldsite",
+        "base_url": "https://publish.sornkan.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "oblique-markets",
+        "base_url": "https://api.oblique.markets",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "tos-reflex-meditation-as-a-service",
+        "base_url": "https://services4agents.fyi",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "edge-agents-ai",
+        "base_url": "https://pay.edge-agents.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "butterfly-delta-preflight",
+        "base_url": "https://butterflydelta.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "cofferline",
+        "base_url": "https://api.cofferline.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "defi-safety-oracle",
+        "base_url": "https://oracle.cyberwarex.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "10x402",
+        "base_url": "https://10x402.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "3route",
+        "base_url": "https://3route.agents.bakingbad.dev",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "agent-dust",
+        "base_url": "https://home.chrz.dev/agent-dust",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "premium-rewards-data-gets",
+        "base_url": "https://api.premiumrewards.vip",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "gpuops-web-scraper",
+        "base_url": "https://scrape.gpuops.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "gpuops-blockchain-data-mcp",
+        "base_url": "https://chain.gpuops.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "gpuops-ai-inference",
+        "base_url": "https://ai.gpuops.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "devryno",
+        "base_url": "https://devryno.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "business-day-deadline-api",
+        "base_url": "https://businessdayapi.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "fetchx402",
+        "base_url": "https://api.fetchx402.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "truth-bear",
+        "base_url": "https://api.truthbear.co",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "snapfix",
+        "base_url": "https://api.snapfix.media",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "nock",
+        "base_url": "https://www.getnock.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "lemon-toolshed",
+        "base_url": "https://toolshed.lemon-agent.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "api-zavod",
+        "base_url": "https://it.finlandfoxvpn.shop",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "acoda",
+        "base_url": "https://acoda.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "longwatch",
+        "base_url": "https://longwatch.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "djzs-protocol",
+        "base_url": "https://mcp.djzs.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "bnm-data-shop",
+        "base_url": "https://ticks.bnm.farm",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "general-relay",
+        "base_url": "https://api.generalrelay.xyz",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "synthora",
+        "base_url": "https://api.hergertsynthora.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "x402tap",
+        "base_url": "https://x402tap.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "coprocesseur-d-terministe",
+        "base_url": "https://x402.laboiteatubes.media",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "echo-sentiment-api",
+        "base_url": "https://api.6766587364.lol",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "payan-catalog-health-checker",
+        "base_url": "https://payanagent.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "trafficmonetize-btc-prediction-feed",
+        "base_url": "https://trafficmonetize.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "HTTP_200_NOT_JSON"
+      },
+      {
+        "slug": "vianerds-page-signal-audit",
+        "base_url": "https://vianerds.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "forge-launch-signals-x402-verifier",
+        "base_url": "https://forgesignals.org",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "entropy-index",
+        "base_url": "https://www.entropyindex.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "ffpipe",
+        "base_url": "https://ffpipe.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "colombia-trm",
+        "base_url": "https://x402.lagaceta.net",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 502,
+        "state": "HTTP_502"
+      },
+      {
+        "slug": "stipend-sh-gas-top-up",
+        "base_url": "https://stipend.sh",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "agentbiz",
+        "base_url": "https://api.mysterio.cloud",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "rc-quantum-data-oracle",
+        "base_url": "https://data.rcqsignals.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "uhadev-pdf-data-inspection-api",
+        "base_url": "https://x402.uhadev.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "brs-signals",
+        "base_url": "https://brs-signals.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "signal-sprint",
+        "base_url": "https://signalsprint-mqysbksh.manus.space",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "HTTP_200_NOT_JSON"
+      },
+      {
+        "slug": "lucid-text-stats",
+        "base_url": "https://x402.gammapilot.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "treat-rocks",
+        "base_url": "https://treat.rocks",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "agentfund-us-economic-sec-on-chain-data",
+        "base_url": "https://x402.agentfund.net",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "zinin-m2m-hub",
+        "base_url": "https://api.timzinin.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "sleepfix",
+        "base_url": "https://x402-lane-144561044326.us-central1.run.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "wintergreen-x402-content-broker",
+        "base_url": "https://x402.wintergreen.uk",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 502,
+        "state": "HTTP_502"
+      },
+      {
+        "slug": "twelve-permissions",
+        "base_url": "https://twelvepermissions.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "insider-radar-paper-trading-lab-telemetry",
+        "base_url": "https://whodeployed.wtf",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "x402donghang-agent-apis",
+        "base_url": "https://x402donghang.duckdns.org",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "xrpl-microstructure",
+        "base_url": "https://data.tg-lw.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "strale",
+        "base_url": "https://api.strale.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "agent-web-access",
+        "base_url": "https://web.cyberwarex.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "gisgp-x402-hazard-api",
+        "base_url": "https://gisgp.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "makespdf",
+        "base_url": "https://makespdf.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "quicksilver-pro",
+        "base_url": "https://pay.quicksilverpro.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "money-ai",
+        "base_url": "https://money-ai.gladiatorrx.in",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 530,
+        "state": "HTTP_530"
+      },
+      {
+        "slug": "jarvisclaw",
+        "base_url": "https://api.jarvisclaw.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "tnt-house-risk-data-api",
+        "base_url": "https://tnt-audit.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "blinkcodes",
+        "base_url": "https://blinkcodes.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "HTTP_200_NOT_JSON"
+      },
+      {
+        "slug": "lazaretto",
+        "base_url": "https://lazaretto.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "gondola",
+        "base_url": "https://api.gondola-ai.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "japan-diet-api",
+        "base_url": "https://diet.agentic-jp.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "concordance",
+        "base_url": "https://concordancehq.duckdns.org",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "permit-verdict-settlement-oracle",
+        "base_url": "https://permitverdict.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "toppot-agent-arena",
+        "base_url": "https://toppot.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "taskfleet",
+        "base_url": "https://taskfleet.net",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "domainsignal",
+        "base_url": "https://api.servocenter.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 503,
+        "state": "HTTP_503"
+      },
+      {
+        "slug": "agenttoll",
+        "base_url": "https://agenttoll.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "agente-jefe",
+        "base_url": "https://agente.revenuerecoveryai.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "servosignal",
+        "base_url": "https://signal.servocenter.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 503,
+        "state": "HTTP_503"
+      },
+      {
+        "slug": "pocketfactory-korean-data-api",
+        "base_url": "https://api.pocketfactory.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "zlv402",
+        "base_url": "https://zlv402.wreckbots.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "bentcrypto",
+        "base_url": "https://api.bentcrypto.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "polymarket-signal-detector",
+        "base_url": "https://x402.sashco.ca",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "data-quality-gate",
+        "base_url": "https://www.aidatatools.dev/api",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "cogdepot",
+        "base_url": "https://api.cogdepot.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "dao-proposals-onchain-verified",
+        "base_url": "https://api402x.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "ask-cairn",
+        "base_url": "https://cairnwake.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "bykaranteli-crypto-derivatives-data",
+        "base_url": "https://bykaranteli.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "fiatdock-marketplace",
+        "base_url": "https://fiatdock.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "api-acre",
+        "base_url": "https://apiacre.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "x402-shop-asr-audio-services",
+        "base_url": "https://x402.stan01.xyz",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 530,
+        "state": "HTTP_530"
+      },
+      {
+        "slug": "official-source-evidence",
+        "base_url": "https://evidence.regulavita.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "busker",
+        "base_url": "https://workbot1.oddsys.org",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "mazza-group-ai-apis",
+        "base_url": "https://mazzagrp.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "dokimo-verify-api",
+        "base_url": "https://dokimo.augaster.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "blixtworks-img-categorize",
+        "base_url": "https://www.blixtworks.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "jobero-job-search",
+        "base_url": "https://jobero.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "resonant-glyph-research-synthesis",
+        "base_url": "https://lemonade.coppersieve.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 530,
+        "state": "HTTP_530"
+      },
+      {
+        "slug": "comrades-of-war-spanish-gaming-community-archive-api",
+        "base_url": "https://comrades-of-war.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 403,
+        "state": "HTTP_403"
+      },
+      {
+        "slug": "ai-data-marketplace",
+        "base_url": "https://ai-data-marketplace-1042299154756.us-central1.run.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "first-fold-conversion-briefs",
+        "base_url": "https://first-fold-48h.tatoespitia.chatgpt.site",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "paybox-agent-tools",
+        "base_url": "https://agent-tools.degenpoet.shop",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "herramientas-cobrables",
+        "base_url": "https://herramientas-cobrables.consultoressasic.chatgpt.site",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "cloud-world-model",
+        "base_url": "https://www.cloudworldmodel.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "hermes-commerce-dach-x402-compliance",
+        "base_url": "https://agent.kihustle.tech",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "x402-extract-api",
+        "base_url": "https://api.jomofagan.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "verdoc",
+        "base_url": "https://verdoc.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "toolfeeds-sec-edgar",
+        "base_url": "https://api.toolfeeds.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "compacthost-ai-tools",
+        "base_url": "https://x402.compacthost.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "fractalai-post-quantum-proofs-for-ai-agents",
+        "base_url": "https://fractalai.net.co",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "marz-greta-lock-network-ai-text-human-likeness-benchmark",
+        "base_url": "https://eqbuilder.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "witnessd",
+        "base_url": "https://witnessd.vip",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "agent-reader",
+        "base_url": "https://x402.fenixfoundry.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "trend-signals",
+        "base_url": "https://trend-signals.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "HTTP_200_NOT_JSON"
+      },
+      {
+        "slug": "romny-polymarket-copy-trade-data",
+        "base_url": "https://api.romny.dpdns.org",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "fabtally-agent-api",
+        "base_url": "https://fabtally.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "hyperliquid-intelligence-api-frostyfi",
+        "base_url": "https://agent-hyper.frostylabs.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "lotus-network-api",
+        "base_url": "https://lotusnetworkapi.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "arch-tools",
+        "base_url": "https://archtools.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "gblin-protocol",
+        "base_url": "https://gblin.digital",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "x402-farm",
+        "base_url": "https://api.x-402.online",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "structured-extraction-api",
+        "base_url": "https://api-v3qhpbwutp.august.services",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "bounty-truth-api",
+        "base_url": "https://happybirthday.digitalshop.xin",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "HTTP_200_NOT_JSON"
+      },
+      {
+        "slug": "dwelldata-multifamily-real-estate-deals-feed",
+        "base_url": "https://dwelldata.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "hermes-plant",
+        "base_url": "https://hermesplant.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "delx-agent-commerce",
+        "base_url": "https://api.delx.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "gentech-labs-x402-gateway",
+        "base_url": "https://api.gentechlabs.net",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "penny",
+        "base_url": "https://204-168-208-32.sslip.io",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "pulsefeed-x402-trust-safety-oracle",
+        "base_url": "https://pulsefeed.dev",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "base-agent-evidence-route-api",
+        "base_url": "https://merchant-base.mikedotexe.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "cyberdyne-x402-services",
+        "base_url": "https://cyberdyne.linuxlabs.dk",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 530,
+        "state": "HTTP_530"
+      },
+      {
+        "slug": "deskcrew",
+        "base_url": "https://deskcrew.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "transcribe-audio-to-transcript-subtitles-and-a-cut-list",
+        "base_url": "https://transcribe.soboljem.cz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "sean-claude-van-damme-s-general-store",
+        "base_url": "https://scvd.store",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "trustfetch",
+        "base_url": "https://trustfetch.duckdns.org",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "trading-strategy-data",
+        "base_url": "https://strategysignals.duckdns.org",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "nsgoods-sanctions-screening-oracle",
+        "base_url": "https://sanctions.nsgoods.org",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "sqlguard",
+        "base_url": "https://sqlguard.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "japan-transit-api",
+        "base_url": "https://transit.agentic-jp.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "zero",
+        "base_url": "https://zero.broke2builtai.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "stelar-digital",
+        "base_url": "https://api.stelardigital.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "verza",
+        "base_url": "https://verza.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "x402engine",
+        "base_url": "https://x402engine.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "asiaref",
+        "base_url": "https://asiaref.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "aegis-ms4i848l-0",
+        "base_url": "https://aegis.borisinc.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 530,
+        "state": "HTTP_530"
+      },
+      {
+        "slug": "package-evidence",
+        "base_url": "https://packages.melchiorlabs.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "losbeto-cross-asset-market-intelligence",
+        "base_url": "https://api.losbeto.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "decision-anchor",
+        "base_url": "https://api.decision-anchor.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "x402-signature-service",
+        "base_url": "https://signx402.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "token-risk-ms0hezwz-0",
+        "base_url": "https://token-risk.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "midax402",
+        "base_url": "https://midax402.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "recompete-radar",
+        "base_url": "https://recompete.melchiorlabs.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "starchild-relay-all-in-one-reputable-data-source",
+        "base_url": "https://community.iamstarchild.com/5108-data-api-proxy",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "second-opinion-ms0hen6l-0",
+        "base_url": "https://secondopinionx402.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "azimuth",
+        "base_url": "https://azimuth.day",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "paypi-solana-intelligence-for-ai-agents",
+        "base_url": "https://pay.ansht.tech",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "jsonguard",
+        "base_url": "https://jsonguard.leeworks.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "rubric-protocol-post-quantum-ai-attestation",
+        "base_url": "https://rubric-protocol.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "chainfeed",
+        "base_url": "https://chainfeed.leeworks.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "chainkit",
+        "base_url": "https://chainkit.leeworks.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "difftool",
+        "base_url": "https://difftool.leeworks.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "utilia-solana-preflight",
+        "base_url": "https://api.utilia.ink",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "utilia-agent-utilities",
+        "base_url": "https://api.utilia.ink",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "robotinsight-korea-robotics-intel",
+        "base_url": "https://robotinsight.kr",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "jeonjang-korea-automotive-electronics-intel",
+        "base_url": "https://jeonjang.kr",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "mobilitychain-korea-mobility-supply-chain-intel",
+        "base_url": "https://mobilitychain.kr",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "circadian",
+        "base_url": "https://circadian-agent.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "agentmail-ms0hdbvm-0",
+        "base_url": "https://agentmail.leeworks.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "semagram",
+        "base_url": "https://semagram.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "graded-x402-gateway",
+        "base_url": "https://gateway.leeworks.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "phi-longevity-prism-full-report",
+        "base_url": "https://philongevity.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "x402-trust-prober",
+        "base_url": "https://x402.fuchss.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "connskill-growth-services",
+        "base_url": "https://agent.connskill.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "datasource-pulse",
+        "base_url": "https://datasourcepulse.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "second-opinion",
+        "base_url": "https://secondopinionapi.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "The operation was aborted due to timeout"
+      },
+      {
+        "slug": "mart402",
+        "base_url": "https://mart402.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "audit-tools",
+        "base_url": "https://audit-tools.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "obolpay-x402-gateway",
+        "base_url": "https://x402.obolpay.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "mingle-gate",
+        "base_url": "https://crawl.mingleberrymedia.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "nishvault-x402-pre-send-guard",
+        "base_url": "https://x402-discovery.nishvault.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "minia2a-agent-infrastructure-intelligence",
+        "base_url": "https://minia2a.uk",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "apitoll-crypto-news",
+        "base_url": "https://news.apitoll.cloud",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "apitoll-facebook-ad-library",
+        "base_url": "https://ads.apitoll.cloud",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "x402-agent-commerce-starter-platform-map",
+        "base_url": "https://x402.leeworks.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "pico",
+        "base_url": "https://picomicropay.nl/",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "safety-incidents-osha-severe-injury-api",
+        "base_url": "https://safetyincidents.org",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 403,
+        "state": "HTTP_403"
+      },
+      {
+        "slug": "lion-verified-company-compliance-data",
+        "base_url": "https://lionx402.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "pretestads",
+        "base_url": "https://pretestads.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "toolrail",
+        "base_url": "https://toolrail.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "open-source-filings-osf",
+        "base_url": "https://api.osf-master-server.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "defi-signal-api",
+        "base_url": "https://wazir-x402.duckdns.org",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "melchior-video-context",
+        "base_url": "https://transcript.melchiorlabs.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "intentfence",
+        "base_url": "https://agentpass-protocol.rmalka06.chatgpt.site",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "afriref-pan-african-government-reference-data",
+        "base_url": "https://afriref.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "token-safety-check-x402",
+        "base_url": "https://x402.professorsausages.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "token-risk",
+        "base_url": "https://5-9-107-124.nip.io",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "sirenic",
+        "base_url": "https://api.sirenic.eu",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "pogo-tb-nl-dutch-open-data-rdw-bag-ov",
+        "base_url": "https://api.pogo-tb.nl",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "satoshi-dispatches-lightning-x402-api",
+        "base_url": "https://dispatches.mystere.me",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 530,
+        "state": "HTTP_530"
+      },
+      {
+        "slug": "virtualsms",
+        "base_url": "https://virtualsms.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "aegis",
+        "base_url": "https://api.mcx-ventures.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "attester-verification-oracle-verified-research",
+        "base_url": "https://attester.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "vibes-coded-agent-tool-api",
+        "base_url": "https://vibes-coded.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "agent-utility-shop",
+        "base_url": "https://api.ikoles.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "hexscan",
+        "base_url": "https://hexscan.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "forgemesh-crypto-signals",
+        "base_url": "https://crypto.forgemesh.io",
+        "dir_payment_ready": true,
+        "dir_verified": true,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "apitoll-reddit-scraper",
+        "base_url": "https://reddit.apitoll.cloud",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "apitoll-multi-chain-evm-gas",
+        "base_url": "https://evm-gas.apitoll.cloud",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "apitoll-sec-edgar-data",
+        "base_url": "https://edgar.apitoll.cloud",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "lnpay",
+        "base_url": "https://pay.lnpay.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "ainalyst",
+        "base_url": "http://ainalyst-api.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "qrbase",
+        "base_url": "https://www.qrbase.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "HTTP_200_NOT_JSON"
+      },
+      {
+        "slug": "holoworld-fight-pass",
+        "base_url": "https://x402.holoworld.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "anyspend",
+        "base_url": "https://x402.anyspend.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "acp-virtuals-protocol",
+        "base_url": "https://acp-x402.virtuals.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "content-intelligence-api",
+        "base_url": "https://content.hugen.tokyo",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "floyd-coding-agent",
+        "base_url": "https://floyd.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "copperheadai",
+        "base_url": "https://copperhead.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "lonestaroracle-contractcheck",
+        "base_url": "https://contract.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "email-auth-check-spf-dmarc-dkim",
+        "base_url": "https://email-auth.use.x402atlas.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "url-unwrap-redirect-tracer",
+        "base_url": "https://unwrap.use.x402atlas.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "lonestaroracle-weatheroracle",
+        "base_url": "https://weather.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "gdelt-news-search-and-timeline",
+        "base_url": "https://gdelt.use.x402atlas.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "hyperliquid-prediction-markets-data-x402-atlas",
+        "base_url": "https://hyperliquid-predict.use.x402atlas.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "wikipedia-article-summary-mrtoqzsc-0",
+        "base_url": "https://wiki.use.x402atlas.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "tradepulse",
+        "base_url": "https://trade.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "lonestaroracle-equityscope",
+        "base_url": "https://equity.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "lonestaroracle-wealthpulse",
+        "base_url": "https://wealth.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "lonestaroracle-insiderflow",
+        "base_url": "https://insider.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "walletrisk",
+        "base_url": "https://wallet.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "payapi-market-uk-property-data-api",
+        "base_url": "https://property.payapi.market",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "places-local-business-search",
+        "base_url": "https://places.use.x402atlas.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "lonestaroracle-tokenlaunch",
+        "base_url": "https://launches.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "govedge",
+        "base_url": "https://govedge.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "payapi-market-uk-company-data-api",
+        "base_url": "https://company.payapi.market",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "image-optimizer-webp-converter",
+        "base_url": "https://imgopt.use.x402atlas.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "lonestaroracle-liquidations",
+        "base_url": "https://liq.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "docedge",
+        "base_url": "https://doc.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "rattlerai",
+        "base_url": "https://rattler.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "hugen-defi-intelligence-api",
+        "base_url": "https://defi.hugen.tokyo",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "suverse-freight-load-position",
+        "base_url": "https://api.suverse.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "crypto-perp-signals",
+        "base_url": "https://perpsignals.use.x402atlas.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "x402watch",
+        "base_url": "https://api.x402.printmoneylab.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "http-security-headers-check",
+        "base_url": "https://headers.use.x402atlas.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "hugen-intel-api",
+        "base_url": "https://intel.hugen.tokyo",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "x-twitter-media-downloader",
+        "base_url": "https://xmedia.use.x402atlas.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "hyperliquid-market-data",
+        "base_url": "https://hyperliquid.use.x402atlas.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "strategicmaterials",
+        "base_url": "https://minerals.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "lonestaroracle-optionsflow",
+        "base_url": "https://options.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "atlas-market-data",
+        "base_url": "https://marketdata.use.x402atlas.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "lonestaroracle-chainscout",
+        "base_url": "https://chainscout.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "lonestaroracle-newssentiment",
+        "base_url": "https://news.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "gotobi-calendar-api",
+        "base_url": "https://gotobi.hugen.tokyo",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "lonestaroracle-whalealert",
+        "base_url": "https://whale.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "forgemesh-fare-intelligence",
+        "base_url": "https://travel.forgemesh.io",
+        "dir_payment_ready": true,
+        "dir_verified": true,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "forgemesh-disruption-intelligence",
+        "base_url": "https://disruption.forgemesh.io",
+        "dir_payment_ready": true,
+        "dir_verified": true,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "domain-intelligence-api",
+        "base_url": "https://domain.hugen.tokyo",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "aerocheck",
+        "base_url": "https://aero.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "cottonmouthai",
+        "base_url": "https://cottonmouth.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "apple-app-store-search-reviews-app-data",
+        "base_url": "https://appstore.use.x402atlas.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "rwa-risk",
+        "base_url": "https://rwa.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "hyperliquid-account-intelligence",
+        "base_url": "https://hyperliquid-accounts.use.x402atlas.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "ipintel-ai-satellite-georisk-api",
+        "base_url": "https://sat.ipintel.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "cascadewatch",
+        "base_url": "https://cascade.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "crownblock",
+        "base_url": "https://crownblock.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "forgemesh-x402-router",
+        "base_url": "https://router.forgemesh.io",
+        "dir_payment_ready": true,
+        "dir_verified": true,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "lonestaroracle-geopulse",
+        "base_url": "https://geo.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "lonestaroracle-portfoliorisk",
+        "base_url": "https://portfolio.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "forgemesh-utility-apis",
+        "base_url": "https://x402.forgemesh.io",
+        "dir_payment_ready": true,
+        "dir_verified": true,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "lonestaroracle-earningscalendar",
+        "base_url": "https://earnings.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "defillama-data-api-x402-atlas",
+        "base_url": "https://defillama.use.x402atlas.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "leaseedge",
+        "base_url": "https://lease.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "consumerpulse",
+        "base_url": "https://consumer.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "payapi-market-uk-finance-data-api",
+        "base_url": "https://finance.payapi.market",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "laborpulse",
+        "base_url": "https://labor.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "gridpulse",
+        "base_url": "https://grid.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "realestatepulse",
+        "base_url": "https://realestate.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "stakeedge",
+        "base_url": "https://stake.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "forgemesh-anomaly-tracker",
+        "base_url": "https://anomaly.forgemesh.io",
+        "dir_payment_ready": true,
+        "dir_verified": true,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "fundingrates",
+        "base_url": "https://funding.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "latampulse",
+        "base_url": "https://latam.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "payapi-market-uk-vehicle-data-api",
+        "base_url": "https://vehicle.payapi.market",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "forgemesh-travel-agent",
+        "base_url": "https://travel-agent.forgemesh.io",
+        "dir_payment_ready": true,
+        "dir_verified": true,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "openinterest",
+        "base_url": "https://oi.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "cyclepulse",
+        "base_url": "https://cycle.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "uk-hmo-licence-api",
+        "base_url": "https://hmo.payapi.market",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "computepulse",
+        "base_url": "https://compute.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "stablepulse",
+        "base_url": "https://stable.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "stablefinance",
+        "base_url": "https://stablefinance.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "coingecko-crypto-price-data-x402-atlas",
+        "base_url": "https://coingecko.use.x402atlas.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "dns-whois-domain-lookup",
+        "base_url": "https://dns.use.x402atlas.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "coinopai-imagegen",
+        "base_url": "https://imagegen.coinopai.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "industrialmetals",
+        "base_url": "https://metals.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "supplychainpulse",
+        "base_url": "https://supply.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "ot-intel-api",
+        "base_url": "https://ot-intel-api.onrender.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "hugen-visual-api",
+        "base_url": "https://visual.hugen.tokyo",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "onchainpulse",
+        "base_url": "https://onchainpulse-nine.vercel.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "agripulse",
+        "base_url": "https://agri.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "techanalysis",
+        "base_url": "https://ta.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "ipintel-ai-ip-lookup-risk-api",
+        "base_url": "https://api.ipintel.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 525,
+        "state": "HTTP_525"
+      },
+      {
+        "slug": "telesint",
+        "base_url": "https://telesint-api.onrender.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "cn402",
+        "base_url": "https://api.cn402.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "forgemesh-x402-ads",
+        "base_url": "https://ads.forgemesh.io",
+        "dir_payment_ready": true,
+        "dir_verified": true,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "molty-cash",
+        "base_url": "https://api.molty.cash",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "ipintel-ai-x402-tools",
+        "base_url": "https://tools.ipintel.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "vibe-springs",
+        "base_url": "https://vibesprings.net",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "whale-intelligence-api",
+        "base_url": "https://whale.hugen.tokyo",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "stratalize",
+        "base_url": "https://www.stratalize.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "lonestaroracle-tokenscope",
+        "base_url": "https://token.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "tensorfeed",
+        "base_url": "https://tensorfeed.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "apiosk-gateway",
+        "base_url": "https://gateway.apiosk.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 503,
+        "state": "HTTP_503"
+      },
+      {
+        "slug": "scout-multi-source-intelligence-api",
+        "base_url": "https://scout.hugen.tokyo",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "coinopai-kronos-market-intelligence",
+        "base_url": "https://x402.coinopai.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "ixs",
+        "base_url": "https://api-v2.ixs.finance",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "hacker-news-stories-search",
+        "base_url": "https://api.kadec0.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "bitrefill",
+        "base_url": "https://api.bitrefill.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "defirisk",
+        "base_url": "https://defi.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "tickersfeed",
+        "base_url": "https://api.tickersfeed.net",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "lonestaroracle-macropulse",
+        "base_url": "https://macro.lonestaroracle.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "dripstack",
+        "base_url": "https://dripstack.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "x402stock",
+        "base_url": "https://x402stock.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "deepline-gtm-api",
+        "base_url": "https://stable-deepline.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "miroshark",
+        "base_url": "https://x402.miroshark.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "atelier-ai-agent-marketplace",
+        "base_url": "https://api.useatelier.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "x402node",
+        "base_url": "https://api.x402node.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "stock-trends-market-intelligence",
+        "base_url": "https://api.stocktrends.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "apify-agentic-endpoint-agi",
+        "base_url": "https://agi.apify.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "glim-sh",
+        "base_url": "https://glim.sh",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "apify-actors-api",
+        "base_url": "https://api.apify.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "readx",
+        "base_url": "https://readx.sh",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "stablesocial",
+        "base_url": "https://stablesocial.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "stablebrowser",
+        "base_url": "https://www.stablebrowser.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "google-trends-seo-keyword-data",
+        "base_url": "https://google-trends.use.x402atlas.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "hirescrape",
+        "base_url": "https://hirescrape.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "regimeshift-clearinghouse",
+        "base_url": "https://regimeshift.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "agent402-tools",
+        "base_url": "https://agent402.tools",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "ip402-xyz",
+        "base_url": "https://ip402.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "HTTP_200_NOT_JSON"
+      },
+      {
+        "slug": "suverse-pay",
+        "base_url": "https://proxy.suverse.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "toon-haus-financial-data-api",
+        "base_url": "https://finance.toon.haus",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "payapi-market-weather-data-api",
+        "base_url": "https://weather.payapi.market",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "kr-crypto-intelligence",
+        "base_url": "https://api.printmoneylab.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "tick-aggregator-fx-api",
+        "base_url": "https://tick.hugen.tokyo",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "usenami",
+        "base_url": "https://api.usenami.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "aubrai-x402-api",
+        "base_url": "https://x402-api.aubr.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "dripmetrics-ai",
+        "base_url": "https://api.dripmetrics.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "clash-of-coins-checkout",
+        "base_url": "https://x402.clashofcoins.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "creative-tim-shadcn-ui-blocks",
+        "base_url": "https://x402.creative-tim.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "stableupload",
+        "base_url": "https://stableupload.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "hugen-weather-api",
+        "base_url": "https://weather.hugen.tokyo",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "x402scan",
+        "base_url": "https://www.x402scan.com",
+        "dir_payment_ready": true,
+        "dir_verified": true,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "linked-panda",
+        "base_url": "https://api.linkedpanda.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "stableestate",
+        "base_url": "https://stableestate.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "stabletravel",
+        "base_url": "https://stabletravel.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "hibra-ai-swap",
+        "base_url": "https://www.hibra.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "onesource",
+        "base_url": "https://api.onesource.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "deepnets-api",
+        "base_url": "https://api.deepnets.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "loyal-spark",
+        "base_url": "https://api.loyalspark.online",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "blockrun",
+        "base_url": "https://blockrun.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "stableenrich",
+        "base_url": "https://stableenrich.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "tavily-search",
+        "base_url": "https://x402.tavily.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "twit-sh",
+        "base_url": "https://x402.twit.sh",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "sippar-token-market-data",
+        "base_url": "https://sippar.network",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "sec-fundamentals-api",
+        "base_url": "https://sec.multyplylabs.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "bridgenode",
+        "base_url": "https://bridgenode.cc",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "defi-signals-api",
+        "base_url": "https://defi-signals.org",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "agent-exchange",
+        "base_url": "https://store.agentexchange.work",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "concierge-agent",
+        "base_url": "https://conc-exe.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "mdapi",
+        "base_url": "https://md.fastdb.in",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "fry-farm-x402-agentic-actions",
+        "base_url": "https://fry.farm",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "HTTP_200_NOT_JSON"
+      },
+      {
+        "slug": "watchtower",
+        "base_url": "https://watchtower-api.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 530,
+        "state": "HTTP_530"
+      },
+      {
+        "slug": "tollbooth",
+        "base_url": "https://x402toll.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "runbot-strategy-copilot",
+        "base_url": "https://mcp.runbot.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "coil-scanner-board",
+        "base_url": "https://coil.trade",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "dataforagents",
+        "base_url": "https://dataforagents.net",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "stillos-notary",
+        "base_url": "https://nolawealthfinancial.com/notary",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "timezone-toolkit",
+        "base_url": "https://timezone-toolkit.agishub.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "toolcall",
+        "base_url": "https://toolcall.click",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "mind-protocol",
+        "base_url": "https://api.mindprotocol.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "agentdata-api",
+        "base_url": "https://agentdata-api.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "eva-mcp",
+        "base_url": "https://api.ai.everything.inc",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 401,
+        "state": "HTTP_401"
+      },
+      {
+        "slug": "us-cpi-data-inflation-report-api",
+        "base_url": "https://cpi-report-us.underscoredone.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "contract-guard-api",
+        "base_url": "https://eltociear-contract-guard.hf.space",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "signalis",
+        "base_url": "https://api.signalis.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "x402dir-facilitator-recommend",
+        "base_url": "https://x402dir.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "isocast",
+        "base_url": "https://api.isocast.dev",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 502,
+        "state": "HTTP_502"
+      },
+      {
+        "slug": "orcatrace",
+        "base_url": "https://api.orcatrace.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "moltalyzer",
+        "base_url": "https://api.moltalyzer.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "vindex",
+        "base_url": "https://api.vindexapi.dev",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 502,
+        "state": "HTTP_502"
+      },
+      {
+        "slug": "gitbeacon",
+        "base_url": "https://api.gitbeacon.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "agentfeed",
+        "base_url": "https://x402.ochinimus.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "japan-address-api",
+        "base_url": "https://address.agentic-jp.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "zaref",
+        "base_url": "https://zaref.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "agentservices",
+        "base_url": "https://agentservices.to",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "agent402-website-release-offline-tools",
+        "base_url": "https://agent402.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "mugen-radio",
+        "base_url": "https://mugenradio.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "relayshield",
+        "base_url": "https://api.relayshield.net",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "scrape402",
+        "base_url": "https://x402.shizu.me",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "qonoro-intelligence-api",
+        "base_url": "https://api.qonoro.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "nsgoods-agent-trust-oracle",
+        "base_url": "https://trust.nsgoods.org",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "tunelo-agent-apis",
+        "base_url": "https://agents.tunelo.co.za",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "polymarket-liquidity-authenticity-uma-resolution-risk",
+        "base_url": "https://api.x402intel.uk",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "cryptopulse-data-api",
+        "base_url": "https://cryptopulse.saascloud.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "groundcheck",
+        "base_url": "https://groundcheck.seiche.info",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "japan-furigana-api",
+        "base_url": "https://furigana.agentic-jp.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "vaaya",
+        "base_url": "https://vaaya.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "newsmesh",
+        "base_url": "https://api.newsmesh.co",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "fabler-labs-x402-storefront",
+        "base_url": "https://x402.fablerlabs.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "querylines",
+        "base_url": "https://api.querylines.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "relaystation",
+        "base_url": "https://api.relaystation.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "straits-live-premium-data",
+        "base_url": "https://straits.live",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "kronos-crypto-data-forecasts",
+        "base_url": "https://kronossignals.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "the-nervous-system-agent-governance-x402-api",
+        "base_url": "https://api.100levelup.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "netintel",
+        "base_url": "https://netintel.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "anchor-x402",
+        "base_url": "https://api.anchor-x402.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "hypernatt-terminal",
+        "base_url": "https://hypernatt.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "aeo-audit-api",
+        "base_url": "https://aeo.agentlair.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "logigrain",
+        "base_url": "https://logigrain.net",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "webbersites-x402-data-api",
+        "base_url": "https://api.webbersites.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "tantra-authority-the-naked-press-catalog",
+        "base_url": "https://api.tantra-authority.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "weather",
+        "base_url": "https://weather.x402.press",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "aviation-x402",
+        "base_url": "https://aviation.x402.press",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "2s-io",
+        "base_url": "https://2s.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "gedx402",
+        "base_url": "https://embed.gedx402.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "sntl-helium-intelligence",
+        "base_url": "https://a2a.sntl.site",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "http": 200,
+        "state": "HTTP_200_NOT_JSON"
+      },
+      {
+        "slug": "payperbyte",
+        "base_url": "https://x402.payperbyte.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "aicomglobal",
+        "base_url": "https://aicomglobal.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "agent-web-reader-x402",
+        "base_url": "https://x402.charliemorrison.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "agentutility",
+        "base_url": "https://x402.agentutility.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "curl-http-request",
+        "base_url": "https://curl-http-request.underscoredone.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "biotech-catalyst-sentinel",
+        "base_url": "https://api.biotechcatalystsentinel.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "invoket",
+        "base_url": "https://api.invoket.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "txdecode",
+        "base_url": "https://txdecode.com/api/v1",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "bulk-dmarc-record-lookup",
+        "base_url": "https://dmarc-lookup.underscoredone.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "greenwood-financial-intelligence",
+        "base_url": "https://api.greenwood.financial",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "skim",
+        "base_url": "https://skim402.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "asterpay",
+        "base_url": "https://x402.asterpay.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "aiscan",
+        "base_url": "https://api.getaiscan.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "popadex-personal-finance-reference-api",
+        "base_url": "https://app.popadex.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 204,
+        "state": "HTTP_204"
+      },
+      {
+        "slug": "ledgerbrain-x402-kya-kyt-kye-compliance-api",
+        "base_url": "https://api.ledgercore.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "trustboost-pii-sanitizer",
+        "base_url": "https://api.trustboost.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "agentlair",
+        "base_url": "https://agentlair.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "wdh-sh-qr-codes",
+        "base_url": "https://qr.wdh.sh",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 402,
+        "state": "HTTP_402"
+      },
+      {
+        "slug": "madeonsol",
+        "base_url": "https://madeonsol.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "insurance-doi-bulletin-feed-x402",
+        "base_url": "https://api.dynsuplabs.com",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "liquidpad",
+        "base_url": "https://www.liquidpad.site",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "tradeos-crypto-intelligence",
+        "base_url": "https://tradeos.tech",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "HTTP_200_NOT_JSON"
+      },
+      {
+        "slug": "gdelt-news-intelligence-api",
+        "base_url": "https://news-x402.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "solsigs",
+        "base_url": "https://solsigs.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "websearch",
+        "base_url": "https://websearch--gw.swerver.net",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "fia-signals",
+        "base_url": "https://x402.fiasignals.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_NO_PAYTO"
+      },
+      {
+        "slug": "true402",
+        "base_url": "https://true402.dev/api",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "econdash",
+        "base_url": "https://econdash.org/api/v1/m2m",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "crinkl",
+        "base_url": "https://api.crinkl.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "askew",
+        "base_url": "https://x402.askew.network",
+        "dir_payment_ready": false,
+        "dir_verified": false,
+        "state": "UNREACHABLE",
+        "detail": "fetch failed"
+      },
+      {
+        "slug": "find-or-verify",
+        "base_url": "https://fov.brij.fi",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "sentinel-compliance-intelligence",
+        "base_url": "https://mru-oracle.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "axongate",
+        "base_url": "https://web-production-8136ee.up.railway.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "fly-labs-agentic-market",
+        "base_url": "https://flylabs.fun",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "agentnews",
+        "base_url": "https://agent.news",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "spraay-gateway",
+        "base_url": "https://gateway.spraay.app",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "agentmail",
+        "base_url": "https://x402.api.agentmail.to",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 402,
+        "state": "HTTP_402"
+      },
+      {
+        "slug": "robtex",
+        "base_url": "https://x402.robtex.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 402,
+        "state": "HTTP_402"
+      },
+      {
+        "slug": "askclaude",
+        "base_url": "https://askclaude.shop",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "neynar",
+        "base_url": "https://api.neynar.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "interzoid",
+        "base_url": "https://api.interzoid.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "zerion",
+        "base_url": "https://api.zerion.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "stableemail",
+        "base_url": "https://stableemail.dev",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "mycelia-signal",
+        "base_url": "https://api.myceliasignal.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "browserbase",
+        "base_url": "https://x402.browserbase.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "pinata",
+        "base_url": "https://402.pinata.cloud",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "venice-ai",
+        "base_url": "https://api.venice.ai/api/v1",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 410,
+        "state": "HTTP_410"
+      },
+      {
+        "slug": "stakevia",
+        "base_url": "https://stakevia.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "otto-ai",
+        "base_url": "https://x402.ottoai.services",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "sociologic-rng",
+        "base_url": "https://rng.sociologic.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "quicknode",
+        "base_url": "https://x402.quicknode.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 402,
+        "state": "HTTP_402"
+      },
+      {
+        "slug": "nansen",
+        "base_url": "https://api.nansen.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "coinmarketcap",
+        "base_url": "https://pro-api.coinmarketcap.com/x402/v3",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "messari",
+        "base_url": "https://api.messari.io",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "JSON_NOT_X402"
+      },
+      {
+        "slug": "coingecko",
+        "base_url": "https://pro-api.coingecko.com/api/v3/x402",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "gloria-ai",
+        "base_url": "https://api.itsgloria.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "actiongate",
+        "base_url": "https://api.actiongate.xyz",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "exa",
+        "base_url": "https://api.exa.ai",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      },
+      {
+        "slug": "minifetch",
+        "base_url": "https://minifetch.com",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 200,
+        "state": "DISCOVERY_JSON_PAYTO"
+      },
+      {
+        "slug": "goldrush",
+        "base_url": "https://x402.goldrush.dev/v1",
+        "dir_payment_ready": true,
+        "dir_verified": false,
+        "http": 404,
+        "state": "NO_DISCOVERY_404"
+      }
+    ]
+  },
+  "digest": "1083940c3f18430c67ed36cb6e74891adbc6c7e89924b0c343a6d082e9bdc0f8",
+  "signature": "jM7JM9Zi4Nmt4NbFWQiHiBn6a/3HGCUdYtYRfMmhZHO6MMjciB82XSP6Puj+ucF7pZeNinFejdKrEuRKnnO/Bw==",
+  "algorithm": "ed25519"
+}

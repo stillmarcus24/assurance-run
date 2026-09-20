@@ -1,0 +1,76 @@
+{
+  "payload": {
+    "tool": "live-claim-audit/0.1.2",
+    "kernel": "assurance-run/0.1",
+    "target": "https://agentoracle.co",
+    "observed_at": "2026-09-20T02:51:49Z",
+    "routes_examined": [
+      "https://agentoracle.co",
+      "https://agentoracle.co/research",
+      "https://agentoracle.co/deep-research",
+      "https://agentoracle.co/research/batch",
+      "https://agentoracle.co/preview",
+      "https://agentoracle.co/evaluate"
+    ],
+    "findings": [
+      {
+        "verdict": "AGREE",
+        "reason": "DISCOVERY_SERVED",
+        "claim": ".well-known/x402 served",
+        "detail": "HTTP 200, 8979B, sha 8765d024e93bec7c"
+      },
+      {
+        "verdict": "AGREE",
+        "reason": "FREE_TIER_SERVES",
+        "claim": "https://agentoracle.co — unpaid GET",
+        "detail": "HTTP 200 without payment (55706B)"
+      },
+      {
+        "verdict": "AGREE",
+        "reason": "V1_V2_OFFER_CONSISTENT",
+        "claim": "https://agentoracle.co/research — v1 body and v2 header describe one offer",
+        "detail": "payTo same | amount same | asset same"
+      },
+      {
+        "verdict": "AGREE",
+        "reason": "V1_V2_OFFER_CONSISTENT",
+        "claim": "https://agentoracle.co/deep-research — v1 body and v2 header describe one offer",
+        "detail": "payTo same | amount same | asset same"
+      },
+      {
+        "verdict": "AGREE",
+        "reason": "V1_V2_OFFER_CONSISTENT",
+        "claim": "https://agentoracle.co/research/batch — v1 body and v2 header describe one offer",
+        "detail": "payTo same | amount same | asset same"
+      },
+      {
+        "verdict": "AGREE",
+        "reason": "FREE_TIER_SERVES",
+        "claim": "https://agentoracle.co/preview — unpaid GET",
+        "detail": "HTTP 200 without payment (823B)"
+      },
+      {
+        "verdict": "AGREE",
+        "reason": "FREE_TIER_SERVES",
+        "claim": "https://agentoracle.co/evaluate — unpaid GET",
+        "detail": "HTTP 200 without payment (694B)"
+      },
+      {
+        "verdict": "AGREE",
+        "reason": "OPENAPI_SERVED",
+        "claim": "openapi.json served",
+        "detail": "5 paths declared"
+      }
+    ],
+    "counts": {
+      "AGREE": 8,
+      "DISAGREE": 0,
+      "INDETERMINATE": 0,
+      "NOT_EVALUATED": 0
+    },
+    "not_established": 0
+  },
+  "digest": "8639e072f2931ade466a6dad18e4101a06c32a7031755c18e48815b83cde07ad",
+  "signature": "kDXuTaINb1fLLV3RwlymfjvTMAkhWrWHU0tutFkPpuRn796IRtJxGcrzQaGYhcjnCBPmQl0UL2BPSrngUOG+Dg==",
+  "algorithm": "ed25519"
+}

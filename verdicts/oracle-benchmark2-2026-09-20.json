@@ -1,0 +1,403 @@
+{
+  "payload": {
+    "tool": "oracle-benchmark2/0.1",
+    "kernel": "assurance-run/0.1",
+    "observed_at": "2026-09-20T04:45:19Z",
+    "oracle_under_test": "preflight402 (free, resolved-402-resource query)",
+    "ground_truth": "StillOS signed multi-rail settlement corpus 2026-09-20",
+    "live_402_doors": 42,
+    "oracle_confirmed_valid_402": 42,
+    "false_greenlight_count": 0,
+    "false_block_count": 1,
+    "false_greenlight": [],
+    "false_block": [
+      {
+        "slug": "sourcey-startup-review",
+        "resolved_402": "https://api.sourcey.com/v1/startup-credits/reviews",
+        "oracle_saw_valid_402": true,
+        "chain_state": "PAID",
+        "base_payers": 23,
+        "oracle": "avoid",
+        "divergence": "FALSE_BLOCK"
+      }
+    ],
+    "rows": [
+      {
+        "slug": "agentpay",
+        "resolved_402": "https://agentpay.tools/tools/token_price/call",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "crypto-etf-sentinel",
+        "resolved_402": "https://api.cryptoetfsentinel.com/v1/pipeline/risk-scores",
+        "oracle_saw_valid_402": true,
+        "chain_state": "PAID",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "cleared-index-paid-probe",
+        "resolved_402": "https://clearedindex.com/api/x402/ping",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "gblin-protocol",
+        "resolved_402": "https://gblin.digital/api/x402/treasury-state",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "asiaref",
+        "resolved_402": "https://asiaref.dev/v1/ae/policy-rate",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "aubrai-x402-api",
+        "resolved_402": "https://x402-api.aubr.ai/api/chat",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "aeo-audit-api",
+        "resolved_402": "https://aeo-audit-api.amdal-dev.workers.dev/audit",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "euroref-european-government-reference-data",
+        "resolved_402": "https://euroref.dev/v1/at/policy-rate",
+        "oracle_saw_valid_402": true,
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "apitoll-sec-edgar-data",
+        "resolved_402": "https://edgar.apitoll.cloud/v1/edgar/filings",
+        "oracle_saw_valid_402": true,
+        "chain_state": "PAID",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "onchainpulse",
+        "resolved_402": "https://onchainpulse.theaslangroupllc.com/api/token-safety",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "usaref-north-american-government-reference-data",
+        "resolved_402": "https://usaref.dev/v1/bs/policy-rate",
+        "oracle_saw_valid_402": true,
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "arakel-machine-evidence-network",
+        "resolved_402": "https://proof.arakelproof.space/v1/ofac-sanctions-screening",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "latamref-latin-american-government-reference-data",
+        "resolved_402": "https://latamref.dev/v1/ar/policy-rate",
+        "oracle_saw_valid_402": true,
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "x402-voice-to-text",
+        "resolved_402": "https://voice.cyberwarex.com/transcribe",
+        "oracle_saw_valid_402": true,
+        "chain_state": "PAID",
+        "base_payers": 19,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "butterfly-delta-preflight",
+        "resolved_402": "https://butterflydelta.com/api/agent/order-preflight",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "jarvisclaw",
+        "resolved_402": "https://api.jarvisclaw.ai/v1/chat/completions",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "obolpay-x402-gateway",
+        "resolved_402": "https://x402.obolpay.xyz/api/v1/protected-data",
+        "oracle_saw_valid_402": true,
+        "chain_state": "PAID",
+        "base_payers": 3,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "afriref-pan-african-government-reference-data",
+        "resolved_402": "https://afriref.dev/v1/ao/policy-rate",
+        "oracle_saw_valid_402": true,
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "sippar-token-market-data",
+        "resolved_402": "https://sippar.network/api/sippar/sell/token-intel",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "wall-street-wiki-canon",
+        "resolved_402": "https://canon.wallstreet.wiki/v1/corpus",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "rootcrak-preflight",
+        "resolved_402": "https://intel.rootcrak.com/v1/intel/scans/drainer",
+        "oracle_saw_valid_402": true,
+        "chain_state": "PAID",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "eventedge-oracle",
+        "resolved_402": "https://edge.arakelproof.space/v1/market/pulse",
+        "oracle_saw_valid_402": true,
+        "chain_state": "PAID",
+        "base_payers": 6,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "nsgoods-verifiable-x402-oracle-suite",
+        "resolved_402": "https://x402.nsgoods.org/settle",
+        "oracle_saw_valid_402": true,
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "saymon-ru-data-api",
+        "resolved_402": "https://payforapi.com/v1/inn-lookup",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "defi-safety-oracle",
+        "resolved_402": "https://oracle.cyberwarex.com/token",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "devryno",
+        "resolved_402": "https://devryno.com/pay/merchant-feed-audit",
+        "oracle_saw_valid_402": true,
+        "chain_state": "PAID",
+        "base_payers": 2,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "zero",
+        "resolved_402": "https://zero.broke2builtai.com/api/contract-audit",
+        "oracle_saw_valid_402": true,
+        "chain_state": "PAID",
+        "base_payers": 1,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "glianaai",
+        "resolved_402": "https://api.glianalabs.com/x402/wan-2.7-i2v",
+        "oracle_saw_valid_402": true,
+        "chain_state": "PAID",
+        "base_payers": 26,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "hardware-hunter-price-intelligence",
+        "resolved_402": "https://hardwarehunter.io/api/x402/pricing/component/242957af-a870-4f47-912b-d04c1dd6f464",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "agent-web-access",
+        "resolved_402": "https://web.cyberwarex.com/fetch",
+        "oracle_saw_valid_402": true,
+        "chain_state": "PAID",
+        "base_payers": 19,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "toolrail",
+        "resolved_402": "https://toolrail.dev/vat/rates",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "agentbit",
+        "resolved_402": "https://agentbit.app/v1/web/search",
+        "oracle_saw_valid_402": true,
+        "chain_state": "PAID",
+        "base_payers": 7,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "melssa",
+        "resolved_402": "https://melssa.com/api/agent/corpus/{slug}",
+        "oracle_saw_valid_402": true,
+        "chain_state": "PAID",
+        "base_payers": 2,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "hirescrape",
+        "resolved_402": "https://hirescrape.com/api/tools/jobs",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "blockrun",
+        "resolved_402": "https://blockrun.ai/api/v1/chat/completions",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "2s-io",
+        "resolved_402": "https://2s.io/api/agent/knowledge-delta",
+        "oracle_saw_valid_402": true,
+        "chain_state": "PAID",
+        "base_payers": 68,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "biotech-catalyst-sentinel",
+        "resolved_402": "https://api.biotechcatalystsentinel.com/v1/catalysts/upcoming",
+        "oracle_saw_valid_402": true,
+        "chain_state": "PAID",
+        "base_payers": 19,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "sourcey-startup-review",
+        "resolved_402": "https://api.sourcey.com/v1/startup-credits/reviews",
+        "oracle_saw_valid_402": true,
+        "chain_state": "PAID",
+        "base_payers": 23,
+        "oracle": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "gentech-labs-x402-gateway",
+        "resolved_402": "https://api.gentechlabs.net/v1/defender/classify/{chainId}/{token}",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "apitoll-facebook-ad-library",
+        "resolved_402": "https://ads.apitoll.cloud/v1/ads/facebook/search",
+        "oracle_saw_valid_402": true,
+        "chain_state": "PAID",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "apitoll-reddit-scraper",
+        "resolved_402": "https://reddit.apitoll.cloud/v1/reddit/subreddit",
+        "oracle_saw_valid_402": true,
+        "chain_state": "PAID",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      },
+      {
+        "slug": "usenami",
+        "resolved_402": "https://api.usenami.io/v1/backtest/data",
+        "oracle_saw_valid_402": true,
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle": "caution",
+        "divergence": null
+      }
+    ]
+  },
+  "digest": "ede51ba910bcff12f817d0bf5d1231332949ad3b51b6637bbe28c1dbb007cef2",
+  "signature": "i5LT+up1fn7SY8uobPqCoudu5QyA4xWf1G3t1RTqrVvJ3vQHMgrVrjakYryzIMvH2TuFLS0MHfsPTCeuech1CA==",
+  "algorithm": "ed25519"
+}

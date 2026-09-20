@@ -1,0 +1,344 @@
+{
+  "payload": {
+    "tool": "oracle-benchmark/0.1",
+    "kernel": "assurance-run/0.1",
+    "observed_at": "2026-09-20T04:38:42Z",
+    "oracle_under_test": "preflight402 (free tier, resource-path query)",
+    "ground_truth": "StillOS signed multi-rail settlement corpus 2026-09-20",
+    "sample_size": 28,
+    "false_greenlight_count": 0,
+    "false_block_count": 12,
+    "false_greenlight": [],
+    "false_block": [
+      {
+        "slug": "desk-lead-x402",
+        "resource": "https://desk-x402.desk-x402-gh.workers.dev",
+        "chain_state": "PAID",
+        "base_payers": 4,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "forgemesh-voice",
+        "resource": "https://voice.forgemesh.io",
+        "chain_state": "PAID",
+        "base_payers": 22,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "x402-swag",
+        "resource": "https://x402swag.com",
+        "chain_state": "PAID",
+        "base_payers": 8,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "x402-crypto-research-api",
+        "resource": "https://x402-crypto-research-api-production.up.railway.app",
+        "chain_state": "PAID",
+        "base_payers": 5,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "helpmyagent",
+        "resource": "https://api.helpmyagent.com",
+        "chain_state": "PAID",
+        "base_payers": 4,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "parallax",
+        "resource": "https://parallax402.com",
+        "chain_state": "PAID",
+        "base_payers": 2,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "cloud-world-model",
+        "resource": "https://www.cloudworldmodel.ai",
+        "chain_state": "PAID",
+        "base_payers": 1,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "virtualsms",
+        "resource": "https://virtualsms.io",
+        "chain_state": "PAID",
+        "base_payers": 6,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "forgemesh-disruption-intelligence",
+        "resource": "https://disruption.forgemesh.io",
+        "chain_state": "PAID",
+        "base_payers": 21,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "zaref",
+        "resource": "https://zaref.dev",
+        "chain_state": "PAID",
+        "base_payers": 38,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "loophole-tape",
+        "resource": "https://htrlhl3y49.execute-api.us-east-2.amazonaws.com",
+        "chain_state": "PAID",
+        "base_payers": 3,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "shehriyars-api",
+        "resource": "https://api.shehriyar.ink",
+        "chain_state": "PAID",
+        "base_payers": 1,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      }
+    ],
+    "rows": [
+      {
+        "slug": "desk-lead-x402",
+        "resource": "https://desk-x402.desk-x402-gh.workers.dev",
+        "chain_state": "PAID",
+        "base_payers": 4,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "forgemesh-voice",
+        "resource": "https://voice.forgemesh.io",
+        "chain_state": "PAID",
+        "base_payers": 22,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "x402-swag",
+        "resource": "https://x402swag.com",
+        "chain_state": "PAID",
+        "base_payers": 8,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "x402-crypto-research-api",
+        "resource": "https://x402-crypto-research-api-production.up.railway.app",
+        "chain_state": "PAID",
+        "base_payers": 5,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "crypto-etf-sentinel",
+        "resource": "https://api.cryptoetfsentinel.com",
+        "chain_state": "PAID",
+        "base_payers": 0,
+        "oracle_preflight402": "avoid",
+        "divergence": null
+      },
+      {
+        "slug": "helpmyagent",
+        "resource": "https://api.helpmyagent.com",
+        "chain_state": "PAID",
+        "base_payers": 4,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "parallax",
+        "resource": "https://parallax402.com",
+        "chain_state": "PAID",
+        "base_payers": 2,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "cloud-world-model",
+        "resource": "https://www.cloudworldmodel.ai",
+        "chain_state": "PAID",
+        "base_payers": 1,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "virtualsms",
+        "resource": "https://virtualsms.io",
+        "chain_state": "PAID",
+        "base_payers": 6,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "forgemesh-disruption-intelligence",
+        "resource": "https://disruption.forgemesh.io",
+        "chain_state": "PAID",
+        "base_payers": 21,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "zaref",
+        "resource": "https://zaref.dev",
+        "chain_state": "PAID",
+        "base_payers": 38,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "loophole-tape",
+        "resource": "https://htrlhl3y49.execute-api.us-east-2.amazonaws.com",
+        "chain_state": "PAID",
+        "base_payers": 3,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "kael-ecosystem-pulse",
+        "resource": "https://kael-ecosystem-pulse.onrender.com",
+        "chain_state": "PAID",
+        "base_payers": 0,
+        "oracle_preflight402": "avoid",
+        "divergence": null
+      },
+      {
+        "slug": "shehriyars-api",
+        "resource": "https://api.shehriyar.ink",
+        "chain_state": "PAID",
+        "base_payers": 1,
+        "oracle_preflight402": "avoid",
+        "divergence": "FALSE_BLOCK"
+      },
+      {
+        "slug": "agentpay",
+        "resource": "https://agentpay.tools",
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle_preflight402": "avoid",
+        "divergence": null
+      },
+      {
+        "slug": "cleared-index-paid-probe",
+        "resource": "https://clearedindex.com",
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle_preflight402": "avoid",
+        "divergence": null
+      },
+      {
+        "slug": "premium-rewards-data-gets",
+        "resource": "https://api.premiumrewards.vip",
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle_preflight402": "avoid",
+        "divergence": null
+      },
+      {
+        "slug": "forge-launch-signals-x402-verifier",
+        "resource": "https://forgesignals.org",
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle_preflight402": "avoid",
+        "divergence": null
+      },
+      {
+        "slug": "quicksilver-pro",
+        "resource": "https://pay.quicksilverpro.io",
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle_preflight402": "avoid",
+        "divergence": null
+      },
+      {
+        "slug": "gblin-protocol",
+        "resource": "https://gblin.digital",
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle_preflight402": "avoid",
+        "divergence": null
+      },
+      {
+        "slug": "asiaref",
+        "resource": "https://asiaref.dev",
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle_preflight402": "avoid",
+        "divergence": null
+      },
+      {
+        "slug": "chainkit",
+        "resource": "https://chainkit.leeworks.dev",
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle_preflight402": "avoid",
+        "divergence": null
+      },
+      {
+        "slug": "agentmail-ms0hdbvm-0",
+        "resource": "https://agentmail.leeworks.dev",
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle_preflight402": "avoid",
+        "divergence": null
+      },
+      {
+        "slug": "agent402-tools",
+        "resource": "https://agent402.tools",
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle_preflight402": "avoid",
+        "divergence": null
+      },
+      {
+        "slug": "aubrai-x402-api",
+        "resource": "https://x402-api.aubr.ai",
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle_preflight402": "avoid",
+        "divergence": null
+      },
+      {
+        "slug": "mdapi",
+        "resource": "https://md.fastdb.in",
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle_preflight402": "avoid",
+        "divergence": null
+      },
+      {
+        "slug": "aeo-audit-api",
+        "resource": "https://aeo.agentlair.dev",
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle_preflight402": "avoid",
+        "divergence": null
+      },
+      {
+        "slug": "trustboost-pii-sanitizer",
+        "resource": "https://api.trustboost.dev",
+        "chain_state": "UNKNOWN",
+        "base_payers": 0,
+        "oracle_preflight402": "avoid",
+        "divergence": null
+      }
+    ],
+    "caveats": [
+      "preflight402 is a surface probe by its own reason strings; this measures its verdict vs on-chain settlement, not its intent.",
+      "chain_state from our roll-up; PAID payer counts are Base-rail exact, XRPL/Solana payers not summed here."
+    ]
+  },
+  "digest": "4d93e383c215647515c9fa1c0a7ffdce1aca1abc3b5a69b4f014de8eca8e53b9",
+  "signature": "/aWD2jYtPjNncYi57y7D8IHZ07dad5uQNzBVj2uVMb5Ak2VUSZTph26RTLsfwguHQlEIuhgmMWfkkrMBvO0kBg==",
+  "algorithm": "ed25519"
+}

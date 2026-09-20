@@ -56,6 +56,14 @@ const PROOF_ID = process.env.BB_PROOF_ID ||
   '7aa10c9783ef2e96d33d8edb383583d126b6240589f824b39933600e79587002';
 
 async function http(method, url, body) {
+  // Every result is stamped as genuinely fetched in this run. `emit` will not
+  // publish a finding attributed to anything without this stamp, so a synthetic
+  // or hand-built "response" cannot launder a finding into the output.
+  const stamp = (r) => Object.assign(r, {
+    __fetched: true,
+    __label: `${method} ${url.replace(BASE, '')}`,
+    __bytes: r.text ? r.text.length : 0,
+  });
   try {
     const res = await fetch(url, {
       method,
@@ -66,10 +74,41 @@ async function http(method, url, body) {
     });
     const text = await res.text();
     let json = null; try { json = JSON.parse(text); } catch {}
-    return { ok: true, status: res.status, text, json };
+    return stamp({ ok: true, status: res.status, text, json });
   } catch (e) {
-    return { ok: false, fault: K.classifyFault(e) };
+    return stamp({ ok: false, fault: K.classifyFault(e) });
   }
+}
+
+/**
+ * THE GATE, in the form that fits this runner.
+ *
+ * interop-matrix's defect was a literal standing in for a measurement. This
+ * file's defect was different and worth naming precisely: BB-06 pushed a
+ * finding with NO branch on live data at all — an unconditional NOT_EVALUATED
+ * that looked, in the output, exactly like a case that had run and come back
+ * inconclusive. A derivation gate alone would not have caught it, because by
+ * then other observations had been made; the finding just wasn't decided from
+ * any of them.
+ *
+ * So the requirement here is attribution, not merely derivation: every finding
+ * must name the live response it was decided from. `emit` refuses a finding
+ * whose observation is missing, or which was never actually fetched this run.
+ * A hand-written finding has nothing to name and cannot be published.
+ */
+function emit(findings, observation, f) {
+  if (!observation || observation.__fetched !== true) {
+    const err = new Error(
+      'FINDING_WITHOUT_OBSERVATION: ' + (f && f.reason) + ' — this finding names no live ' +
+      'response fetched in this run. A finding decided from nothing is an assertion, and in ' +
+      'the output it is indistinguishable from one that ran.');
+    err.code = 'FINDING_WITHOUT_OBSERVATION';
+    throw err;
+  }
+  const src = `decided from ${observation.__label} (${observation.ok
+    ? 'HTTP ' + observation.status + ', ' + observation.__bytes + ' bytes'
+    : 'transport fault: ' + (observation.fault && observation.fault.kind)})`;
+  findings.push({ ...f, verdict: K.derived(f.verdict, src), decided_from: observation.__label });
 }
 
 async function run() {
@@ -80,17 +119,17 @@ async function run() {
   const ledger = await http('GET', `${BASE}/ledger/1`);
   if (ledger.ok && ledger.status === 200 && ledger.json &&
       ledger.json.event_id && ledger.json.signature && ledger.json.pubkey_hex) {
-    findings.push({ verdict: AGREE, reason: 'LEDGER_PUBLIC_SIGNED',
+    emit(findings, ledger, { verdict: AGREE, reason: 'LEDGER_PUBLIC_SIGNED',
       claim: `GET /ledger/1 serves a signed entry, no key, no account`,
       detail: `HTTP 200; event_id ${ledger.json.event_id.slice(0, 16)}…; ` +
         `schnorr sig present; pubkey ${ledger.json.pubkey_hex.slice(0, 16)}…` });
   } else if (ledger.ok) {
-    findings.push({ verdict: INDETERMINATE, reason: 'LEDGER_SHAPE_UNEXPECTED',
+    emit(findings, ledger, { verdict: INDETERMINATE, reason: 'LEDGER_SHAPE_UNEXPECTED',
       claim: 'GET /ledger/1 serves a signed entry',
       detail: `HTTP ${ledger.status}; expected event_id+signature+pubkey_hex, got keys ` +
         `[${ledger.json ? Object.keys(ledger.json).join(',') : 'non-JSON'}]` });
   } else {
-    findings.push({ verdict: INDETERMINATE, reason: 'SOURCE_UNREACHABLE',
+    emit(findings, ledger, { verdict: INDETERMINATE, reason: 'SOURCE_UNREACHABLE',
       claim: 'GET /ledger/1 serves a signed entry', detail: ledger.fault.detail });
   }
 
@@ -99,12 +138,12 @@ async function run() {
   const rj = recipe.json || {};
   const recipeText = rj.how_to_verify || rj.error || '';
   if (recipe.ok && /recompute|sha256|schnorr|8785|nip-01/i.test(recipeText)) {
-    findings.push({ verdict: AGREE, reason: 'RECIPE_SERVED',
+    emit(findings, recipe, { verdict: AGREE, reason: 'RECIPE_SERVED',
       claim: 'POST /verify-proof (no body) returns a self-recompute recipe',
       detail: `HTTP ${recipe.status}; names NIP-01 id recompute + schnorr verify + RFC 8785 JCS; ` +
         `published_pubkey pinned in-band` });
   } else {
-    findings.push({ verdict: INDETERMINATE, reason: 'RECIPE_ABSENT',
+    emit(findings, recipe, { verdict: INDETERMINATE, reason: 'RECIPE_ABSENT',
       claim: 'POST /verify-proof (no body) returns a self-recompute recipe',
       detail: recipe.ok ? `HTTP ${recipe.status}, no recompute recipe in body` : recipe.fault.detail });
   }
@@ -116,16 +155,16 @@ async function run() {
   const miss = await http('POST', `${BASE}/verify-proof`, { event_id: knownId });
   const missMsg = (miss.json && (miss.json.detail || miss.json.error)) || miss.text || '';
   if (miss.ok && miss.status === 404 && /no durably-stored|predates|fallback|no .*event/i.test(missMsg)) {
-    findings.push({ verdict: AGREE, reason: 'HONEST_NOT_EVALUATED',
+    emit(findings, miss, { verdict: AGREE, reason: 'HONEST_NOT_EVALUATED',
       claim: 'wg-identity#21: a proof it cannot resolve returns a DISTINCT not-evaluated signal, not a pass',
       detail: `POST /verify-proof {event_id:${knownId.slice(0, 12)}…} → HTTP 404 naming the reason ` +
         `("no durably-stored event … predates this fix … HMAC fallback"); it does not return valid:true` });
   } else if (miss.ok && (miss.json && miss.json.valid === true)) {
-    findings.push({ verdict: DISAGREE, reason: 'ABSENCE_READ_AS_PASS',
+    emit(findings, miss, { verdict: DISAGREE, reason: 'ABSENCE_READ_AS_PASS',
       claim: 'a proof it cannot resolve returns a distinct not-evaluated signal, not a pass',
       detail: `POST returned valid:true for an id with no durable event — the exact collapse the clause prohibits` });
   } else {
-    findings.push({ verdict: INDETERMINATE, reason: 'UNEXPECTED_MISS_SHAPE',
+    emit(findings, miss, { verdict: INDETERMINATE, reason: 'UNEXPECTED_MISS_SHAPE',
       claim: 'a proof it cannot resolve returns a distinct not-evaluated signal, not a pass',
       detail: miss.ok ? `HTTP ${miss.status}: ${missMsg.slice(0, 160)}` : miss.fault.detail });
   }
@@ -134,15 +173,18 @@ async function run() {
   const malformed = ledger.json ? await http('POST', `${BASE}/verify-proof`, { event: ledger.json }) : null;
   if (malformed && malformed.ok && malformed.json && malformed.json.valid === false) {
     const tier = (malformed.json.recompute_depth && malformed.json.recompute_depth.tier) || 'n/a';
-    findings.push({ verdict: AGREE, reason: 'HONEST_UNVERIFIABLE',
+    emit(findings, malformed, { verdict: AGREE, reason: 'HONEST_UNVERIFIABLE',
       claim: 'a mis-shaped event yields valid:false, never a silent pass',
       detail: `POST /verify-proof {event:<ledger wrapper>} → valid:false, recompute_depth.tier="${tier}"` });
   } else if (malformed && malformed.ok && malformed.json && malformed.json.valid === true) {
-    findings.push({ verdict: DISAGREE, reason: 'MALFORMED_READ_AS_VALID',
+    emit(findings, malformed, { verdict: DISAGREE, reason: 'MALFORMED_READ_AS_VALID',
       claim: 'a mis-shaped event yields valid:false, never a silent pass',
       detail: 'POST returned valid:true for a wrapper that is not a NIP-01 event' });
   } else {
-    findings.push({ verdict: NOT_EVALUATED, reason: 'NO_LEDGER_SAMPLE',
+    // `malformed` is null exactly when this branch fires — no ledger wrapper
+    // existed to submit, so no request was made. The observation is the ledger
+    // read that failed to yield one.
+    emit(findings, malformed || ledger, { verdict: NOT_EVALUATED, reason: 'NO_LEDGER_SAMPLE',
       claim: 'a mis-shaped event yields valid:false, never a silent pass',
       detail: 'could not obtain a ledger wrapper to submit' });
   }
@@ -154,7 +196,7 @@ async function run() {
   if (ledger.json && ledger.json.record && ledger.json.record_sha256) {
     const naive = K.sha256(K.canonical(ledger.json.record));
     const matched = naive === ledger.json.record_sha256;
-    findings.push({
+    emit(findings, ledger, {
       verdict: matched ? AGREE : INDETERMINATE,
       reason: matched ? 'RECORD_HASH_RECOMPUTED' : 'PREIMAGE_UNKNOWN',
       claim: 'record_sha256 independently recomputes from the published record',
@@ -171,20 +213,35 @@ async function run() {
   routes.push(`${BASE}/verify-proof {event_id:${PROOF_ID.slice(0, 12)}…}`);
   const pj = proof.json || {};
   if (!proof.ok) {
-    findings.push({ verdict: proof.fault.instrument ? NOT_EVALUATED : INDETERMINATE,
+    emit(findings, proof, { verdict: proof.fault.instrument ? NOT_EVALUATED : INDETERMINATE,
       reason: proof.fault.instrument ? 'ADAPTER_FAILED' : 'SOURCE_UNREACHABLE',
       claim: 'preimage_fields_authorized:true on a proof postdating commit 78e6a921',
       detail: proof.fault.detail });
   } else if (proof.status === 200 && pj.valid === true && pj.preimage_fields_authorized === true) {
-    findings.push({ verdict: AGREE, reason: 'AUTHORIZED_PREIMAGE_SET',
+    emit(findings, proof, { verdict: AGREE, reason: 'AUTHORIZED_PREIMAGE_SET',
       claim: 'preimage_fields_authorized:true on a proof postdating commit 78e6a921',
       detail: `POST /verify-proof {event_id:${PROOF_ID.slice(0, 12)}…} → HTTP 200, valid:true, ` +
         `preimage_fields_authorized:true (top-level), checks.decision_ref_recomputes:` +
         `${(pj.checks || {}).decision_ref_recomputes}, policy_version ` +
         `"${(pj.proof_payload || {}).policy_version}". FORMAT vector: it shows the verifier accepts ` +
         `the authorized set for the version named, not that anything reviewed is correct.` });
+  } else if (proof.status === 404 && /no durably-stored/i.test(proof.text || '')) {
+    // Observed 2026-09-20: this exact id answered HTTP 200 / valid:true at
+    // 14:08Z and 404 "no durably-stored event" at 14:33Z. The verifier is not
+    // wrong and nothing here contradicts it — the VECTOR stopped resolving.
+    // A named reference vector a stranger cannot replay is not a reference
+    // vector, so this is recorded as a durability fact about the fixture, never
+    // as a finding about their verifier. Distinct from UNEXPECTED_PROOF_SHAPE
+    // for the same reason absence is distinct from failure everywhere else here.
+    emit(findings, proof, { verdict: NOT_EVALUATED, reason: 'VECTOR_NO_LONGER_RESOLVES',
+      claim: 'preimage_fields_authorized:true on a proof postdating commit 78e6a921',
+      detail: `POST /verify-proof {event_id:${PROOF_ID.slice(0, 12)}…} → HTTP 404 ` +
+        `"no durably-stored event". The same id returned HTTP 200 with valid:true and ` +
+        `preimage_fields_authorized:true earlier in this session. The check did not fail; ` +
+        `it could not be performed, because the fixture is no longer retrievable. ` +
+        `Says nothing about their verifier — it is a durability property of the vector.` });
   } else {
-    findings.push({ verdict: INDETERMINATE, reason: 'UNEXPECTED_PROOF_SHAPE',
+    emit(findings, proof, { verdict: INDETERMINATE, reason: 'UNEXPECTED_PROOF_SHAPE',
       claim: 'preimage_fields_authorized:true on a proof postdating commit 78e6a921',
       detail: `HTTP ${proof.status}; valid=${pj.valid}, preimage_fields_authorized=` +
         `${pj.preimage_fields_authorized}` });
@@ -205,7 +262,7 @@ async function run() {
     for (const k of declared) obj[k] = (k in payload) ? payload[k] : null;
     const absent = declared.filter((k) => !(k in payload));
     const ours = 'sha256:' + K.sha256(K.canonical(obj));
-    findings.push({
+    emit(findings, proof, {
       verdict: ours === pj.decision_ref ? AGREE : INDETERMINATE,
       reason: ours === pj.decision_ref ? 'DECISION_REF_RECOMPUTED' : 'CANONICALISATION_DISAGREES',
       claim: 'decision_ref recomputes independently from the published payload and declared field list',
@@ -218,7 +275,7 @@ async function run() {
           `implementations we cannot say whose is wrong.`,
     });
   } else {
-    findings.push({ verdict: NOT_EVALUATED, reason: 'NO_PREIMAGE_MATERIAL',
+    emit(findings, proof, { verdict: NOT_EVALUATED, reason: 'NO_PREIMAGE_MATERIAL',
       claim: 'decision_ref recomputes independently from the published payload and declared field list',
       detail: 'the response carried no proof_payload.decision_ref_preimage_fields to rebuild from' });
   }
@@ -268,21 +325,21 @@ async function run() {
     const full = Object.keys((pj.checks || {})).length;
 
     if (!t.ok) {
-      findings.push({ verdict: t.fault.instrument ? NOT_EVALUATED : INDETERMINATE,
+      emit(findings, t, { verdict: t.fault.instrument ? NOT_EVALUATED : INDETERMINATE,
         reason: t.fault.instrument ? 'ADAPTER_FAILED' : 'SOURCE_UNREACHABLE',
         claim: CLAIM_08, detail: t.fault.detail });
     } else if (tj.valid !== false) {
-      findings.push({ verdict: DISAGREE, reason: 'TAMPER_READ_AS_VALID',
+      emit(findings, t, { verdict: DISAGREE, reason: 'TAMPER_READ_AS_VALID',
         claim: CLAIM_08,
         detail: `valid=${JSON.stringify(tj.valid)} for an event whose signed content was altered` });
     } else if (collapsed.length) {
-      findings.push({ verdict: DISAGREE, reason: 'UNRUN_CHECKS_REPORT_FALSE',
+      emit(findings, t, { verdict: DISAGREE, reason: 'UNRUN_CHECKS_REPORT_FALSE',
         claim: CLAIM_08,
         detail: `valid:false correctly, but ${shape} — a check that never ran is reported as one ` +
           `that ran and failed` });
     } else if (separated.length === downstream.length) {
       const mech = [...new Set(separated.map((d) => d.encoding))].join('+');
-      findings.push({ verdict: AGREE, reason: 'UNRUN_CHECKS_' + mech,
+      emit(findings, t, { verdict: AGREE, reason: 'UNRUN_CHECKS_' + mech,
         claim: CLAIM_08,
         detail: `one byte of event.content flipped → valid:false, id_integrity:${tc.id_integrity}, ` +
           `signature_valid:${tc.signature_valid}. The checks that could no longer run are encoded ` +
@@ -295,12 +352,15 @@ async function run() {
               'line was written.'
             : 'An explicit null cannot be read as a failure by a falsy default.') });
     } else {
-      findings.push({ verdict: INDETERMINATE, reason: 'MIXED_DOWNSTREAM_ENCODING',
+      emit(findings, t, { verdict: INDETERMINATE, reason: 'MIXED_DOWNSTREAM_ENCODING',
         claim: CLAIM_08,
         detail: `valid:false, but the downstream checks are encoded inconsistently: ${shape}` });
     }
   } else {
-    findings.push({ verdict: NOT_EVALUATED, reason: 'NO_EVENT_TO_TAMPER',
+    // `t` is scoped to the branch above and does not exist here — there was no
+    // event to tamper, so no tamper request was ever sent. The observation this
+    // finding is decided from is the proof response that lacked the event.
+    emit(findings, proof, { verdict: NOT_EVALUATED, reason: 'NO_EVENT_TO_TAMPER',
       claim: CLAIM_08,
       detail: 'the response carried no event.content to alter' });
   }
@@ -309,6 +369,12 @@ async function run() {
 }
 
 function signedVerdict(r, observed_at) {
+  // THE GATE, at the only place it is cheap: before publication, before the
+  // counts are taken, before anything is signed. Every finding's verdict must
+  // arrive marked by emit(); an unmarked one fails the run instead of being
+  // counted, printed and signed. Sealing unwraps in place, so everything below
+  // sees plain values and the published shape is unchanged.
+  const provenance = K.sealDerived({ findings: r.findings }, ['findings[].verdict']);
   const c = (v) => r.findings.filter((f) => f.verdict === v).length;
   const payload = {
     tool: 'live-babyblueviper/0.1',
@@ -319,6 +385,13 @@ function signedVerdict(r, observed_at) {
     findings: r.findings,
     counts: { AGREE: c(AGREE), DISAGREE: c(DISAGREE), INDETERMINATE: c(INDETERMINATE), NOT_EVALUATED: c(NOT_EVALUATED) },
     not_established: c(INDETERMINATE) + c(NOT_EVALUATED),
+    derivation_gate: {
+      enforced_paths: ['findings[].verdict'],
+      rule: 'every finding must name the live response it was decided from, or the run fails before publication',
+      proves: 'the verdict was selected from a response actually fetched in this run',
+      does_not_prove: 'that the selection logic is correct',
+      provenance,
+    },
   };
   const digest = K.sha256(K.canonical(payload));
   return { payload, digest, signature: K.sign(digest), algorithm: 'ed25519' };
@@ -326,8 +399,16 @@ function signedVerdict(r, observed_at) {
 
 (async () => {
   const observed_at = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'); // clock enters at the edge only
-  const r = await run();
-  const v = signedVerdict(r, observed_at);
+  let r, v;
+  try {
+    r = await run();
+    v = signedVerdict(r, observed_at);
+  } catch (err) {
+    if (err.code !== 'FINDING_WITHOUT_OBSERVATION' && err.code !== 'DERIVATION_GATE') throw err;
+    console.error('\n  REFUSED TO PUBLISH\n');
+    console.error('  ' + err.message.split('\n').join('\n  ') + '\n');
+    process.exit(2);
+  }
   const outFile = process.argv[2] || path.join(__dirname, 'verdicts', 'babyblueviper-verify-proof-2026-09-20.json');
   fs.writeFileSync(outFile, JSON.stringify(v, null, 2) + '\n');
   console.log(`\n  live reference vector — ${v.payload.target}`);

@@ -1,0 +1,138 @@
+{
+  "payload": {
+    "tool": "cohort-scoreboard/0.1",
+    "kernel": "assurance-run/0.1",
+    "scope": "x402-foundation/tsc#4 evidence-record cohort",
+    "question": "public executable verification surface, no key no account (the bar the thread set)",
+    "observed_at": "2026-09-20T02:51:49Z",
+    "rows": [
+      {
+        "who": "babyblueviper1",
+        "surface": "https://api.babyblueviper.com",
+        "executable": true,
+        "status": "SEE_DEDICATED_VERDICT",
+        "verdict_file": "verdicts/babyblueviper-verify-proof-2026-09-20.json",
+        "note": "has its own dedicated verdict",
+        "cited": "tsc#4 / wg-identity#21"
+      },
+      {
+        "who": "TKCollective (AgentOracle)",
+        "surface": "https://agentoracle.co",
+        "executable": true,
+        "counts": {
+          "AGREE": 8,
+          "DISAGREE": 0,
+          "INDETERMINATE": 0,
+          "NOT_EVALUATED": 0
+        },
+        "not_established": 0,
+        "verdict_file": "verdicts/cohort-agentoracle.co-2026-09-20.json",
+        "cited": "wg-identity#21 (verification-state authors)"
+      },
+      {
+        "who": "Vauban Pay",
+        "surface": "https://pay.vauban.tech",
+        "executable": true,
+        "counts": {
+          "AGREE": 0,
+          "DISAGREE": 0,
+          "INDETERMINATE": 0,
+          "NOT_EVALUATED": 1
+        },
+        "not_established": 1,
+        "verdict_file": "verdicts/cohort-pay.vauban.tech-2026-09-20.json",
+        "cited": "x402#2887 (stark-receipts)"
+      },
+      {
+        "who": "Magentix / AXES",
+        "surface": "https://magentix.ai",
+        "executable": true,
+        "counts": {
+          "AGREE": 0,
+          "DISAGREE": 0,
+          "INDETERMINATE": 0,
+          "NOT_EVALUATED": 1
+        },
+        "not_established": 1,
+        "verdict_file": "verdicts/cohort-magentix.ai-2026-09-20.json",
+        "cited": "tsc#4 issue author (AXES Golden Trace)"
+      },
+      {
+        "who": "People's Court",
+        "surface": "https://peoplescourt.ai",
+        "executable": false,
+        "status": "NOT_EVALUATED",
+        "reason": "NO_PUBLIC_EXECUTABLE_SURFACE",
+        "detail": "no x402/verifier endpoint a stranger can run with no key",
+        "cited": "tsc#4 (downstream adjudication)"
+      },
+      {
+        "who": "Shodai",
+        "surface": "https://shodai.network",
+        "executable": false,
+        "status": "NOT_EVALUATED",
+        "reason": "NO_PUBLIC_EXECUTABLE_SURFACE",
+        "detail": "no x402/verifier endpoint a stranger can run with no key",
+        "cited": "tsc#4 (supportive)"
+      },
+      {
+        "who": "Tersign",
+        "surface": "https://tersign.ai",
+        "executable": false,
+        "status": "NOT_EVALUATED",
+        "reason": "NO_PUBLIC_EXECUTABLE_SURFACE",
+        "detail": "GitHub conformance suite, not a live endpoint",
+        "cited": "tsc#4 (tersignhq/evidence-record-conformance)"
+      },
+      {
+        "who": "giskard09 / argentum",
+        "surface": "github.com/giskard09/action-ref-conformance",
+        "executable": false,
+        "status": "NOT_EVALUATED",
+        "reason": "NO_PUBLIC_EXECUTABLE_SURFACE",
+        "detail": "on-chain anchors (Base/Arbitrum/Ink) + conformance repo — different modality",
+        "cited": "tsc#4"
+      },
+      {
+        "who": "meloliva14",
+        "surface": "github.com/meloliva14/x402-measure",
+        "executable": false,
+        "status": "NOT_EVALUATED",
+        "reason": "NO_PUBLIC_EXECUTABLE_SURFACE",
+        "detail": "signed census snapshots in a repo, not a live verifier",
+        "cited": "tsc#4"
+      },
+      {
+        "who": "Corrente Labs (whawk46)",
+        "surface": "x402ev/1 + receipt-invariant/1",
+        "executable": false,
+        "status": "NOT_EVALUATED",
+        "reason": "NO_PUBLIC_EXECUTABLE_SURFACE",
+        "detail": "proposed schema + invariant battery, no public endpoint given",
+        "cited": "tsc#4"
+      },
+      {
+        "who": "StillOS (us)",
+        "surface": "https://stillosdigitalholdings.com",
+        "executable": true,
+        "counts": {
+          "AGREE": 6,
+          "DISAGREE": 2,
+          "INDETERMINATE": 0,
+          "NOT_EVALUATED": 0
+        },
+        "not_established": 0,
+        "verdict_file": "verdicts/cohort-stillosdigitalholdings.com-2026-09-20.json",
+        "cited": "tsc#4 (assurance-run)"
+      }
+    ],
+    "summary": {
+      "total": 11,
+      "executable": 5,
+      "not_executable": 6
+    }
+  },
+  "digest": "6800c5873be3f435b77b906363e3585644176006c62b7d293fd83250d270a475",
+  "signature": "1uC9HK2/kO01m49w5vBRs8P+rRTer1Q/xewgBQmWAMI5CL0eMF1sQ3rPA/jIY0tNJbBgZmCGAIaG44npxVvTDg==",
+  "algorithm": "ed25519"
+}

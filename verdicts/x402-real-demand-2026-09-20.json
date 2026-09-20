@@ -1,0 +1,257 @@
+{
+  "payload": {
+    "tool": "x402-real-demand/0.1",
+    "kernel": "assurance-run/0.1",
+    "observed_at": "2026-09-20T04:02:15Z",
+    "corpus": "settlement-corpus-DIRECTORY-merged.jsonl",
+    "doors": 729,
+    "states": {
+      "PAID": 120,
+      "UNKNOWN": 603,
+      "ZERO_OBSERVED": 6
+    },
+    "paid_breakdown": {
+      "both_impls_agree_strong": 77,
+      "real_demand_2plus_distinct_payers": 74,
+      "self_funding_suspect_1_payer": 9,
+      "paid_on_nonbase_rail_payer_detail_excluded": 0
+    },
+    "total_usdc_inbound_base_rail": 7258.2737,
+    "claim_vs_chain_gap": {
+      "directory_payment_ready_but_not_chain_paid": 554,
+      "sample": [
+        "sagg-gateway",
+        "proofdesk-website-qa-audit-kit",
+        "d-007-document-classify-and-rename-plan",
+        "hlrisk",
+        "kronos-quant-signal-api",
+        "agentpay",
+        "profit-goblin-security-header-audit",
+        "crypto-etf-sentinel",
+        "council-of-ai",
+        "agent-utility-network",
+        "sniperx-x402",
+        "delvorn",
+        "agenttax",
+        "wake402",
+        "tariffmonkee",
+        "clink-forge",
+        "nesebar-travel-corpus",
+        "cleared-index-paid-probe",
+        "adfreellm-research-apis-on-sui",
+        "tos-reflex-meditation-as-a-service"
+      ]
+    },
+    "real_demand_doors": [
+      {
+        "slug": "anchor-x402",
+        "payers": 148,
+        "usdc": 303.6112
+      },
+      {
+        "slug": "stratalize",
+        "payers": 126,
+        "usdc": 198.44
+      },
+      {
+        "slug": "hermes-plant",
+        "payers": 117,
+        "usdc": 256.0548
+      },
+      {
+        "slug": "ipintel-ai-x402-tools",
+        "payers": 114,
+        "usdc": 11.335
+      },
+      {
+        "slug": "webbersites-x402-data-api",
+        "payers": 96,
+        "usdc": 5.449
+      },
+      {
+        "slug": "kr-crypto-intelligence",
+        "payers": 91,
+        "usdc": 1.759
+      },
+      {
+        "slug": "coinopai-kronos-market-intelligence",
+        "payers": 90,
+        "usdc": 28.3891
+      },
+      {
+        "slug": "tensorfeed",
+        "payers": 85,
+        "usdc": 13.08
+      },
+      {
+        "slug": "asterpay",
+        "payers": 81,
+        "usdc": 83.2465
+      },
+      {
+        "slug": "payperbyte",
+        "payers": 70,
+        "usdc": 9.0955
+      },
+      {
+        "slug": "delx-agent-commerce",
+        "payers": 70,
+        "usdc": 3.46
+      },
+      {
+        "slug": "loyal-spark",
+        "payers": 68,
+        "usdc": 4.0633
+      },
+      {
+        "slug": "2s-io",
+        "payers": 68,
+        "usdc": 10.8954
+      },
+      {
+        "slug": "agentstools",
+        "payers": 66,
+        "usdc": 4.711
+      },
+      {
+        "slug": "japan-weather-forecast-warnings-api",
+        "payers": 62,
+        "usdc": 15.322
+      },
+      {
+        "slug": "japan-transit-api",
+        "payers": 62,
+        "usdc": 15.322
+      },
+      {
+        "slug": "japan-address-api",
+        "payers": 62,
+        "usdc": 15.322
+      },
+      {
+        "slug": "fiatdock-marketplace",
+        "payers": 56,
+        "usdc": 76.5649
+      },
+      {
+        "slug": "forgemesh-travel-agent",
+        "payers": 51,
+        "usdc": 11.254
+      },
+      {
+        "slug": "uk-hmo-licence-api",
+        "payers": 51,
+        "usdc": 1.02
+      },
+      {
+        "slug": "payapi-market-uk-property-data-api",
+        "payers": 51,
+        "usdc": 1.02
+      },
+      {
+        "slug": "fabler-labs-x402-storefront",
+        "payers": 47,
+        "usdc": 40.6057
+      },
+      {
+        "slug": "deskcrew",
+        "payers": 45,
+        "usdc": 28.695
+      },
+      {
+        "slug": "kronos-crypto-data-forecasts",
+        "payers": 43,
+        "usdc": 18.8
+      },
+      {
+        "slug": "zaref",
+        "payers": 38,
+        "usdc": 5.89
+      },
+      {
+        "slug": "nsgoods-payable-preflight",
+        "payers": 32,
+        "usdc": 9.72
+      },
+      {
+        "slug": "nsgoods-agent-trust-oracle",
+        "payers": 32,
+        "usdc": 9.72
+      },
+      {
+        "slug": "agent-web-reader-x402",
+        "payers": 26,
+        "usdc": 0.198
+      },
+      {
+        "slug": "glianaai",
+        "payers": 26,
+        "usdc": 104.3082
+      },
+      {
+        "slug": "arch-tools",
+        "payers": 24,
+        "usdc": 9.115
+      },
+      {
+        "slug": "sourcey-startup-review",
+        "payers": 23,
+        "usdc": 2144.949
+      },
+      {
+        "slug": "forgemesh-voice",
+        "payers": 22,
+        "usdc": 1.337
+      },
+      {
+        "slug": "forgemesh-disruption-intelligence",
+        "payers": 21,
+        "usdc": 12.75
+      },
+      {
+        "slug": "econdash",
+        "payers": 20,
+        "usdc": 10.02
+      },
+      {
+        "slug": "x402-voice-to-text",
+        "payers": 19,
+        "usdc": 3.4
+      },
+      {
+        "slug": "onchain-query-api",
+        "payers": 19,
+        "usdc": 3.4
+      },
+      {
+        "slug": "agent-web-access",
+        "payers": 19,
+        "usdc": 3.4
+      },
+      {
+        "slug": "dwelldata-multifamily-real-estate-deals-feed",
+        "payers": 18,
+        "usdc": 9
+      },
+      {
+        "slug": "scry-wallet-intelligence",
+        "payers": 16,
+        "usdc": 12.7494
+      },
+      {
+        "slug": "fractalai-post-quantum-proofs-for-ai-agents",
+        "payers": 16,
+        "usdc": 996.2073
+      }
+    ],
+    "caveats": [
+      "PAID = inbound to the advertised payTo, not proof of customers.",
+      "Base-rail USDC/payers exact; XRPL/Solana PAID counted by state, per-payer detail excluded from this cut.",
+      "A facilitator settling for many buyers appears as ONE payer — distinct-payer is a floor on real demand, not a ceiling.",
+      "1-payer PAID is self-funding-SUSPECT, not proven self-funding; it is the StillOS trap flagged, not adjudicated."
+    ]
+  },
+  "digest": "ddebae91d5c06bd249a7789c448699eaf79b38adab980bc710047cbb8e7569cd",
+  "signature": "IheXF31cASDYPYVrqav2iGkNngwD15C2amzQAlJiRFkvnca8b7bi+h+hAQDFjuzXz1xy+adeTKpfjtiXLlNPBg==",
+  "algorithm": "ed25519"
+}

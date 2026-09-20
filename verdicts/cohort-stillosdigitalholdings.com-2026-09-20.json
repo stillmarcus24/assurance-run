@@ -1,0 +1,76 @@
+{
+  "payload": {
+    "tool": "live-claim-audit/0.1.2",
+    "kernel": "assurance-run/0.1",
+    "target": "https://stillosdigitalholdings.com",
+    "observed_at": "2026-09-20T02:51:49Z",
+    "routes_examined": [
+      "https://stillosdigitalholdings.com/pricing/v1",
+      "https://stillosdigitalholdings.com/identity/transaction",
+      "https://stillosdigitalholdings.com/notary/catalog",
+      "https://stillosdigitalholdings.com/openapi.json",
+      "https://stillosdigitalholdings.com/notary/dispute",
+      "https://stillosdigitalholdings.com/notary/commit"
+    ],
+    "findings": [
+      {
+        "verdict": "AGREE",
+        "reason": "DISCOVERY_SERVED",
+        "claim": ".well-known/x402 served",
+        "detail": "HTTP 200, 69133B, sha feabc5a9d30514b3"
+      },
+      {
+        "verdict": "AGREE",
+        "reason": "FREE_TIER_SERVES",
+        "claim": "https://stillosdigitalholdings.com/pricing/v1 — unpaid GET",
+        "detail": "HTTP 200 without payment (26417B)"
+      },
+      {
+        "verdict": "AGREE",
+        "reason": "FREE_TIER_SERVES",
+        "claim": "https://stillosdigitalholdings.com/identity/transaction — unpaid GET",
+        "detail": "HTTP 200 without payment (11256B)"
+      },
+      {
+        "verdict": "AGREE",
+        "reason": "FREE_TIER_SERVES",
+        "claim": "https://stillosdigitalholdings.com/notary/catalog — unpaid GET",
+        "detail": "HTTP 200 without payment (18714B)"
+      },
+      {
+        "verdict": "AGREE",
+        "reason": "FREE_TIER_SERVES",
+        "claim": "https://stillosdigitalholdings.com/openapi.json — unpaid GET",
+        "detail": "HTTP 200 without payment (67776B)"
+      },
+      {
+        "verdict": "DISAGREE",
+        "reason": "STATUS_402_WITHOUT_TERMS",
+        "claim": "https://stillosdigitalholdings.com/notary/dispute — 402 carries payable terms",
+        "detail": "HTTP 402 with no accepts[] and no PAYMENT-REQUIRED header (method_not_allowed). A client that honours 402 cannot pay; if the real condition is not payment, this is a different status code."
+      },
+      {
+        "verdict": "DISAGREE",
+        "reason": "STATUS_402_WITHOUT_TERMS",
+        "claim": "https://stillosdigitalholdings.com/notary/commit — 402 carries payable terms",
+        "detail": "HTTP 402 with no accepts[] and no PAYMENT-REQUIRED header (method_not_allowed). A client that honours 402 cannot pay; if the real condition is not payment, this is a different status code."
+      },
+      {
+        "verdict": "AGREE",
+        "reason": "OPENAPI_SERVED",
+        "claim": "openapi.json served",
+        "detail": "32 paths declared"
+      }
+    ],
+    "counts": {
+      "AGREE": 6,
+      "DISAGREE": 2,
+      "INDETERMINATE": 0,
+      "NOT_EVALUATED": 0
+    },
+    "not_established": 0
+  },
+  "digest": "37f7dd3dbc94f83255cb2ac1d2417abd710a2834597f6d190e2fb1ac85a0fa78",
+  "signature": "XbMmdvOXOfQTepXV3sMre9jK2TgDgsEqHENwpIuZ8KzFN1XjyYhEUlhkFIXofoRPW1rErME05WvO6lvppIffAQ==",
+  "algorithm": "ed25519"
+}

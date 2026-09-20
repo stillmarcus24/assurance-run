@@ -3,7 +3,7 @@
     "tool": "live-babyblueviper/0.1",
     "kernel": "assurance-run/0.1",
     "target": "https://api.babyblueviper.com",
-    "observed_at": "2026-09-20T14:28:50Z",
+    "observed_at": "2026-09-20T14:41:43Z",
     "routes_examined": [
       "https://api.babyblueviper.com/ledger/1",
       "https://api.babyblueviper.com/verify-proof",
@@ -14,60 +14,86 @@
         "verdict": "AGREE",
         "reason": "LEDGER_PUBLIC_SIGNED",
         "claim": "GET /ledger/1 serves a signed entry, no key, no account",
-        "detail": "HTTP 200; event_id eb22294404b20215…; schnorr sig present; pubkey 6786e18a864893a9…"
+        "detail": "HTTP 200; event_id eb22294404b20215…; schnorr sig present; pubkey 6786e18a864893a9…",
+        "decided_from": "GET /ledger/1"
       },
       {
         "verdict": "AGREE",
         "reason": "RECIPE_SERVED",
         "claim": "POST /verify-proof (no body) returns a self-recompute recipe",
-        "detail": "HTTP 200; names NIP-01 id recompute + schnorr verify + RFC 8785 JCS; published_pubkey pinned in-band"
+        "detail": "HTTP 200; names NIP-01 id recompute + schnorr verify + RFC 8785 JCS; published_pubkey pinned in-band",
+        "decided_from": "POST /verify-proof"
       },
       {
         "verdict": "AGREE",
         "reason": "HONEST_NOT_EVALUATED",
         "claim": "wg-identity#21: a proof it cannot resolve returns a DISTINCT not-evaluated signal, not a pass",
-        "detail": "POST /verify-proof {event_id:eb22294404b2…} → HTTP 404 naming the reason (\"no durably-stored event … predates this fix … HMAC fallback\"); it does not return valid:true"
+        "detail": "POST /verify-proof {event_id:eb22294404b2…} → HTTP 404 naming the reason (\"no durably-stored event … predates this fix … HMAC fallback\"); it does not return valid:true",
+        "decided_from": "POST /verify-proof"
       },
       {
         "verdict": "AGREE",
         "reason": "HONEST_UNVERIFIABLE",
         "claim": "a mis-shaped event yields valid:false, never a silent pass",
-        "detail": "POST /verify-proof {event:<ledger wrapper>} → valid:false, recompute_depth.tier=\"unverifiable\""
+        "detail": "POST /verify-proof {event:<ledger wrapper>} → valid:false, recompute_depth.tier=\"unverifiable\"",
+        "decided_from": "POST /verify-proof"
       },
       {
         "verdict": "INDETERMINATE",
         "reason": "PREIMAGE_UNKNOWN",
         "claim": "record_sha256 independently recomputes from the published record",
-        "detail": "naive canonicalisation ≠ published record_sha256; exact preimage not published, so we did NOT establish this. Not a defect claim about their hash — a gap in our reconstruction. Resolvable with the operator's preimage dict."
+        "detail": "naive canonicalisation ≠ published record_sha256; exact preimage not published, so we did NOT establish this. Not a defect claim about their hash — a gap in our reconstruction. Resolvable with the operator's preimage dict.",
+        "decided_from": "GET /ledger/1"
       },
       {
-        "verdict": "AGREE",
-        "reason": "AUTHORIZED_PREIMAGE_SET",
+        "verdict": "NOT_EVALUATED",
+        "reason": "VECTOR_NO_LONGER_RESOLVES",
         "claim": "preimage_fields_authorized:true on a proof postdating commit 78e6a921",
-        "detail": "POST /verify-proof {event_id:7aa10c9783ef…} → HTTP 200, valid:true, preimage_fields_authorized:true (top-level), checks.decision_ref_recomputes:true, policy_version \"invinoveritas.review.v19\". FORMAT vector: it shows the verifier accepts the authorized set for the version named, not that anything reviewed is correct."
+        "detail": "POST /verify-proof {event_id:7aa10c9783ef…} → HTTP 404 \"no durably-stored event\". The same id returned HTTP 200 with valid:true and preimage_fields_authorized:true earlier in this session. The check did not fail; it could not be performed, because the fixture is no longer retrievable. Says nothing about their verifier — it is a durability property of the vector.",
+        "decided_from": "POST /verify-proof"
       },
       {
-        "verdict": "AGREE",
-        "reason": "DECISION_REF_RECOMPUTED",
+        "verdict": "NOT_EVALUATED",
+        "reason": "NO_PREIMAGE_MATERIAL",
         "claim": "decision_ref recomputes independently from the published payload and declared field list",
-        "detail": "23 declared fields (9 absent → null), canonicalised and hashed here: sha256:60c64a0228221824… == the proof's own decision_ref. Independent: their decision_ref_recomputes flag was not used as the evidence."
+        "detail": "the response carried no proof_payload.decision_ref_preimage_fields to rebuild from",
+        "decided_from": "POST /verify-proof"
       },
       {
-        "verdict": "AGREE",
-        "reason": "UNRUN_CHECKS_ABSENT",
+        "verdict": "NOT_EVALUATED",
+        "reason": "NO_EVENT_TO_TAMPER",
         "claim": "a tampered proof is refused, and the checks that could no longer run are not reported as failed",
-        "detail": "one byte of event.content flipped → valid:false, id_integrity:false, signature_valid:false. The checks that could no longer run are encoded ABSENT, never false: checks.decision_ref_recomputes=ABSENT, preimage_fields_authorized=ABSENT. The response carries 4 check keys against 16 on the valid proof — the short-circuit is visible in the shape. CONSUMER HAZARD, ours not theirs: omission is only honest if the reader distinguishes an absent key from a false one. Any reader using a falsy default (.get(k), obj[k] ?? false) converts not-evaluated into failed on arrival. This runner made that error before this line was written."
+        "detail": "the response carried no event.content to alter",
+        "decided_from": "POST /verify-proof"
       }
     ],
     "counts": {
-      "AGREE": 7,
+      "AGREE": 4,
       "DISAGREE": 0,
       "INDETERMINATE": 1,
-      "NOT_EVALUATED": 0
+      "NOT_EVALUATED": 3
     },
-    "not_established": 1
+    "not_established": 4,
+    "derivation_gate": {
+      "enforced_paths": [
+        "findings[].verdict"
+      ],
+      "rule": "every finding must name the live response it was decided from, or the run fails before publication",
+      "proves": "the verdict was selected from a response actually fetched in this run",
+      "does_not_prove": "that the selection logic is correct",
+      "provenance": {
+        "findings.0.verdict": "decided from GET /ledger/1 (HTTP 200, 8230 bytes)",
+        "findings.1.verdict": "decided from POST /verify-proof (HTTP 200, 391 bytes)",
+        "findings.2.verdict": "decided from POST /verify-proof (HTTP 404, 137 bytes)",
+        "findings.3.verdict": "decided from POST /verify-proof (HTTP 200, 8988 bytes)",
+        "findings.4.verdict": "decided from GET /ledger/1 (HTTP 200, 8230 bytes)",
+        "findings.5.verdict": "decided from POST /verify-proof (HTTP 404, 137 bytes)",
+        "findings.6.verdict": "decided from POST /verify-proof (HTTP 404, 137 bytes)",
+        "findings.7.verdict": "decided from POST /verify-proof (HTTP 404, 137 bytes)"
+      }
+    }
   },
-  "digest": "1b78dbe7a705ba87004540e937688224902ac95764ec15be2ed029de40314422",
-  "signature": "eRcAY3vpbqUPuLpNijRc1fRfLeeP739S0IBW7t6b/kz96Joigwn7b0M1+6NBwtUsCEJpHSasWBLxF6/srPFUDg==",
+  "digest": "0c48dc4dbf64325b1557a462fd1a739601e02f205b72014bb9055edc85f0ae0d",
+  "signature": "CyIjQr4AR8HZV5KJ2m5HV/buTPhch8hEUZ2TcjhK05XCfXDqCcX9pH54L7QMgE+AzBwPjidCoptc0GH2C5yQBQ==",
   "algorithm": "ed25519"
 }

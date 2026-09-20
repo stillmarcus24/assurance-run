@@ -1,7 +1,7 @@
 {
   "corpus": "assurance-run/interop-matrix",
   "question": "which implementations can express the four verification states distinctly, and where do they collapse",
-  "observed_at": "2026-09-20T14:28:50.393Z",
+  "observed_at": "2026-09-20T14:41:43.340Z",
   "classification_rule": {
     "buckets": {
       "SETTLED": "the check ran and reached an answer",
@@ -49,12 +49,12 @@
       "rows.0.distinguishes_absence": "classifyVocabulary() over 4 declared values read from kernel.cjs exports (AGREE/DISAGREE/INDETERMINATE/NOT_EVALUATED)",
       "rows.1.distinguishes_absence": "classifyVocabulary() over 3 declared values read from crates/elara-verify/src/lib.rs — pub enum Verdict + variant doc comments",
       "rows.2.distinguishes_absence": "classifyVocabulary() over 10 declared values read from snapshots/2026-09-19/observation.json — manifest.verdict_vocabulary (signature verified here)",
-      "rows.3.distinguishes_absence": "live tamper (BB-08) → UNRUN_CHECKS_ABSENT: checks that could no longer run are encoded ABSENT, never false",
+      "rows.3.distinguishes_absence": "tamper case did not execute in this run",
       "rows.4.distinguishes_absence": "not established by this run (no_executable_surface)",
       "rows.0.verdict": "column true via classifyVocabulary() over 4 declared values read from kernel.cjs exports (AGREE/DISAGREE/INDETERMINATE/NOT_EVALUATED)",
       "rows.1.verdict": "column false via classifyVocabulary() over 3 declared values read from crates/elara-verify/src/lib.rs — pub enum Verdict + variant doc comments",
       "rows.2.verdict": "column true via classifyVocabulary() over 10 declared values read from snapshots/2026-09-19/observation.json — manifest.verdict_vocabulary (signature verified here)",
-      "rows.3.verdict": "column true via live tamper (BB-08) → UNRUN_CHECKS_ABSENT: checks that could no longer run are encoded ABSENT, never false",
+      "rows.3.verdict": "column undecidable via tamper case did not execute in this run",
       "rows.4.verdict": "row not established: no_executable_surface"
     }
   },
@@ -67,7 +67,7 @@
       "verdict": "AGREE",
       "established": true,
       "method": "executed",
-      "pin": "5da0cc2",
+      "pin": "f93e4c2",
       "vocabulary": [
         "AGREE",
         "DISAGREE",
@@ -264,21 +264,21 @@
       "operator": "@babyblueviper1",
       "surface": "https://api.babyblueviper.com",
       "kind": "live",
-      "verdict": "AGREE",
+      "verdict": "NOT_EVALUATED",
       "established": true,
       "method": "executed_live",
       "pin": null,
       "vocabulary": null,
       "cardinality": null,
       "vocabulary_source": "no verdict enum — boolean `valid` with sibling check fields",
-      "distinguishes_absence": true,
-      "decided_by": "live tamper (BB-08) → UNRUN_CHECKS_ABSENT: checks that could no longer run are encoded ABSENT, never false",
+      "distinguishes_absence": null,
+      "decided_by": "tamper case did not execute in this run",
       "value_roles": null,
       "world_side": null,
       "instrument_side": null,
       "unclassified_values": null,
       "corroboration": null,
-      "detail": "no verdict enum; a boolean with sibling check fields. live tamper (BB-08) → UNRUN_CHECKS_ABSENT: checks that could no longer run are encoded ABSENT, never false."
+      "detail": "no verdict enum; a boolean with sibling check fields. tamper case did not execute in this run."
     },
     {
       "id": "draft-krausz-verification-state",
@@ -306,13 +306,17 @@
     "subjects": 5,
     "absence_side_distinct": [
       "assurance-run",
-      "x402-measure",
-      "babyblueviper-verify-proof"
+      "x402-measure"
     ],
     "absence_side_collapsed": [
       "elara-verify"
     ],
-    "undecidable_by_this_rule": [],
+    "undecidable_by_this_rule": [
+      {
+        "id": "babyblueviper-verify-proof",
+        "unclassified": null
+      }
+    ],
     "not_established_by_this_run": [
       {
         "id": "draft-krausz-verification-state",

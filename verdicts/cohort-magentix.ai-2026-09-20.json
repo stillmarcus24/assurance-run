@@ -1,0 +1,27 @@
+{
+  "payload": {
+    "tool": "live-claim-audit/0.1.2",
+    "kernel": "assurance-run/0.1",
+    "target": "https://magentix.ai",
+    "observed_at": "2026-09-20T02:51:49Z",
+    "routes_examined": [],
+    "findings": [
+      {
+        "verdict": "NOT_EVALUATED",
+        "reason": "NO_DISCOVERY_DOCUMENT_TO_CHECK",
+        "claim": "declared-vs-actual comparison",
+        "detail": "GET https://magentix.ai/.well-known/x402 -> HTTP 500 (not JSON). No published claims to audit against; this is a gap in what we can check, not a finding about the service."
+      }
+    ],
+    "counts": {
+      "AGREE": 0,
+      "DISAGREE": 0,
+      "INDETERMINATE": 0,
+      "NOT_EVALUATED": 1
+    },
+    "not_established": 1
+  },
+  "digest": "3f65968b51b9991e03761033e1ecc57b6d2b4f5bf49403c99572ede6814800c5",
+  "signature": "yfiCyQ66YaWPUKGBWsOm0JGENLX+fcFq/0EuOfkqE755I4JkNkpnDWb5hryGTx2MEPPo5uRPVLcrIrpmg683BQ==",
+  "algorithm": "ed25519"
+}

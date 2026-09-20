@@ -1,7 +1,42 @@
 {
   "corpus": "assurance-run/interop-matrix",
   "question": "which implementations can express the four verification states distinctly, and where do they collapse",
-  "observed_at": "2026-09-20T04:44:10.899Z",
+  "observed_at": "2026-09-20T14:16:15.853Z",
+  "classification_rule": {
+    "buckets": {
+      "SETTLED": "the check ran and reached an answer",
+      "WORLD": "the check ran; the source did not settle it",
+      "INSTRUMENT": "no valid check ran, or not assessable by this prober"
+    },
+    "column_is_true_when": "the vocabulary carries at least one WORLD value AND at least one INSTRUMENT value",
+    "basis_precedence": [
+      "operator_note",
+      "name_map",
+      "unclassified"
+    ],
+    "name_map": {
+      "AGREE": "SETTLED",
+      "DISAGREE": "SETTLED",
+      "VERIFIED": "SETTLED",
+      "FAILED": "SETTLED",
+      "OK": "SETTLED",
+      "WARN": "SETTLED",
+      "BLOCKED": "SETTLED",
+      "V1": "SETTLED",
+      "UNPARSEABLE": "SETTLED",
+      "NO_402": "SETTLED",
+      "INDETERMINATE": "WORLD",
+      "UNREACHABLE": "WORLD",
+      "TIMEOUT": "WORLD",
+      "PARTIAL": "WORLD",
+      "NOT_EVALUATED": "INSTRUMENT",
+      "NOT_ASSESSED": "INSTRUMENT",
+      "RATE_LIMITED": "INSTRUMENT",
+      "NON_EVM": "INSTRUMENT",
+      "UNKNOWN_NETWORK": "INSTRUMENT"
+    },
+    "undecidable_yields": "null -> NOT_EVALUATED, never a default in either direction"
+  },
   "rows": [
     {
       "id": "assurance-run",
@@ -11,15 +46,47 @@
       "verdict": "AGREE",
       "established": true,
       "method": "executed",
-      "pin": "b98e5e2",
-      "states": [
+      "pin": "c2260f7",
+      "vocabulary": [
         "AGREE",
         "DISAGREE",
         "INDETERMINATE",
         "NOT_EVALUATED"
       ],
       "cardinality": 4,
+      "vocabulary_source": "kernel.cjs exports (AGREE/DISAGREE/INDETERMINATE/NOT_EVALUATED)",
       "distinguishes_absence": true,
+      "decided_by": "classified from kernel.cjs exports (AGREE/DISAGREE/INDETERMINATE/NOT_EVALUATED)",
+      "value_roles": [
+        {
+          "value": "AGREE",
+          "role": "SETTLED",
+          "basis": "name_map"
+        },
+        {
+          "value": "DISAGREE",
+          "role": "SETTLED",
+          "basis": "name_map"
+        },
+        {
+          "value": "INDETERMINATE",
+          "role": "WORLD",
+          "basis": "name_map"
+        },
+        {
+          "value": "NOT_EVALUATED",
+          "role": "INSTRUMENT",
+          "basis": "name_map"
+        }
+      ],
+      "world_side": [
+        "INDETERMINATE"
+      ],
+      "instrument_side": [
+        "NOT_EVALUATED"
+      ],
+      "unclassified_values": [],
+      "corroboration": null,
       "detail": "17 semantic cases executed, all prohibitions held"
     },
     {
@@ -31,14 +98,39 @@
       "established": true,
       "method": "source_read",
       "pin": "e44d4a6",
-      "states": [
+      "vocabulary": [
         "Verified",
         "Partial",
         "Failed"
       ],
       "cardinality": 3,
+      "vocabulary_source": "crates/elara-verify/src/lib.rs — pub enum Verdict + variant doc comments",
       "distinguishes_absence": false,
-      "detail": "Verdict{Verified, Partial, Failed} in crates/elara-verify/src/lib.rs; its own docstring assigns \"absent or pending evidence\" to a single Partial"
+      "decided_by": "classified from crates/elara-verify/src/lib.rs — pub enum Verdict + variant doc comments",
+      "value_roles": [
+        {
+          "value": "Verified",
+          "role": "SETTLED",
+          "basis": "name_map"
+        },
+        {
+          "value": "Partial",
+          "role": "WORLD",
+          "basis": "name_map"
+        },
+        {
+          "value": "Failed",
+          "role": "SETTLED",
+          "basis": "name_map"
+        }
+      ],
+      "world_side": [
+        "Partial"
+      ],
+      "instrument_side": [],
+      "unclassified_values": [],
+      "corroboration": null,
+      "detail": "Verdict{Verified, Partial, Failed} in crates/elara-verify/src/lib.rs; its own docstring assigns \"absent or pending evidence\" to the single Partial"
     },
     {
       "id": "x402-measure",
@@ -49,17 +141,102 @@
       "established": true,
       "method": "source_read",
       "pin": "8b5513d",
-      "states": [
+      "vocabulary": [
+        "BLOCKED",
+        "NON_EVM",
         "NO_402",
+        "OK",
+        "RATE_LIMITED",
+        "UNKNOWN_NETWORK",
+        "UNPARSEABLE",
         "UNREACHABLE",
-        "TIMEOUT",
-        "NOT_ASSESSED",
-        "PASS",
-        "FAIL"
+        "V1",
+        "WARN"
       ],
-      "cardinality": 6,
+      "cardinality": 10,
+      "vocabulary_source": "snapshots/2026-09-19/observation.json — manifest.verdict_vocabulary (signature verified here)",
       "distinguishes_absence": true,
-      "detail": "labels NO_402 / UNREACHABLE / TIMEOUT / NOT_ASSESSED / PASS / FAIL across 41 probe modules; no single verdict enum"
+      "decided_by": "classified from snapshots/2026-09-19/observation.json — manifest.verdict_vocabulary (signature verified here)",
+      "value_roles": [
+        {
+          "value": "BLOCKED",
+          "role": "SETTLED",
+          "basis": "name_map"
+        },
+        {
+          "value": "NON_EVM",
+          "role": "INSTRUMENT",
+          "basis": "operator_note"
+        },
+        {
+          "value": "NO_402",
+          "role": "SETTLED",
+          "basis": "name_map"
+        },
+        {
+          "value": "OK",
+          "role": "SETTLED",
+          "basis": "name_map"
+        },
+        {
+          "value": "RATE_LIMITED",
+          "role": "INSTRUMENT",
+          "basis": "operator_note"
+        },
+        {
+          "value": "UNKNOWN_NETWORK",
+          "role": "INSTRUMENT",
+          "basis": "name_map"
+        },
+        {
+          "value": "UNPARSEABLE",
+          "role": "SETTLED",
+          "basis": "name_map"
+        },
+        {
+          "value": "UNREACHABLE",
+          "role": "WORLD",
+          "basis": "operator_note"
+        },
+        {
+          "value": "V1",
+          "role": "SETTLED",
+          "basis": "name_map"
+        },
+        {
+          "value": "WARN",
+          "role": "SETTLED",
+          "basis": "name_map"
+        }
+      ],
+      "world_side": [
+        "UNREACHABLE"
+      ],
+      "instrument_side": [
+        "NON_EVM",
+        "RATE_LIMITED",
+        "UNKNOWN_NETWORK"
+      ],
+      "unclassified_values": [],
+      "corroboration": {
+        "snapshots_total": 43,
+        "snapshots_declaring_vocabulary": 33,
+        "first_declaring": "2026-08-18",
+        "rows_in_read_snapshot": 1521,
+        "verdicts_emitted": [
+          "BLOCKED",
+          "NON_EVM",
+          "NO_402",
+          "OK",
+          "RATE_LIMITED",
+          "UNREACHABLE",
+          "V1",
+          "WARN"
+        ],
+        "verdicts_undeclared": [],
+        "signature_verified": true
+      },
+      "detail": "10 declared values in manifest.verdict_vocabulary on 2026-09-19; 33 of 43 snapshots declare one (first 2026-08-18). Ed25519 ed25519:5d99c600ea396f4e, payload_sha256 recomputed here over 713506 bytes. 1521 rows in this snapshot emit 8 distinct verdicts, 0 of them undeclared."
     },
     {
       "id": "babyblueviper-verify-proof",
@@ -70,13 +247,17 @@
       "established": true,
       "method": "executed_live",
       "pin": null,
-      "states": [
-        "valid:boolean",
-        "sibling reason/status fields"
-      ],
-      "cardinality": 2,
+      "vocabulary": null,
+      "cardinality": null,
+      "vocabulary_source": "no verdict enum — boolean `valid` with sibling check fields",
       "distinguishes_absence": true,
-      "detail": "no four-state enum; a boolean with sibling status fields. Absence separated by sibling (preimage_fields_authorized, recon_status), not by verdict value"
+      "decided_by": "live tamper (BB-08) → UNRUN_CHECKS_ABSENT: checks that could no longer run are encoded ABSENT, never false",
+      "value_roles": null,
+      "world_side": null,
+      "instrument_side": null,
+      "unclassified_values": null,
+      "corroboration": null,
+      "detail": "no verdict enum; a boolean with sibling check fields. live tamper (BB-08) → UNRUN_CHECKS_ABSENT: checks that could no longer run are encoded ABSENT, never false."
     },
     {
       "id": "draft-krausz-verification-state",
@@ -87,20 +268,30 @@
       "established": false,
       "method": "no_executable_surface",
       "pin": null,
-      "states": null,
+      "vocabulary": null,
       "cardinality": null,
+      "vocabulary_source": null,
       "distinguishes_absence": null,
+      "decided_by": "no_executable_surface",
+      "value_roles": null,
+      "world_side": null,
+      "instrument_side": null,
+      "unclassified_values": null,
+      "corroboration": null,
       "detail": "draft is published (datatracker returns 1 matching document) and carries the four-state term; no public implementation surface is named in wg-identity#21 or tsc#4, so nothing was executed"
     }
   ],
   "summary": {
     "subjects": 5,
-    "four_state_emitters": [
-      "assurance-run"
+    "absence_side_distinct": [
+      "assurance-run",
+      "x402-measure",
+      "babyblueviper-verify-proof"
     ],
     "absence_side_collapsed": [
       "elara-verify"
     ],
+    "undecidable_by_this_rule": [],
     "not_established_by_this_run": [
       {
         "id": "draft-krausz-verification-state",

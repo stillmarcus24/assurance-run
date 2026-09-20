@@ -23,9 +23,21 @@
  *     DISAGREE about their system. We did not establish their preimage; that is
  *     a statement about us, not about their hash. (AC-11, from the other side.)
  *   - The `preimage_fields_authorized:true` positive requires a proof id that
- *     postdates commit 78e6a921. No published ledger entry does yet, so that
- *     case is NOT_EVALUATED — no check performed — pending one input from the
- *     operator. It is not dressed as a pass.
+ *     postdates commit 78e6a921. The operator supplied one (wg-identity#21,
+ *     2026-09-20T11:23:04Z); BB-06/07/08 execute it. Before that input existed
+ *     the case was NOT_EVALUATED — no check performed — never dressed as a pass.
+ *
+ * SCOPE OF THE VECTOR, in the operator's own words and kept here so no reader
+ * has to infer it:
+ *   1. It is a FORMAT vector, not evidence about the artifact reviewed. The
+ *      proof was issued on a benign artifact they authored, to exercise the
+ *      authorization check. It shows the verifier accepts the authorized
+ *      preimage set for the policy_version it names. It says nothing about the
+ *      correctness of anything reviewed.
+ *   2. The true negative CANNOT be produced by a third party. A properly signed
+ *      proof declaring a reduced field list needs their signing key. So from
+ *      outside, the negative side ships as tamper (BB-08), not as a forged
+ *      reduced-field proof. We do not claim coverage we cannot execute.
  */
 
 const fs = require('fs');
@@ -35,6 +47,13 @@ const K = require('./kernel.cjs');
 const { AGREE, DISAGREE, INDETERMINATE, NOT_EVALUATED } = K;
 const BASE = 'https://api.babyblueviper.com';
 const UA = 'StillOS-assurance-run/live-babyblueviper (read-only; no key; no payment)';
+
+// Supplied by @babyblueviper1 in wg-identity#21 on 2026-09-20T11:23:04Z as the
+// named reference vector: a proof issued AFTER commit 78e6a921 (deployed
+// 2026-09-19), which is the first that can exercise preimage_fields_authorized.
+// Overridable so a stranger can point the same suite at their own proof id.
+const PROOF_ID = process.env.BB_PROOF_ID ||
+  '7aa10c9783ef2e96d33d8edb383583d126b6240589f824b39933600e79587002';
 
 async function http(method, url, body) {
   try {
@@ -147,12 +166,144 @@ async function run() {
     });
   }
 
-  // ---- BB-06: authorized-preimage positive — NO check performed yet ----------
-  findings.push({ verdict: NOT_EVALUATED, reason: 'AWAITING_POSTDATED_PROOF',
-    claim: 'preimage_fields_authorized:true on a proof postdating commit 78e6a921',
-    detail: 'the public ledger\'s newest entry predates the fix, so no published proof exercises ' +
-      'preimage_fields_authorized yet. One input completes it: a proof id postdating 78e6a921 plus its ' +
-      'preimage dict. Recorded as not-evaluated — no check performed — never as a pass.' });
+  // ---- BB-06: authorized-preimage positive, on the operator-supplied proof ----
+  const proof = await http('POST', `${BASE}/verify-proof`, { event_id: PROOF_ID });
+  routes.push(`${BASE}/verify-proof {event_id:${PROOF_ID.slice(0, 12)}…}`);
+  const pj = proof.json || {};
+  if (!proof.ok) {
+    findings.push({ verdict: proof.fault.instrument ? NOT_EVALUATED : INDETERMINATE,
+      reason: proof.fault.instrument ? 'ADAPTER_FAILED' : 'SOURCE_UNREACHABLE',
+      claim: 'preimage_fields_authorized:true on a proof postdating commit 78e6a921',
+      detail: proof.fault.detail });
+  } else if (proof.status === 200 && pj.valid === true && pj.preimage_fields_authorized === true) {
+    findings.push({ verdict: AGREE, reason: 'AUTHORIZED_PREIMAGE_SET',
+      claim: 'preimage_fields_authorized:true on a proof postdating commit 78e6a921',
+      detail: `POST /verify-proof {event_id:${PROOF_ID.slice(0, 12)}…} → HTTP 200, valid:true, ` +
+        `preimage_fields_authorized:true (top-level), checks.decision_ref_recomputes:` +
+        `${(pj.checks || {}).decision_ref_recomputes}, policy_version ` +
+        `"${(pj.proof_payload || {}).policy_version}". FORMAT vector: it shows the verifier accepts ` +
+        `the authorized set for the version named, not that anything reviewed is correct.` });
+  } else {
+    findings.push({ verdict: INDETERMINATE, reason: 'UNEXPECTED_PROOF_SHAPE',
+      claim: 'preimage_fields_authorized:true on a proof postdating commit 78e6a921',
+      detail: `HTTP ${proof.status}; valid=${pj.valid}, preimage_fields_authorized=` +
+        `${pj.preimage_fields_authorized}` });
+  }
+
+  // ---- BB-07: WE recompute decision_ref. Their own flag is not the evidence ---
+  // checks.decision_ref_recomputes is the endpoint's account of its own work.
+  // Per the kernel invariant, self-reported evidence alone can never be an AGREE,
+  // so this case rebuilds the preimage here — their published construction (the
+  // declared field list, absent fields as null, RFC 8785 JCS, sha256) against our
+  // own canonicaliser — and compares. A mismatch is INDETERMINATE, not a defect
+  // claim about their hash: it would mean our canonicalisation disagrees, and we
+  // would not know whose is wrong without a third implementation.
+  const payload = pj.proof_payload;
+  const declared = payload && payload.decision_ref_preimage_fields;
+  if (Array.isArray(declared) && payload && typeof pj.decision_ref === 'string') {
+    const obj = {};
+    for (const k of declared) obj[k] = (k in payload) ? payload[k] : null;
+    const absent = declared.filter((k) => !(k in payload));
+    const ours = 'sha256:' + K.sha256(K.canonical(obj));
+    findings.push({
+      verdict: ours === pj.decision_ref ? AGREE : INDETERMINATE,
+      reason: ours === pj.decision_ref ? 'DECISION_REF_RECOMPUTED' : 'CANONICALISATION_DISAGREES',
+      claim: 'decision_ref recomputes independently from the published payload and declared field list',
+      detail: ours === pj.decision_ref
+        ? `${declared.length} declared fields (${absent.length} absent → null), canonicalised and ` +
+          `hashed here: ${ours.slice(0, 23)}… == the proof's own decision_ref. Independent: their ` +
+          `decision_ref_recomputes flag was not used as the evidence.`
+        : `ours ${ours.slice(0, 23)}… ≠ published ${pj.decision_ref.slice(0, 23)}…; our ` +
+          `canonicalisation and theirs disagree. Not a claim about their hash — with two ` +
+          `implementations we cannot say whose is wrong.`,
+    });
+  } else {
+    findings.push({ verdict: NOT_EVALUATED, reason: 'NO_PREIMAGE_MATERIAL',
+      claim: 'decision_ref recomputes independently from the published payload and declared field list',
+      detail: 'the response carried no proof_payload.decision_ref_preimage_fields to rebuild from' });
+  }
+
+  // ---- BB-08: the negative side a third party CAN construct ------------------
+  // Their signing key is needed to forge a signed reduced-field proof, so the real
+  // negative is out of reach from outside. What is in reach: tamper one byte of
+  // the signed content and confirm the verifier (a) refuses it and (b) does not
+  // report the downstream checks it could no longer run as FAILED.
+  //
+  // (b) is the load-bearing half, and there are THREE distinct ways to express it,
+  // not two. A check that never ran can come back `false` (collapse — its own
+  // short-circuit filed as a finding about the artifact), `null` (explicit
+  // not-evaluated), or be OMITTED from the response entirely. Only the first is
+  // the defect. We name which mechanism is in use rather than assuming one.
+  //
+  // This case was written asserting `null`, and the first run returned DISAGREE
+  // against a system that had done nothing wrong. The measurement was ours: an
+  // earlier probe read the response through `.get()`, which yields None for an
+  // absent key and for a null key alike, so absent-vs-null was collapsed by the
+  // instrument before the question was ever asked. Recorded because omission is
+  // the mechanism this endpoint actually uses, and because the collapse it caused
+  // is the same one AC-11 exists to prohibit, committed here.
+  const CLAIM_08 = 'a tampered proof is refused, and the checks that could no longer ' +
+    'run are not reported as failed';
+  if (pj.event && typeof pj.event.content === 'string' && pj.event.content.length) {
+    const ev = JSON.parse(JSON.stringify(pj.event));
+    const last = ev.content.slice(-1);
+    ev.content = ev.content.slice(0, -1) + (last === '0' ? '1' : '0');
+    const t = await http('POST', `${BASE}/verify-proof`, { event: ev });
+    const tj = t.json || {};
+    const tc = tj.checks || {};
+    // Classify each downstream check by its actual encoding. `in` distinguishes an
+    // absent key from a present one holding null; a bare read cannot.
+    const downstream = [
+      ['checks.decision_ref_recomputes', tc, 'decision_ref_recomputes'],
+      ['preimage_fields_authorized', tj, 'preimage_fields_authorized'],
+    ].map(([label, obj, key]) => ({
+      label,
+      encoding: !(key in obj) ? 'ABSENT' : obj[key] === null ? 'NULL'
+        : obj[key] === false ? 'FALSE' : 'PRESENT:' + JSON.stringify(obj[key]),
+    }));
+    const collapsed = downstream.filter((d) => d.encoding === 'FALSE');
+    const separated = downstream.filter((d) => d.encoding === 'ABSENT' || d.encoding === 'NULL');
+    const shape = downstream.map((d) => `${d.label}=${d.encoding}`).join(', ');
+    const kept = Object.keys(tc).length;
+    const full = Object.keys((pj.checks || {})).length;
+
+    if (!t.ok) {
+      findings.push({ verdict: t.fault.instrument ? NOT_EVALUATED : INDETERMINATE,
+        reason: t.fault.instrument ? 'ADAPTER_FAILED' : 'SOURCE_UNREACHABLE',
+        claim: CLAIM_08, detail: t.fault.detail });
+    } else if (tj.valid !== false) {
+      findings.push({ verdict: DISAGREE, reason: 'TAMPER_READ_AS_VALID',
+        claim: CLAIM_08,
+        detail: `valid=${JSON.stringify(tj.valid)} for an event whose signed content was altered` });
+    } else if (collapsed.length) {
+      findings.push({ verdict: DISAGREE, reason: 'UNRUN_CHECKS_REPORT_FALSE',
+        claim: CLAIM_08,
+        detail: `valid:false correctly, but ${shape} — a check that never ran is reported as one ` +
+          `that ran and failed` });
+    } else if (separated.length === downstream.length) {
+      const mech = [...new Set(separated.map((d) => d.encoding))].join('+');
+      findings.push({ verdict: AGREE, reason: 'UNRUN_CHECKS_' + mech,
+        claim: CLAIM_08,
+        detail: `one byte of event.content flipped → valid:false, id_integrity:${tc.id_integrity}, ` +
+          `signature_valid:${tc.signature_valid}. The checks that could no longer run are encoded ` +
+          `${mech}, never false: ${shape}. The response carries ${kept} check keys against ${full} ` +
+          `on the valid proof — the short-circuit is visible in the shape. ` +
+          (mech.includes('ABSENT')
+            ? 'CONSUMER HAZARD, ours not theirs: omission is only honest if the reader distinguishes ' +
+              'an absent key from a false one. Any reader using a falsy default (.get(k), obj[k] ?? false) ' +
+              'converts not-evaluated into failed on arrival. This runner made that error before this ' +
+              'line was written.'
+            : 'An explicit null cannot be read as a failure by a falsy default.') });
+    } else {
+      findings.push({ verdict: INDETERMINATE, reason: 'MIXED_DOWNSTREAM_ENCODING',
+        claim: CLAIM_08,
+        detail: `valid:false, but the downstream checks are encoded inconsistently: ${shape}` });
+    }
+  } else {
+    findings.push({ verdict: NOT_EVALUATED, reason: 'NO_EVENT_TO_TAMPER',
+      claim: CLAIM_08,
+      detail: 'the response carried no event.content to alter' });
+  }
 
   return { base: BASE, routes, findings };
 }

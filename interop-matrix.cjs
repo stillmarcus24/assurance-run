@@ -30,10 +30,36 @@
  *     about this runner, not about their code.
  *
  * Read-only. No key, no account, no write, no payment.
+ *
+ * CORRECTION, 2026-09-20 — the column was asserted, not measured.
+ * @meloliva14 corrected the x402-measure row at tsc#4 and was right on every
+ * point. Two defects, and the second is the serious one:
+ *
+ *   1. The row read the WRONG ARTIFACT. It grepped root-level *.py for a
+ *      `NOT_ASSESSED` token and concluded "no verdict enum". x402-measure
+ *      carries `manifest.verdict_vocabulary` in 33 of its 43 signed daily
+ *      snapshots (2026-08-18 onward, Ed25519 over observation.json), and
+ *      NOT_ASSESSED appears on 0 of 65,403 rows — it exists only as a local
+ *      `= {"RATE_LIMITED"}` set inside two comparison scripts. We measured a
+ *      source token and reported it as emitted behaviour.
+ *
+ *   2. Then the sibling audit: `distinguishes_absence` was a HARDCODED LITERAL
+ *      in 4 of 4 gatherers. Three rows never derived the load-bearing column
+ *      from anything at all. The one row that did derive it derived it from
+ *      the wrong artifact. A matrix that prints "measured, not asserted" in its
+ *      own header was asserting its only load-bearing column.
+ *
+ * The fix is not a better literal. Every row now declares its VOCABULARY, read
+ * from the authoritative artifact and cited by path, and one shared classifier
+ * below turns a vocabulary into the column. The classification rule is published
+ * in the output so a reader can reject the RULE rather than having to take the
+ * ROW on faith — and an implementation whose vocabulary the rule cannot classify
+ * yields null, which is NOT_EVALUATED, not a default.
  */
 
 const fs = require('fs');
 const path = require('path');
+const crypto = require('crypto');
 const { execFileSync } = require('child_process');
 const K = require('./kernel.cjs');
 
@@ -79,8 +105,78 @@ const SUBJECTS = [
 ];
 
 /* ------------------------------------------------------------------ *
+ * THE CLASSIFIER. One rule, published, applied identically to every row.
+ *
+ * The column asks exactly one thing: can this implementation say
+ * "a check ran and the evidence could not settle it" and
+ * "no valid check ran"  — as two DIFFERENT values?
+ *
+ * So each declared value needs only three buckets:
+ *   SETTLED   the check ran and reached an answer, either way
+ *   WORLD     the check ran; the source did not settle it (their side)
+ *   INSTRUMENT no valid check ran / not assessable by this prober (our side)
+ *
+ * Basis, strongest first. A value classified from the operator's OWN published
+ * meaning outranks our reading of its name, and is recorded as such:
+ *   operator_note — the vocabulary ships a meaning and the meaning decides it
+ *   name_map      — our table below, stated in full so it can be disputed
+ *   unclassified  — neither applies; the row cannot be decided and says so
+ * ------------------------------------------------------------------ */
+
+const SETTLED = 'SETTLED', WORLD = 'WORLD', INSTRUMENT = 'INSTRUMENT';
+
+// Published so the rule is arguable. Names are matched case-insensitively.
+const NAME_ROLES = {
+  // settled — an answer was reached about the artifact
+  AGREE: SETTLED, DISAGREE: SETTLED, VERIFIED: SETTLED, FAILED: SETTLED,
+  OK: SETTLED, WARN: SETTLED, BLOCKED: SETTLED, V1: SETTLED,
+  UNPARSEABLE: SETTLED, NO_402: SETTLED,
+  // world — we asked; their side did not settle it
+  INDETERMINATE: WORLD, UNREACHABLE: WORLD, TIMEOUT: WORLD, PARTIAL: WORLD,
+  // instrument — no valid check ran, or this prober cannot assess it
+  NOT_EVALUATED: INSTRUMENT, NOT_ASSESSED: INSTRUMENT, RATE_LIMITED: INSTRUMENT,
+  NON_EVM: INSTRUMENT, UNKNOWN_NETWORK: INSTRUMENT,
+};
+
+/**
+ * `vocabulary` is either an array of value names, or an object mapping each
+ * value name to the operator's own one-line meaning. The second form is
+ * strictly better evidence and we use it when it exists.
+ */
+function classifyVocabulary(vocabulary) {
+  const withNotes = !Array.isArray(vocabulary);
+  const names = withNotes ? Object.keys(vocabulary) : vocabulary;
+  const roles = names.map((name) => {
+    const note = withNotes ? String(vocabulary[name] || '') : '';
+    // The operator's own words win. "not assessed" is a statement that THIS
+    // prober did not evaluate it — instrument side, by their definition, not ours.
+    if (/\bnot assessed\b/i.test(note)) {
+      return { value: name, role: INSTRUMENT, basis: 'operator_note', note };
+    }
+    if (/\bno response\b|\btimed? ?out\b/i.test(note)) {
+      return { value: name, role: WORLD, basis: 'operator_note', note };
+    }
+    const mapped = NAME_ROLES[String(name).toUpperCase()];
+    if (mapped) return { value: name, role: mapped, basis: 'name_map', note: note || null };
+    return { value: name, role: null, basis: 'unclassified', note: note || null };
+  });
+
+  const has = (r) => roles.filter((x) => x.role === r).map((x) => x.value);
+  const world = has(WORLD), instrument = has(INSTRUMENT);
+  const unclassified = roles.filter((x) => x.role === null).map((x) => x.value);
+
+  // Decided only when the decision does not hinge on a value we could not place.
+  let distinguishes = world.length > 0 && instrument.length > 0;
+  if (!distinguishes && unclassified.length) distinguishes = null; // NOT_EVALUATED
+
+  return { roles, world_side: world, instrument_side: instrument, unclassified, distinguishes };
+}
+
+/* ------------------------------------------------------------------ *
  * Evidence gatherers. Each returns {established, method, detail} and
  * never throws a conclusion about the subject on its own failure.
+ * Each supplies a `vocabulary` + `vocabulary_source`; NONE decides the
+ * column itself. That is the classifier's job, above, for every row.
  * ------------------------------------------------------------------ */
 
 function sh(cmd, args, opts) {
@@ -105,12 +201,17 @@ function gatherSelf() {
     const cases = (out.match(/^\s+ok\s+SC-\d+/gm) || []).length;
     const head = sh('git', ['rev-parse', '--short', 'HEAD'], { cwd: __dirname }).trim();
     if (!held) return { established: false, method: 'executed', detail: 'selftest did not report all prohibitions held' };
+    // The vocabulary is read from the kernel's own exports, not typed in here.
+    // A literal list would go stale the moment the kernel changed and would be
+    // the same asserted-column defect this file was corrected for.
+    const vocabulary = [K.AGREE, K.DISAGREE, K.INDETERMINATE, K.NOT_EVALUATED]
+      .filter((v) => typeof v === 'string');
     return {
       established: true,
       method: 'executed',
       pin: head,
-      states: ['AGREE', 'DISAGREE', 'INDETERMINATE', 'NOT_EVALUATED'],
-      distinguishes_absence: true,
+      vocabulary,
+      vocabulary_source: 'kernel.cjs exports (AGREE/DISAGREE/INDETERMINATE/NOT_EVALUATED)',
       detail: `${cases} semantic cases executed, all prohibitions held`,
     };
   } catch (err) {
@@ -159,49 +260,134 @@ function extractElara(dir) {
   if (!block) return null;
   const states = block[1].split('\n').map(s => s.trim().replace(/,$/, ''))
     .filter(s => s && !s.startsWith('//'));
-  // Its own docstring on Partial is the evidence for the absence-side question.
-  const partialDoc = /Not proven, but NOT forged — absent or pending evidence/.test(src);
+  // Attach each variant's own doc comment as its meaning, so the classifier
+  // decides from THEIR words where they wrote any. The `Partial` docstring is
+  // the whole absence-side question for this implementation.
+  const vocabulary = {};
+  for (const v of states) {
+    const doc = src.match(new RegExp(`((?:\\s*///[^\\n]*\\n)+)\\s*${v}\\s*,`));
+    vocabulary[v] = doc ? doc[1].replace(/\s*\/\/\/ ?/g, ' ').trim() : '';
+  }
   return {
-    states,
-    distinguishes_absence: false,
+    vocabulary,
+    vocabulary_source: 'crates/elara-verify/src/lib.rs — pub enum Verdict + variant doc comments',
     detail: `Verdict{${states.join(', ')}} in crates/elara-verify/src/lib.rs` +
-      (partialDoc ? '; its own docstring assigns "absent or pending evidence" to a single Partial' : ''),
+      (/absent or pending evidence/.test(vocabulary.Partial || '')
+        ? '; its own docstring assigns "absent or pending evidence" to the single Partial' : ''),
   };
 }
 
+/**
+ * x402-measure. The vocabulary is the one the SIGNED SNAPSHOTS declare, not a
+ * token grepped out of source. Each daily snapshot carries
+ * `manifest.verdict_vocabulary` — value -> the operator's own one-line meaning —
+ * and signature.json is Ed25519 over the exact bytes of observation.json.
+ *
+ * We read the newest snapshot that declares one, and we check the vocabulary
+ * against the rows it governs: every emitted verdict must be a declared value.
+ * The previous version of this row grepped `NOT_ASSESSED` out of root *.py and
+ * reported it as emitted behaviour; it is carried by no row in the corpus.
+ */
 function extractX402Measure(dir) {
-  const files = fs.readdirSync(dir).filter(f => f.endsWith('.py'));
-  if (!files.length) return null;
-  const blob = files.map(f => fs.readFileSync(path.join(dir, f), 'utf8')).join('\n');
-  const tokens = ['NO_402', 'UNREACHABLE', 'TIMEOUT', 'NOT_ASSESSED', 'PASS', 'FAIL'];
-  const seen = tokens.filter(t => new RegExp(`\\b${t}\\b`).test(blob));
-  if (!seen.length) return null;
+  const snapDir = path.join(dir, 'snapshots');
+  if (!fs.existsSync(snapDir)) return null;
+  const days = fs.readdirSync(snapDir).filter(d => /^\d{4}-\d{2}-\d{2}$/.test(d)).sort();
+  if (!days.length) return null;
+
+  let chosen = null;
+  const declaring = [];
+  for (const day of days) {
+    const obsFile = path.join(snapDir, day, 'observation.json');
+    if (!fs.existsSync(obsFile)) continue;
+    let obs; try { obs = JSON.parse(fs.readFileSync(obsFile, 'utf8')); } catch { continue; }
+    const vocab = obs && obs.manifest && obs.manifest.verdict_vocabulary;
+    if (vocab && typeof vocab === 'object') { declaring.push(day); chosen = { day, obs, vocab, obsFile }; }
+  }
+  if (!chosen) return null;
+
+  // The signature covers observation.json by digest; recompute it rather than
+  // cite it. A vocabulary read out of an unverified file is a vocabulary we
+  // were handed, not one we established.
+  let signed = false, sigDetail = 'no signature.json beside the snapshot';
+  const sigFile = path.join(snapDir, chosen.day, 'signature.json');
+  if (fs.existsSync(sigFile)) {
+    try {
+      const sig = JSON.parse(fs.readFileSync(sigFile, 'utf8'));
+      const digest = crypto.createHash('sha256').update(fs.readFileSync(chosen.obsFile)).digest('hex');
+      signed = sig.signs === 'observation.json' && digest === sig.payload_sha256;
+      sigDetail = signed
+        ? `${sig.algorithm} ${sig.key_id}, payload_sha256 recomputed here over ${sig.payload_bytes} bytes`
+        : `signature.json does not commit to these bytes (signs=${sig.signs})`;
+    } catch (e) { sigDetail = 'signature.json unreadable: ' + e.message; }
+  }
+
+  // Does every emitted verdict appear in that day's declared vocabulary?
+  const rows = Array.isArray(chosen.obs.observations) ? chosen.obs.observations : [];
+  const emitted = new Set(rows.map(r => r && r.verdict).filter(Boolean));
+  const undeclared = [...emitted].filter(v => !(v in chosen.vocab));
+
   return {
-    states: seen,
-    // NOT_ASSESSED exists as its own label (the 429 fix): absence is separated
-    // at the label level, but there is no single verdict enum carrying the four.
-    distinguishes_absence: seen.includes('NOT_ASSESSED'),
-    enum_present: false,
-    detail: `labels ${seen.join(' / ')} across ${files.length} probe modules; no single verdict enum`,
+    vocabulary: chosen.vocab,
+    vocabulary_source: `snapshots/${chosen.day}/observation.json — manifest.verdict_vocabulary` +
+      (signed ? ' (signature verified here)' : ' (SIGNATURE NOT VERIFIED)'),
+    corroboration: {
+      snapshots_total: days.length,
+      snapshots_declaring_vocabulary: declaring.length,
+      first_declaring: declaring[0],
+      rows_in_read_snapshot: rows.length,
+      verdicts_emitted: [...emitted].sort(),
+      verdicts_undeclared: undeclared,
+      signature_verified: signed,
+    },
+    detail: `${Object.keys(chosen.vocab).length} declared values in ` +
+      `manifest.verdict_vocabulary on ${chosen.day}; ${declaring.length} of ${days.length} snapshots ` +
+      `declare one (first ${declaring[0]}). ${sigDetail}. ${rows.length} rows in this snapshot emit ` +
+      `${emitted.size} distinct verdicts, ${undeclared.length} of them undeclared.`,
   };
 }
 
-/** The live endpoint: re-run the named reference vector rather than cite it. */
+/**
+ * The live endpoint: re-run the named reference vector rather than cite it.
+ *
+ * This implementation has no verdict enum to read — it answers with a boolean
+ * `valid` plus sibling check fields — so the column cannot come from a declared
+ * vocabulary. It comes from OBSERVED BEHAVIOUR instead: BB-08 tampers one byte
+ * of a signed proof and records how the checks that could no longer run are
+ * encoded. That finding's reason code is the evidence, and it is produced by a
+ * live execution in this run, not written down here.
+ *
+ * UNRUN_CHECKS_ABSENT / _NULL  -> the two sides are separated
+ * UNRUN_CHECKS_REPORT_FALSE    -> collapsed; a short-circuit filed as a finding
+ * anything else                -> undecided, which is NOT_EVALUATED
+ */
 function gatherLiveVector() {
   try {
     const out = sh('node', [path.join(__dirname, 'live-babyblueviper.cjs')], { cwd: __dirname });
     const counts = out.match(/counts\s+(\{.*\})/);
     if (!counts) return { established: false, method: 'executed_live', detail: 'runner produced no counts line' };
     const parsed = JSON.parse(counts[1]);
+
+    const m = out.match(/^\s*(AGREE|DISAGREE|INDETERMINATE|NOT_EVALUATED)\s+(UNRUN_CHECKS_\S+|TAMPER_READ_AS_VALID|MIXED_DOWNSTREAM_ENCODING|NO_EVENT_TO_TAMPER)/m);
+    const verdict = m && m[1], reason = m && m[2];
+    let distinguishes = null, basis = 'tamper case did not execute in this run';
+    if (verdict === 'AGREE' && /^UNRUN_CHECKS_(ABSENT|NULL)/.test(reason)) {
+      distinguishes = true;
+      basis = `live tamper (BB-08) → ${reason}: checks that could no longer run are encoded ` +
+        `${reason.replace('UNRUN_CHECKS_', '')}, never false`;
+    } else if (reason === 'UNRUN_CHECKS_REPORT_FALSE') {
+      distinguishes = false;
+      basis = 'live tamper (BB-08) → unreached checks reported false: the two sides collapse';
+    }
+
     return {
       established: true,
       method: 'executed_live',
-      states: ['valid:boolean', 'sibling reason/status fields'],
-      distinguishes_absence: true,
-      enum_present: false,
+      vocabulary: null,
+      vocabulary_source: 'no verdict enum — boolean `valid` with sibling check fields',
+      distinguishes_absence: distinguishes,
+      distinguishes_basis: basis,
       counts: parsed,
-      detail: 'no four-state enum; a boolean with sibling status fields. Absence separated by ' +
-        'sibling (preimage_fields_authorized, recon_status), not by verdict value',
+      detail: `no verdict enum; a boolean with sibling check fields. ${basis}.`,
     };
   } catch (err) {
     return { established: false, method: 'executed_live', detail: String(err && err.message || err) };
@@ -228,11 +414,34 @@ async function gatherSpec(url) {
 
 /* ------------------------------------------------------------------ */
 
-function verdictFor(ev) {
+/**
+ * Decide the column for one row. A gatherer that supplied a vocabulary is
+ * classified by the published rule; one that could only observe behaviour
+ * (the live endpoint) supplies the answer with its basis recorded. Neither
+ * path lets a gatherer hand over a bare boolean with no justification.
+ */
+function decideRow(ev) {
+  if (!ev.established) return { distinguishes: null, classification: null, basis: ev.method };
+  if (ev.vocabulary) {
+    const c = classifyVocabulary(ev.vocabulary);
+    return {
+      distinguishes: c.distinguishes,
+      classification: c,
+      basis: `classified from ${ev.vocabulary_source}`,
+    };
+  }
+  if (ev.distinguishes_absence !== undefined) {
+    return { distinguishes: ev.distinguishes_absence, classification: null,
+      basis: ev.distinguishes_basis || 'observed behaviour' };
+  }
+  return { distinguishes: null, classification: null, basis: 'no vocabulary and no observed behaviour' };
+}
+
+function verdictFor(ev, decided) {
   if (!ev.established) return NOT_EVALUATED;
-  if (ev.distinguishes_absence === true) return AGREE;
-  if (ev.distinguishes_absence === false) return INDETERMINATE;
-  return NOT_EVALUATED;
+  if (decided.distinguishes === true) return AGREE;
+  if (decided.distinguishes === false) return INDETERMINATE;
+  return NOT_EVALUATED; // undecidable is never a default either way
 }
 
 async function main() {
@@ -249,32 +458,64 @@ async function main() {
 
   const rows = SUBJECTS.map(s => {
     const ev = evidence[s.id];
+    const d = decideRow(ev);
+    const vocabNames = ev.vocabulary
+      ? (Array.isArray(ev.vocabulary) ? ev.vocabulary : Object.keys(ev.vocabulary)) : null;
     return {
       ...s,
-      verdict: verdictFor(ev),
+      verdict: verdictFor(ev, d),
       established: ev.established === true,
       method: ev.method,
       pin: ev.pin || null,
-      states: ev.states || null,
-      cardinality: ev.states ? ev.states.length : null,
-      distinguishes_absence: ev.distinguishes_absence === undefined ? null : ev.distinguishes_absence,
+      vocabulary: vocabNames,
+      cardinality: vocabNames ? vocabNames.length : null,
+      vocabulary_source: ev.vocabulary_source || null,
+      distinguishes_absence: d.distinguishes,
+      decided_by: d.basis,
+      // The per-value classification is published so the RULE can be disputed
+      // instead of the row having to be taken on trust.
+      value_roles: d.classification
+        ? d.classification.roles.map(r => ({ value: r.value, role: r.role, basis: r.basis }))
+        : null,
+      world_side: d.classification ? d.classification.world_side : null,
+      instrument_side: d.classification ? d.classification.instrument_side : null,
+      unclassified_values: d.classification ? d.classification.unclassified : null,
+      corroboration: ev.corroboration || null,
       detail: ev.detail,
     };
   });
 
-  const emitters = rows.filter(r => r.established && r.cardinality === 4 &&
-    Array.isArray(r.states) && r.states.includes('NOT_EVALUATED'));
+  // A "four-state emitter" is an implementation that can name both sides of the
+  // absence split, whatever it calls them. Cardinality 4 and the literal token
+  // NOT_EVALUATED were the old test, and it was a test of vocabulary fashion
+  // rather than of capability — it would have failed every implementation that
+  // reached the same distinction under different names. x402-measure is exactly
+  // that case and the old test scored it wrong.
+  const emitters = rows.filter(r => r.established && r.distinguishes_absence === true);
   const unreached = rows.filter(r => !r.established);
+  const undecided = rows.filter(r => r.established && r.distinguishes_absence === null);
 
   const out = {
     corpus: 'assurance-run/interop-matrix',
     question: 'which implementations can express the four verification states distinctly, and where do they collapse',
     observed_at: new Date().toISOString(),
+    // The rule is part of the output. A reader who rejects it can recompute
+    // every row from value_roles without rerunning anything.
+    classification_rule: {
+      buckets: { SETTLED: 'the check ran and reached an answer',
+        WORLD: 'the check ran; the source did not settle it',
+        INSTRUMENT: 'no valid check ran, or not assessable by this prober' },
+      column_is_true_when: 'the vocabulary carries at least one WORLD value AND at least one INSTRUMENT value',
+      basis_precedence: ['operator_note', 'name_map', 'unclassified'],
+      name_map: NAME_ROLES,
+      undecidable_yields: 'null -> NOT_EVALUATED, never a default in either direction',
+    },
     rows,
     summary: {
       subjects: rows.length,
-      four_state_emitters: emitters.map(r => r.id),
+      absence_side_distinct: emitters.map(r => r.id),
       absence_side_collapsed: rows.filter(r => r.distinguishes_absence === false).map(r => r.id),
+      undecidable_by_this_rule: undecided.map(r => ({ id: r.id, unclassified: r.unclassified_values })),
       not_established_by_this_run: unreached.map(r => ({ id: r.id, why: r.method })),
     },
   };
@@ -295,8 +536,20 @@ async function main() {
       `${pad(r.distinguishes_absence === null ? '—' : (r.distinguishes_absence ? 'distinct' : 'COLLAPSED'), 15)}${r.method}`);
   }
   console.log('');
-  for (const r of rows) console.log(`  ${r.id}\n    ${r.detail}\n`);
-  console.log(`  four-state emitters: ${emitters.length ? emitters.map(r => r.id).join(', ') : 'none'}`);
+  for (const r of rows) {
+    console.log(`  ${r.id}`);
+    console.log(`    ${r.detail}`);
+    console.log(`    decided by: ${r.decided_by}`);
+    if (r.world_side) {
+      console.log(`    world side: ${r.world_side.join(', ') || '(none)'}` +
+        `  |  instrument side: ${r.instrument_side.join(', ') || '(none)'}` +
+        (r.unclassified_values && r.unclassified_values.length
+          ? `  |  unclassified: ${r.unclassified_values.join(', ')}` : ''));
+    }
+    console.log('');
+  }
+  console.log(`  absence side distinct: ${emitters.length ? emitters.map(r => r.id).join(', ') : 'none'}`);
+  if (undecided.length) console.log(`  undecidable by this rule: ${undecided.map(r => r.id).join(', ')}`);
   console.log(`  written: ${file}\n`);
 }
 

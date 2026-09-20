@@ -1,0 +1,29 @@
+{
+  "payload": {
+    "tool": "settlement-recompute/0.1",
+    "kernel": "assurance-run/0.1",
+    "observed_at": "2026-09-20T04:59:45Z",
+    "corpus": "corpus-2026-09-20.jsonl",
+    "method": "offline multi-rail roll-up (Base impl_a/impl_b + XRPL/Solana rails) recomputed from published corpus; no network",
+    "source": "x402-list.com directory (CC-BY-4.0)",
+    "doors": 729,
+    "states": {
+      "PAID": 152,
+      "UNKNOWN": 573,
+      "ZERO_OBSERVED": 4
+    },
+    "paid_base_visible": 120,
+    "paid_nonbase_only": 32,
+    "payment_ready_flagged": 674,
+    "claim_vs_chain_gap": 522,
+    "claim_vs_chain_gap_pct_of_payment_ready": 77.4,
+    "caveats": [
+      "PAID = inbound to the advertised payTo, not proof of customers; payment_ready is the directory flag (distinct from its `verified` and `status` fields), not a revenue claim.",
+      "a facilitator settling for many buyers reads as one sender; distinct-payer is a floor.",
+      "Base-rail counts exact; XRPL by inbound Payments, Solana by current USDC balance (a swept account reads UNKNOWN, not ZERO)."
+    ]
+  },
+  "digest": "cab62b5dc0cd0936d3065b78d67aaf7452bad3e66a8d165070f7f03d52dd9c6a",
+  "signature": "5XSu79g7rPFnOaEo3A7yLkFHoWcGGrwS+SxYCbxc+ya5xlNpW38jrOQMx0r/INFoO/HKYLo4jl8OpDJI5ikzAg==",
+  "algorithm": "ed25519"
+}

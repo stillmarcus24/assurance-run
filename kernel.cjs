@@ -103,6 +103,100 @@ function classifyFault(err) {
   };
 }
 
+// --------------------------------------------------------- derivation gate
+/**
+ * THE GATE. A published field must be COMPUTED, not typed.
+ *
+ * Why this exists, 2026-09-20. Every measurement defect this corpus has shipped
+ * is one defect wearing different field names: a value that was written down by
+ * hand and printed as though it had been measured. `interop-matrix.cjs` decided
+ * its only load-bearing column with a hardcoded literal in 4 of 4 rows. In the
+ * output a hardcoded `true` and a measured `true` are byte-identical, so no
+ * amount of reading the output — or the code — catches it. Reviewing your own
+ * prose against your own code finds nothing when both are wrong the same way.
+ *
+ * The rule cannot be "be more careful next time"; that is what already failed.
+ * It has to be mechanical, so:
+ *
+ *   derived(value, source)  marks a value as produced THIS RUN, from `source`
+ *   sealDerived(obj, paths) refuses to publish unless every named path carries
+ *                           a mark, then unwraps and records the provenance
+ *
+ * A bare literal at a load-bearing path does not print a confident answer any
+ * more. It throws, names the path, and the run fails. The failure is loud and
+ * happens before publication, which is the only place it is cheap.
+ *
+ * Deliberately narrow: this proves a value was produced by code that ran, with
+ * a source recorded. It cannot prove the code was CORRECT, and nothing here
+ * pretends otherwise — a wrong derivation still passes the gate. It closes the
+ * gap between "computed" and "asserted", which is the gap every one of these
+ * defects lived in.
+ */
+const DERIVED = Symbol.for('assurance-run.derived');
+
+function derived(value, source) {
+  if (!source || typeof source !== 'string') {
+    throw new Error('DERIVED_REQUIRES_SOURCE — name the artifact this value came from');
+  }
+  return { [DERIVED]: true, value, source };
+}
+
+function isDerived(v) {
+  return !!(v && typeof v === 'object' && v[DERIVED] === true);
+}
+
+function getPath(obj, dotted) {
+  return dotted.split('.').reduce((o, k) => (o == null ? o : o[k]), obj);
+}
+function setPath(obj, dotted, value) {
+  const keys = dotted.split('.');
+  const last = keys.pop();
+  const parent = keys.reduce((o, k) => (o == null ? o : o[k]), obj);
+  if (parent) parent[last] = value;
+}
+
+/**
+ * `paths` may contain `[]` to mean "every element of this array", e.g.
+ * 'rows[].distinguishes_absence'. Returns the provenance record to publish.
+ */
+function expandPaths(obj, spec) {
+  const i = spec.indexOf('[]');
+  if (i === -1) return [spec];
+  const arrPath = spec.slice(0, i);
+  const rest = spec.slice(i + 3); // skip "[]."
+  const arr = getPath(obj, arrPath);
+  if (!Array.isArray(arr)) return [];
+  return arr.map((_, n) => `${arrPath}.${n}.${rest}`);
+}
+
+function sealDerived(obj, paths) {
+  const provenance = {};
+  const undeclared = [];
+  for (const spec of paths) {
+    for (const p of expandPaths(obj, spec)) {
+      const v = getPath(obj, p);
+      if (!isDerived(v)) {
+        undeclared.push({ path: p, value_typed_in: v === undefined ? '(missing)' : JSON.stringify(v) });
+        continue;
+      }
+      provenance[p] = v.source;
+      setPath(obj, p, v.value); // unwrap in place: published output stays plain JSON
+    }
+  }
+  if (undeclared.length) {
+    const lines = undeclared.map((u) => `    ${u.path} = ${u.value_typed_in}`).join('\n');
+    const err = new Error(
+      'DERIVATION_GATE: refusing to publish ' + undeclared.length + ' load-bearing field(s) ' +
+      'with no derivation recorded in this run:\n' + lines +
+      '\n  A value at one of these paths must come from derived(value, source). A bare literal ' +
+      'here is an assertion printed as a measurement — the defect class this gate exists to stop.');
+    err.code = 'DERIVATION_GATE';
+    err.undeclared = undeclared;
+    throw err;
+  }
+  return provenance;
+}
+
 // ------------------------------------------------------------- canonical JSON
 /**
  * Deterministic serialisation. Keys sorted, no floats that cannot round-trip,
@@ -383,4 +477,5 @@ module.exports = {
   INDEPENDENT, SELF_REPORTED, THIRD_PARTY,
   canonical, sha256, freeze, evaluate, run, replay, persist,
   sign, verifySignature, provenanceOf, classifyFault,
+  derived, isDerived, sealDerived,
 };

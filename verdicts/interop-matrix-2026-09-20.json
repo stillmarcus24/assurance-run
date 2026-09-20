@@ -1,7 +1,7 @@
 {
   "corpus": "assurance-run/interop-matrix",
   "question": "which implementations can express the four verification states distinctly, and where do they collapse",
-  "observed_at": "2026-09-20T14:16:15.853Z",
+  "observed_at": "2026-09-20T14:28:50.393Z",
   "classification_rule": {
     "buckets": {
       "SETTLED": "the check ran and reached an answer",
@@ -37,6 +37,27 @@
     },
     "undecidable_yields": "null -> NOT_EVALUATED, never a default in either direction"
   },
+  "derivation_gate": {
+    "enforced_paths": [
+      "rows[].distinguishes_absence",
+      "rows[].verdict"
+    ],
+    "rule": "a load-bearing field must arrive as derived(value, source) or the run fails before publication",
+    "proves": "the value was produced by code that ran this run, with its artifact named",
+    "does_not_prove": "that the derivation is correct — a wrong derivation still passes",
+    "provenance": {
+      "rows.0.distinguishes_absence": "classifyVocabulary() over 4 declared values read from kernel.cjs exports (AGREE/DISAGREE/INDETERMINATE/NOT_EVALUATED)",
+      "rows.1.distinguishes_absence": "classifyVocabulary() over 3 declared values read from crates/elara-verify/src/lib.rs — pub enum Verdict + variant doc comments",
+      "rows.2.distinguishes_absence": "classifyVocabulary() over 10 declared values read from snapshots/2026-09-19/observation.json — manifest.verdict_vocabulary (signature verified here)",
+      "rows.3.distinguishes_absence": "live tamper (BB-08) → UNRUN_CHECKS_ABSENT: checks that could no longer run are encoded ABSENT, never false",
+      "rows.4.distinguishes_absence": "not established by this run (no_executable_surface)",
+      "rows.0.verdict": "column true via classifyVocabulary() over 4 declared values read from kernel.cjs exports (AGREE/DISAGREE/INDETERMINATE/NOT_EVALUATED)",
+      "rows.1.verdict": "column false via classifyVocabulary() over 3 declared values read from crates/elara-verify/src/lib.rs — pub enum Verdict + variant doc comments",
+      "rows.2.verdict": "column true via classifyVocabulary() over 10 declared values read from snapshots/2026-09-19/observation.json — manifest.verdict_vocabulary (signature verified here)",
+      "rows.3.verdict": "column true via live tamper (BB-08) → UNRUN_CHECKS_ABSENT: checks that could no longer run are encoded ABSENT, never false",
+      "rows.4.verdict": "row not established: no_executable_surface"
+    }
+  },
   "rows": [
     {
       "id": "assurance-run",
@@ -46,7 +67,7 @@
       "verdict": "AGREE",
       "established": true,
       "method": "executed",
-      "pin": "c2260f7",
+      "pin": "5da0cc2",
       "vocabulary": [
         "AGREE",
         "DISAGREE",

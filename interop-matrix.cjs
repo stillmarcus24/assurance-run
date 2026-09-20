@@ -384,7 +384,9 @@ function gatherLiveVector() {
       method: 'executed_live',
       vocabulary: null,
       vocabulary_source: 'no verdict enum — boolean `valid` with sibling check fields',
-      distinguishes_absence: distinguishes,
+      // Minted here, at the point the live run produced it. Downstream never
+      // adds a mark it did not earn.
+      distinguishes_absence: K.derived(distinguishes, basis),
       distinguishes_basis: basis,
       counts: parsed,
       detail: `no verdict enum; a boolean with sibling check fields. ${basis}.`,
@@ -421,27 +423,40 @@ async function gatherSpec(url) {
  * path lets a gatherer hand over a bare boolean with no justification.
  */
 function decideRow(ev) {
-  if (!ev.established) return { distinguishes: null, classification: null, basis: ev.method };
+  // Every return below wraps the column in K.derived(value, source). The gate at
+  // publication refuses any row whose column arrives unwrapped, so a hardcoded
+  // literal cannot reach the output — it fails the run instead of printing.
+  if (!ev.established) {
+    return { distinguishes: K.derived(null, `not established by this run (${ev.method})`),
+      classification: null, basis: ev.method };
+  }
   if (ev.vocabulary) {
     const c = classifyVocabulary(ev.vocabulary);
-    return {
-      distinguishes: c.distinguishes,
-      classification: c,
-      basis: `classified from ${ev.vocabulary_source}`,
-    };
+    const src = `classifyVocabulary() over ${Object.keys(ev.vocabulary).length || ev.vocabulary.length} ` +
+      `declared values read from ${ev.vocabulary_source}`;
+    return { distinguishes: K.derived(c.distinguishes, src), classification: c, basis: `classified from ${ev.vocabulary_source}` };
   }
   if (ev.distinguishes_absence !== undefined) {
+    // Pass it through EXACTLY as the gatherer produced it. An earlier version of
+    // this branch wrapped whatever arrived in K.derived(..., 'observed behaviour'),
+    // which would have laundered a hardcoded literal into a derivation and made
+    // the gate decorative. The mark has to be minted where the value is computed;
+    // a bare literal stays bare and the gate rejects the run.
     return { distinguishes: ev.distinguishes_absence, classification: null,
       basis: ev.distinguishes_basis || 'observed behaviour' };
   }
-  return { distinguishes: null, classification: null, basis: 'no vocabulary and no observed behaviour' };
+  return { distinguishes: K.derived(null, 'no vocabulary and no observed behaviour'),
+    classification: null, basis: 'no vocabulary and no observed behaviour' };
 }
 
 function verdictFor(ev, decided) {
-  if (!ev.established) return NOT_EVALUATED;
-  if (decided.distinguishes === true) return AGREE;
-  if (decided.distinguishes === false) return INDETERMINATE;
-  return NOT_EVALUATED; // undecidable is never a default either way
+  const d = K.isDerived(decided.distinguishes) ? decided.distinguishes.value : decided.distinguishes;
+  const src = K.isDerived(decided.distinguishes) ? decided.distinguishes.source : 'undeclared';
+  if (!ev.established) return K.derived(NOT_EVALUATED, `row not established: ${ev.method}`);
+  if (d === true) return K.derived(AGREE, `column true via ${src}`);
+  if (d === false) return K.derived(INDETERMINATE, `column false via ${src}`);
+  // undecidable is never a default either way
+  return K.derived(NOT_EVALUATED, `column undecidable via ${src}`);
 }
 
 async function main() {
@@ -485,6 +500,21 @@ async function main() {
     };
   });
 
+  // THE GATE. Nothing below this line may read a load-bearing field until the
+  // gate has passed, because until then the value is still wrapped. Declared
+  // here rather than inside the row builder so the list of what counts as
+  // load-bearing is visible in one place and can be extended deliberately.
+  const LOAD_BEARING = ['rows[].distinguishes_absence', 'rows[].verdict'];
+  let provenance;
+  try {
+    provenance = K.sealDerived({ rows }, LOAD_BEARING);
+  } catch (err) {
+    if (err.code !== 'DERIVATION_GATE') throw err;
+    console.error('\n  REFUSED TO PUBLISH\n');
+    console.error('  ' + err.message.split('\n').join('\n  ') + '\n');
+    process.exit(2);
+  }
+
   // A "four-state emitter" is an implementation that can name both sides of the
   // absence split, whatever it calls them. Cardinality 4 and the literal token
   // NOT_EVALUATED were the old test, and it was a test of vocabulary fashion
@@ -509,6 +539,16 @@ async function main() {
       basis_precedence: ['operator_note', 'name_map', 'unclassified'],
       name_map: NAME_ROLES,
       undecidable_yields: 'null -> NOT_EVALUATED, never a default in either direction',
+    },
+    // Where each load-bearing value came from, recorded at the moment it was
+    // computed. A field absent from here could not have been published: the
+    // gate refuses the run rather than printing an undeclared value.
+    derivation_gate: {
+      enforced_paths: LOAD_BEARING,
+      rule: 'a load-bearing field must arrive as derived(value, source) or the run fails before publication',
+      proves: 'the value was produced by code that ran this run, with its artifact named',
+      does_not_prove: 'that the derivation is correct — a wrong derivation still passes',
+      provenance,
     },
     rows,
     summary: {

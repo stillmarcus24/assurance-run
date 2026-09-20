@@ -183,7 +183,43 @@ function runSuite(evaluator) {
   if (!nwPass) console.log(`        wanted NOT_EVALUATED/ADAPTER_NOT_CONFIGURED, got ${nw.verdict}/${nw.reason}`);
   if (savedTruth !== undefined) process.env.ASSURANCE_X402_TRUTH = savedTruth;
 
-  const allOk = failed.length === 0 && brokenCaught.length >= 3 && replayOk && smokeOk && faultOk;
+  // ---- AC-16..19: the derivation gate. A gate with no test is a gate we are
+  // asserting works, which is the defect it exists to stop, applied to itself.
+  let gateOk = true;
+  const gate = (id, name, fn) => {
+    let pass = false, why = '';
+    try { pass = fn() === true; } catch (e) { why = e.message.split('\n')[0]; }
+    if (!pass) gateOk = false;
+    console.log(`  ${pass ? 'ok  ' : 'FAIL'}  ${id}  ${name}`);
+    if (!pass && why) console.log(`        threw: ${why}`);
+  };
+
+  gate('AC-16', 'a hardcoded literal at a load-bearing path is REFUSED, not published', () => {
+    const obj = { rows: [{ id: 'a', col: K.derived(true, 'computed here') }, { id: 'b', col: false }] };
+    try { K.sealDerived(obj, ['rows[].col']); return false; } // must not reach
+    catch (e) {
+      return e.code === 'DERIVATION_GATE' && e.undeclared.length === 1 &&
+        e.undeclared[0].path === 'rows.1.col';
+    }
+  });
+
+  gate('AC-17', 'a derived value publishes, unwrapped, with its source recorded', () => {
+    const obj = { rows: [{ id: 'a', col: K.derived(true, 'classifier over 10 declared values') }] };
+    const prov = K.sealDerived(obj, ['rows[].col']);
+    return obj.rows[0].col === true && prov['rows.0.col'] === 'classifier over 10 declared values';
+  });
+
+  gate('AC-18', 'derived() with no named source is rejected at the mint, not at publication', () => {
+    try { K.derived(true); return false; } catch (e) { return /DERIVED_REQUIRES_SOURCE/.test(e.message); }
+  });
+
+  gate('AC-19', 'a MISSING load-bearing field is refused too, not silently skipped', () => {
+    const obj = { rows: [{ id: 'a' }] };
+    try { K.sealDerived(obj, ['rows[].col']); return false; }
+    catch (e) { return e.code === 'DERIVATION_GATE' && e.undeclared[0].value_typed_in === '(missing)'; }
+  });
+
+  const allOk = failed.length === 0 && brokenCaught.length >= 3 && replayOk && smokeOk && faultOk && gateOk;
   console.log('\n  ' + '-'.repeat(68));
   console.log('  RESULT: ' + (allOk ? 'all prohibitions held' : 'CONTRACT VIOLATED') + '\n');
   process.exit(allOk ? 0 : 1);

@@ -3,7 +3,7 @@
     "tool": "live-babyblueviper/0.1",
     "kernel": "assurance-run/0.1",
     "target": "https://api.babyblueviper.com",
-    "observed_at": "2026-09-20T14:16:16Z",
+    "observed_at": "2026-09-20T14:28:50Z",
     "routes_examined": [
       "https://api.babyblueviper.com/ledger/1",
       "https://api.babyblueviper.com/verify-proof",
@@ -67,7 +67,7 @@
     },
     "not_established": 1
   },
-  "digest": "d9c33a8c1dd55d96924d7c0a1418b6d3f2d4ba10b9fe5b87a4c3699c042d3de6",
-  "signature": "yf0xcteZAL3dDNl2s9T60iSuGJkqc89kJOPX+iOQ3na0XshOeHirKEQh/+oSxFnBzSszh6r3BMQfQFsMwzlqCQ==",
+  "digest": "1b78dbe7a705ba87004540e937688224902ac95764ec15be2ed029de40314422",
+  "signature": "eRcAY3vpbqUPuLpNijRc1fRfLeeP739S0IBW7t6b/kz96Joigwn7b0M1+6NBwtUsCEJpHSasWBLxF6/srPFUDg==",
   "algorithm": "ed25519"
 }

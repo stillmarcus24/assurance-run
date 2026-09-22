@@ -169,6 +169,44 @@
    "dropped_vs_previous": []
   }
  },
- "invariant": "Across all 8 published policy_versions (v4-v18, 240 signed proofs) the preimage field set is strictly monotonic: no version ever drops a field present in an earlier one.",
- "note_v19": "invinoveritas.review.v19 (23 fields, the version supplied in wg-identity#21) does not appear in the 262-entry public ledger."
+ "invariant": "Across the 8 policy_versions that shipped a live proof (v4-v18, 214 signed proofs of 240 walked), the preimage field set is monotonic: no observed version drops a field present in an earlier observed version.",
+ "note_v19": "invinoveritas.review.v19 (23 fields, the version supplied in wg-identity#21) does not appear in the 262-entry public ledger.",
+ "coverage": {
+  "policy_versions_observed": 8,
+  "policy_versions_known_to_exist": 19,
+  "observed": [
+   "v4",
+   "v5",
+   "v7",
+   "v9",
+   "v10",
+   "v11",
+   "v17",
+   "v18"
+  ],
+  "unobserved": [
+   "v1",
+   "v2",
+   "v3",
+   "v6",
+   "v8",
+   "v12",
+   "v13",
+   "v14",
+   "v15",
+   "v16",
+   "v19"
+  ],
+  "note": "This walk sees only versions that shipped a LIVE proof to the public ledger. v12-v16 is a contiguous blind spot: the last observation before it (v11) carries no action_binding fields and the first after it (v17) carries all four, so every intermediate step is unwitnessed."
+ },
+ "known_exception": {
+  "reported_by": "babyblueviper1, x402-foundation/wg-identity#21, 2026-09-22",
+  "source": "POLICY_VERSION_AUTHORIZED_PREIMAGE_FIELDS \u2014 the producer-side registry /verify-proof checks against, not the public ledger",
+  "what": "v13's single `action_binding_hash` was split into `action_binding_tool_hash`, `action_binding_args_hash` and `action_binding_agent_id` at v14.",
+  "classification": "Rename/split, not a semantic drop \u2014 the binding it committed to is still committed, at finer granularity.",
+  "why_this_walk_missed_it": "v13 never shipped a live proof before the split (28 minutes apart in the same commit session), so it is inside the v12-v16 blind spot above. The public ledger is structurally incapable of witnessing a version that never published.",
+  "independently_verified_by_us": false,
+  "consistent_with_our_data": "Yes and necessarily so: v11 (observed) has no action_binding field of any kind and v17 (observed) has all four, so our evidence is silent on the transition rather than contradicting it."
+ },
+ "limitation": "A ledger walk bounds what was ISSUED, never what was REGISTERED. A field set that was registered and never used leaves no trace here. Treat this file as the observed lower bound on policy-version history, and the operator's registry as the authority on the rest."
 }

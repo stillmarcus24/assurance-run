@@ -3,7 +3,7 @@
     "tool": "live-babyblueviper/0.1",
     "kernel": "assurance-run/0.1",
     "target": "https://api.babyblueviper.com",
-    "observed_at": "2026-09-20T14:41:43Z",
+    "observed_at": "2026-09-22T15:47:22Z",
     "routes_examined": [
       "https://api.babyblueviper.com/ledger/1",
       "https://api.babyblueviper.com/verify-proof",
@@ -46,34 +46,34 @@
         "decided_from": "GET /ledger/1"
       },
       {
-        "verdict": "NOT_EVALUATED",
-        "reason": "VECTOR_NO_LONGER_RESOLVES",
+        "verdict": "AGREE",
+        "reason": "AUTHORIZED_PREIMAGE_SET",
         "claim": "preimage_fields_authorized:true on a proof postdating commit 78e6a921",
-        "detail": "POST /verify-proof {event_id:7aa10c9783ef…} → HTTP 404 \"no durably-stored event\". The same id returned HTTP 200 with valid:true and preimage_fields_authorized:true earlier in this session. The check did not fail; it could not be performed, because the fixture is no longer retrievable. Says nothing about their verifier — it is a durability property of the vector.",
+        "detail": "POST /verify-proof {event_id:7aa10c9783ef…} → HTTP 200, valid:true, preimage_fields_authorized:true (top-level), checks.decision_ref_recomputes:true, policy_version \"invinoveritas.review.v19\". FORMAT vector: it shows the verifier accepts the authorized set for the version named, not that anything reviewed is correct.",
         "decided_from": "POST /verify-proof"
       },
       {
-        "verdict": "NOT_EVALUATED",
-        "reason": "NO_PREIMAGE_MATERIAL",
+        "verdict": "AGREE",
+        "reason": "DECISION_REF_RECOMPUTED",
         "claim": "decision_ref recomputes independently from the published payload and declared field list",
-        "detail": "the response carried no proof_payload.decision_ref_preimage_fields to rebuild from",
+        "detail": "23 declared fields (9 absent → null), canonicalised and hashed here: sha256:60c64a0228221824… == the proof's own decision_ref. Independent: their decision_ref_recomputes flag was not used as the evidence.",
         "decided_from": "POST /verify-proof"
       },
       {
-        "verdict": "NOT_EVALUATED",
-        "reason": "NO_EVENT_TO_TAMPER",
+        "verdict": "AGREE",
+        "reason": "UNRUN_CHECKS_ABSENT",
         "claim": "a tampered proof is refused, and the checks that could no longer run are not reported as failed",
-        "detail": "the response carried no event.content to alter",
+        "detail": "one byte of event.content flipped → valid:false, id_integrity:false, signature_valid:false. The checks that could no longer run are encoded ABSENT, never false: checks.decision_ref_recomputes=ABSENT, preimage_fields_authorized=ABSENT. The response carries 4 check keys against 13 on the valid proof — the short-circuit is visible in the shape. CONSUMER HAZARD, ours not theirs: omission is only honest if the reader distinguishes an absent key from a false one. Any reader using a falsy default (.get(k), obj[k] ?? false) converts not-evaluated into failed on arrival. This runner made that error before this line was written.",
         "decided_from": "POST /verify-proof"
       }
     ],
     "counts": {
-      "AGREE": 4,
+      "AGREE": 7,
       "DISAGREE": 0,
       "INDETERMINATE": 1,
-      "NOT_EVALUATED": 3
+      "NOT_EVALUATED": 0
     },
-    "not_established": 4,
+    "not_established": 1,
     "derivation_gate": {
       "enforced_paths": [
         "findings[].verdict"
@@ -87,13 +87,13 @@
         "findings.2.verdict": "decided from POST /verify-proof (HTTP 404, 137 bytes)",
         "findings.3.verdict": "decided from POST /verify-proof (HTTP 200, 8988 bytes)",
         "findings.4.verdict": "decided from GET /ledger/1 (HTTP 200, 8230 bytes)",
-        "findings.5.verdict": "decided from POST /verify-proof (HTTP 404, 137 bytes)",
-        "findings.6.verdict": "decided from POST /verify-proof (HTTP 404, 137 bytes)",
-        "findings.7.verdict": "decided from POST /verify-proof (HTTP 404, 137 bytes)"
+        "findings.5.verdict": "decided from POST /verify-proof (HTTP 200, 12257 bytes)",
+        "findings.6.verdict": "decided from POST /verify-proof (HTTP 200, 12257 bytes)",
+        "findings.7.verdict": "decided from POST /verify-proof (HTTP 200, 6299 bytes)"
       }
     }
   },
-  "digest": "0c48dc4dbf64325b1557a462fd1a739601e02f205b72014bb9055edc85f0ae0d",
-  "signature": "CyIjQr4AR8HZV5KJ2m5HV/buTPhch8hEUZ2TcjhK05XCfXDqCcX9pH54L7QMgE+AzBwPjidCoptc0GH2C5yQBQ==",
+  "digest": "703b05f9edc923d99968fe077cd14670c31c38179bd918185d87c3e62d41d9a3",
+  "signature": "m8Cx9ti+Ih0iVDsswhOnXXqNT3XNY13DJnpLqsyorqAn5l/4TzQ1yJDjA1jcxhAZ3/YReNDHE8op7E1G0MvXCA==",
   "algorithm": "ed25519"
 }

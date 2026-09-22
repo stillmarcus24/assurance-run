@@ -1,0 +1,174 @@
+{
+ "source": "https://api.babyblueviper.com/ledger/1..262",
+ "derived_at": "2026-09-22",
+ "method": "walked every published ledger entry; parsed proof_event.content; NIP-01 id recomputed and schnorr-verified for all 240 proof events before any field was counted",
+ "signatures_verified": "240/240",
+ "versions": {
+  "invinoveritas.review.v4": {
+   "observed_proofs": 116,
+   "field_count": 6,
+   "fields": [
+    "artifact_hash",
+    "artifact_type",
+    "policy_version",
+    "source_class",
+    "vantage_limitation",
+    "verdict"
+   ],
+   "superset_of_previous": true,
+   "dropped_vs_previous": []
+  },
+  "invinoveritas.review.v5": {
+   "observed_proofs": 76,
+   "field_count": 6,
+   "fields": [
+    "artifact_hash",
+    "artifact_type",
+    "policy_version",
+    "source_class",
+    "vantage_limitation",
+    "verdict"
+   ],
+   "superset_of_previous": true,
+   "dropped_vs_previous": []
+  },
+  "invinoveritas.review.v7": {
+   "observed_proofs": 1,
+   "field_count": 8,
+   "fields": [
+    "artifact_hash",
+    "artifact_type",
+    "intended_audience",
+    "policy_version",
+    "related_decision_ref",
+    "source_class",
+    "vantage_limitation",
+    "verdict"
+   ],
+   "superset_of_previous": true,
+   "dropped_vs_previous": []
+  },
+  "invinoveritas.review.v9": {
+   "observed_proofs": 1,
+   "field_count": 11,
+   "fields": [
+    "artifact_hash",
+    "artifact_type",
+    "confidentiality_tier",
+    "disclosed_summary",
+    "intended_audience",
+    "intended_verifier",
+    "policy_version",
+    "related_decision_ref",
+    "source_class",
+    "vantage_limitation",
+    "verdict"
+   ],
+   "superset_of_previous": true,
+   "dropped_vs_previous": []
+  },
+  "invinoveritas.review.v10": {
+   "observed_proofs": 5,
+   "field_count": 12,
+   "fields": [
+    "artifact_hash",
+    "artifact_type",
+    "confidentiality_tier",
+    "disclosed_summary",
+    "intended_audience",
+    "intended_verifier",
+    "policy_commitment",
+    "policy_version",
+    "related_decision_ref",
+    "source_class",
+    "vantage_limitation",
+    "verdict"
+   ],
+   "superset_of_previous": true,
+   "dropped_vs_previous": []
+  },
+  "invinoveritas.review.v11": {
+   "observed_proofs": 1,
+   "field_count": 15,
+   "fields": [
+    "artifact_hash",
+    "artifact_type",
+    "confidentiality_tier",
+    "disclosed_summary",
+    "intended_audience",
+    "intended_verifier",
+    "policy_commitment",
+    "policy_version",
+    "registry_as_of",
+    "registry_snapshot_sha256",
+    "related_decision_ref",
+    "source_class",
+    "vantage_limitation",
+    "verdict",
+    "verified_at"
+   ],
+   "superset_of_previous": true,
+   "dropped_vs_previous": []
+  },
+  "invinoveritas.review.v17": {
+   "observed_proofs": 13,
+   "field_count": 20,
+   "fields": [
+    "action_binding_agent_id",
+    "action_binding_args_hash",
+    "action_binding_nonce",
+    "action_binding_tool_hash",
+    "artifact_hash",
+    "artifact_type",
+    "confidentiality_tier",
+    "disclosed_summary",
+    "freshness_beacon_hash",
+    "intended_audience",
+    "intended_verifier",
+    "policy_commitment",
+    "policy_version",
+    "registry_as_of",
+    "registry_snapshot_sha256",
+    "related_decision_ref",
+    "source_class",
+    "vantage_limitation",
+    "verdict",
+    "verified_at"
+   ],
+   "superset_of_previous": true,
+   "dropped_vs_previous": []
+  },
+  "invinoveritas.review.v18": {
+   "observed_proofs": 1,
+   "field_count": 22,
+   "fields": [
+    "action_binding_agent_id",
+    "action_binding_args_hash",
+    "action_binding_nonce",
+    "action_binding_tool_hash",
+    "artifact_hash",
+    "artifact_type",
+    "confidentiality_tier",
+    "disclosed_summary",
+    "epistemic_basis",
+    "external_evidence_hash",
+    "freshness_beacon_hash",
+    "intended_audience",
+    "intended_verifier",
+    "policy_commitment",
+    "policy_version",
+    "registry_as_of",
+    "registry_snapshot_sha256",
+    "related_decision_ref",
+    "source_class",
+    "vantage_limitation",
+    "verdict",
+    "verified_at"
+   ],
+   "superset_of_previous": true,
+   "dropped_vs_previous": []
+  }
+ },
+ "invariant": "Across all 8 published policy_versions (v4-v18, 240 signed proofs) the preimage field set is strictly monotonic: no version ever drops a field present in an earlier one.",
+ "note_v19": "invinoveritas.review.v19 (23 fields, the version supplied in wg-identity#21) does not appear in the 262-entry public ledger."
+}

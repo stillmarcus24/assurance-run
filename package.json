@@ -4,10 +4,16 @@
   "description": "Executable corpus for the four Phase 1 evidence semantics: four-state verdicts, capture relationship, per-state evidence binding, typed references. Zero dependencies.",
   "license": "MIT",
   "scripts": {
-    "test": "node selftest.cjs && node selftest-semantics.cjs",
+    "test": "node selftest.cjs && node selftest-semantics.cjs && node selftest-preimage-history.cjs",
     "cross-rail": "node cross-rail.cjs",
     "live-audit": "node live-claim-audit.cjs"
   },
-  "keywords": ["x402", "evidence", "conformance", "scitt", "rfc9162"],
+  "keywords": [
+    "x402",
+    "evidence",
+    "conformance",
+    "scitt",
+    "rfc9162"
+  ],
   "private": false
 }

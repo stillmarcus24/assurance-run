@@ -1,0 +1,732 @@
+{
+  "created_at": "2026-09-20T18:20:07.341Z",
+  "seed": 20260920,
+  "population": {
+    "total_ok": 7711,
+    "expanded": 1752,
+    "changed_not_expanded": 1158,
+    "identical": 4801
+  },
+  "items": {
+    "6f87c4e0c1a679b5": {
+      "pkg": "@refugeandsword/taskboard-mcp",
+      "from": "1.0.0",
+      "to": "1.0.1",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "1bf109b3002f8e1b": {
+      "pkg": "@valewnrt/testa-mcp",
+      "from": "0.2.0",
+      "to": "0.2.1",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "3311dc024734ff5b": {
+      "pkg": "@burtthecoder/mcp-shodan",
+      "from": "1.0.31",
+      "to": "1.0.32",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "7ddd20b7f19128ac": {
+      "pkg": "@upstash/mcp-server",
+      "from": "0.3.0",
+      "to": "0.3.1-rc",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "4a6095f1e5301d07": {
+      "pkg": "wavestreamer-mcp",
+      "from": "0.1.2",
+      "to": "0.1.3",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "6167c65a051fb672": {
+      "pkg": "ellmos-homebase-mcp",
+      "from": "0.1.0-alpha.24",
+      "to": "0.1.0-alpha.28",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "401dddd8046b488a": {
+      "pkg": "agent-observability-mcp",
+      "from": "1.0.2",
+      "to": "1.1.0",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "d0f3fbb9d44137a0": {
+      "pkg": "@agentmetal/mcp",
+      "from": "0.3.1",
+      "to": "0.3.2",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "f8a9c9d91112c801": {
+      "pkg": "@cyanheads/noaa-climate-mcp-server",
+      "from": "0.6.2",
+      "to": "0.6.3",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "fcd2833bbbc855ad": {
+      "pkg": "cerebras-code-mcp",
+      "from": "1.3.4",
+      "to": "1.3.5",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "1808c19a775988d8": {
+      "pkg": "@rfdez/pvpc-mcp-server",
+      "from": "3.2.4",
+      "to": "3.2.5",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "b88e5dbab9dd348d": {
+      "pkg": "company-gi-mcp",
+      "from": "1.0.0",
+      "to": "1.0.1",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "cbf1eeb38bc22d74": {
+      "pkg": "delx-living-body",
+      "from": "0.3.6",
+      "to": "0.3.7",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "98f26fa1ecad364e": {
+      "pkg": "@yawlabs/fetch-mcp",
+      "from": "0.6.2",
+      "to": "0.7.0",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "3400a14c821fac76": {
+      "pkg": "@slp-dev1/qwen-dap-mcp",
+      "from": "0.18.0",
+      "to": "0.18.1",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "9d62420e97468450": {
+      "pkg": "@ellul-estate/eorcompass-com-eor-pricing-index-mcp",
+      "from": "0.1.0",
+      "to": "1.0.0",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "addf9f73f754b834": {
+      "pkg": "@readystack/mcp-config-audit",
+      "from": "1.0.1",
+      "to": "1.0.2",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "3f11d7c1d439a83d": {
+      "pkg": "pour-picks-mcp",
+      "from": "1.0.3",
+      "to": "1.0.4",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "2c3469c14e832f55": {
+      "pkg": "seedance-prompts-mcp",
+      "from": "1.0.0",
+      "to": "1.0.1",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "c997e1da2ec0a12f": {
+      "pkg": "bach-codecommander-mcp",
+      "from": "1.3.3",
+      "to": "1.3.4",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "90ca1619c02ff8ec": {
+      "pkg": "@voteship/mcp-server",
+      "from": "0.2.2",
+      "to": "0.2.3",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "e77b73eb269d72c8": {
+      "pkg": "@codespar/mcp-dock",
+      "from": "0.2.0-alpha.2",
+      "to": "0.2.0-alpha.3",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "a3fe30d545809bb7": {
+      "pkg": "quick-html-share-mcp",
+      "from": "0.3.0",
+      "to": "0.4.0",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "88702f80f266ee1e": {
+      "pkg": "@instavar/mcp-server",
+      "from": "0.4.1",
+      "to": "0.5.0",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "0c9e91e0d602a014": {
+      "pkg": "canvasaas",
+      "from": "1.1.2",
+      "to": "1.1.3",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "aa484a653a2063bc": {
+      "pkg": "ctxl-mcp",
+      "from": "0.0.1",
+      "to": "0.0.2",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "8a1f00f76f029e6b": {
+      "pkg": "agentic-recall",
+      "from": "2.0.1",
+      "to": "2.0.2",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "8b3b989162fb9ad5": {
+      "pkg": "@ewalid/rosetta-mcp",
+      "from": "0.1.0",
+      "to": "0.1.1",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "e6d99a9d5a1a73f4": {
+      "pkg": "ugc-brief-mcp",
+      "from": "1.0.0",
+      "to": "1.0.1",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "ed69b8af4854a3bb": {
+      "pkg": "obsbot-mcp",
+      "from": "0.6.3",
+      "to": "0.7.0",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "5a5d5ce8bf8575da": {
+      "pkg": "ark-runtime-kernel",
+      "from": "2.0.0",
+      "to": "2.0.1",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "38a6e0baef2a7b9e": {
+      "pkg": "@chrischall/viator-mcp",
+      "from": "2.0.0",
+      "to": "2.1.0",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "463e99e0fd97fe4c": {
+      "pkg": "acta-mcp",
+      "from": "0.2.1",
+      "to": "0.2.2",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "baa77891f35192fc": {
+      "pkg": "@roamzy/mcp-server",
+      "from": "1.6.8",
+      "to": "1.6.9",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "45ef476ca0a88c13": {
+      "pkg": "agentrank-mcp-server",
+      "from": "1.2.1",
+      "to": "2.0.0",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "b2559376118066e0": {
+      "pkg": "@runapi.ai/wan-mcp",
+      "from": "0.1.8",
+      "to": "0.1.9",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "d3f323433e3cdc59": {
+      "pkg": "etoro-mcp-server",
+      "from": "1.1.3",
+      "to": "1.1.4",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "9b2b2a2707d70e2f": {
+      "pkg": "beleg2datev-mcp",
+      "from": "1.0.1",
+      "to": "1.0.2",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "2fd42ae1c0600c88": {
+      "pkg": "@codespar/mcp-xero",
+      "from": "0.2.1",
+      "to": "0.2.2",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "c0aae29048d926ba": {
+      "pkg": "mcp-shopify-admin",
+      "from": "1.0.1",
+      "to": "1.1.0",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "97c7cfe51113489c": {
+      "pkg": "wellness-nourish",
+      "from": "0.8.2",
+      "to": "0.8.3",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "1c9a95645bcbc899": {
+      "pkg": "@runapi.ai/gpt-4o-image-mcp",
+      "from": "0.1.7",
+      "to": "0.1.8",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "374e436b955e42dd": {
+      "pkg": "cachetank-mcp",
+      "from": "2.1.1",
+      "to": "2.1.2",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "38da7c99ef8159c9": {
+      "pkg": "@solinkify/mcp",
+      "from": "0.3.2",
+      "to": "0.3.3",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "8ccc40def6bae411": {
+      "pkg": "@neverranked/mcp",
+      "from": "0.1.3",
+      "to": "0.1.4",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "77ca0786ca29f2bf": {
+      "pkg": "@capawesome/mcp",
+      "from": "0.0.1",
+      "to": "0.0.2",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "505925e3bb24898e": {
+      "pkg": "@verusidx/send-mcp",
+      "from": "0.1.6",
+      "to": "0.1.7",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "779626caf3fa13d4": {
+      "pkg": "seracade",
+      "from": "2.14.1",
+      "to": "2.15.0",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "4a5a490eeeb00b3a": {
+      "pkg": "@ironwallet/mcp-server",
+      "from": "1.2.0",
+      "to": "1.2.1",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "1d4f81420240f625": {
+      "pkg": "vp0-mcp",
+      "from": "0.1.1",
+      "to": "0.3.0",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "42162b24571ee124": {
+      "pkg": "@shiplightai/mcp",
+      "from": "0.2.1",
+      "to": "0.2.2",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "c658f9794ca9c0c4": {
+      "pkg": "mcp-stdio-shellguard",
+      "from": "0.1.1",
+      "to": "0.1.2",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "9e05ff618fa6d252": {
+      "pkg": "@ooples/token-optimizer-mcp",
+      "from": "7.1.0",
+      "to": "7.2.0",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "6ef080b2db9b67b8": {
+      "pkg": "@charta/mcp",
+      "from": "1.0.1",
+      "to": "1.0.2",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "b33cb529e6e41fbf": {
+      "pkg": "@adrkit/mcp",
+      "from": "0.12.0",
+      "to": "0.13.0",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "75237a5084d44842": {
+      "pkg": "hedera-mcp-platform",
+      "from": "2.3.1",
+      "to": "2.4.0",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "9f810c3da7f3c5de": {
+      "pkg": "x402-crypto-mcp",
+      "from": "1.3.6",
+      "to": "1.3.7",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "f04fcfa31ed6388c": {
+      "pkg": "bridgistic-mcp-server",
+      "from": "1.1.1",
+      "to": "1.2.0",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "fe988042e518a568": {
+      "pkg": "x402-trust-mcp",
+      "from": "1.12.0",
+      "to": "1.13.0",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "fa72ee1946733676": {
+      "pkg": "@eox/elements-mcp-server",
+      "from": "1.2.1",
+      "to": "1.3.0",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "1caa247706fa6c96": {
+      "pkg": "toolstem-mcp-server",
+      "from": "1.2.15",
+      "to": "1.2.16",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "db8b23b055568e35": {
+      "pkg": "alces-mcp",
+      "from": "1.0.1",
+      "to": "1.0.2",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "af2c436c46d7f7ca": {
+      "pkg": "agent-api-gateway-mcp",
+      "from": "1.3.1",
+      "to": "1.3.2",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "bb4f141dfb37a8e5": {
+      "pkg": "zod-contract-mock-forge-mcp",
+      "from": "0.1.1",
+      "to": "0.2.0",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "5be104c508c72167": {
+      "pkg": "@paretools/lint",
+      "from": "0.22.0",
+      "to": "0.22.2",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "4132a81031c19f00": {
+      "pkg": "@featureflip/mcp",
+      "from": "0.1.6",
+      "to": "0.1.7",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "53d7e084b05aa42a": {
+      "pkg": "@contextbridge_ai/mcp",
+      "from": "0.1.2",
+      "to": "0.1.3",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "196344502b9af2f7": {
+      "pkg": "baton-mcp",
+      "from": "0.1.0",
+      "to": "0.2.0",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "1615af2a7d45901e": {
+      "pkg": "vtimestamp-mcp",
+      "from": "1.1.1",
+      "to": "1.2.0",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "20e279b06d27527c": {
+      "pkg": "forex-mobile-mcp",
+      "from": "1.0.1",
+      "to": "1.0.2",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "fcbbd7b3df9a6f74": {
+      "pkg": "@remem-ai/remem",
+      "from": "0.6.92",
+      "to": "0.6.93",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "de72866aa12ef764": {
+      "pkg": "portkey-admin-mcp",
+      "from": "0.11.6",
+      "to": "0.12.0",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "f88891ceb7ecbf9a": {
+      "pkg": "email-agent-mcp",
+      "from": "0.3.1",
+      "to": "0.3.2",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "746ce690e3e6c736": {
+      "pkg": "@apixies/mcp-server",
+      "from": "1.4.1",
+      "to": "1.4.2",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "641d4eaad2a19692": {
+      "pkg": "@copperline/rendex-mcp",
+      "from": "1.8.1",
+      "to": "1.8.2",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "aea58acb34d0075c": {
+      "pkg": "compare-cli-mcp",
+      "from": "0.1.3",
+      "to": "0.1.4",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "10ca325763fd414c": {
+      "pkg": "copilot-studio-mcp",
+      "from": "0.1.6",
+      "to": "0.1.7",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "ad8c941e9a3245cb": {
+      "pkg": "cogmemory-mcp",
+      "from": "1.13.0",
+      "to": "1.14.0",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "8f83df6bd6cb8fbd": {
+      "pkg": "@walletbureau/mcp",
+      "from": "0.1.0",
+      "to": "0.1.1",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "35ddea613c860cbc": {
+      "pkg": "@uibeats/mcp",
+      "from": "0.1.2",
+      "to": "0.1.3",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "824251b75a004ba9": {
+      "pkg": "@codespar/mcp-legiti",
+      "from": "0.2.0-alpha.2",
+      "to": "0.2.0-alpha.3",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "09f42668df3757cc": {
+      "pkg": "mcp-google-tagmanager",
+      "from": "1.0.0",
+      "to": "1.1.0",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "74d3ef2e15b57a98": {
+      "pkg": "legal-doc-analyzer",
+      "from": "1.1.3",
+      "to": "1.1.4",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "fa9bb686f82be4bf": {
+      "pkg": "labelchop-mcp-server",
+      "from": "0.1.1",
+      "to": "0.1.2",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "e08f17268d866751": {
+      "pkg": "mcp-recipes",
+      "from": "3.0.1",
+      "to": "4.0.0",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "004bb903e5faf4b0": {
+      "pkg": "@jagilber-org/index-server",
+      "from": "1.32.0",
+      "to": "1.42.4",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "f7c91816b51afe5a": {
+      "pkg": "@hederatoolbox/platform",
+      "from": "3.5.4",
+      "to": "3.5.5",
+      "stratum": "changed_not_expanded",
+      "detector_expanded": false,
+      "detector_identical": false
+    },
+    "2f634891af43b403": {
+      "pkg": "@akka-finance/mcp-server",
+      "from": "1.0.1",
+      "to": "1.0.2",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    },
+    "f4d7a6ba4cc9f5ea": {
+      "pkg": "onepassword-mcp-server",
+      "from": "0.5.3",
+      "to": "0.5.4",
+      "stratum": "identical",
+      "detector_expanded": false,
+      "detector_identical": true
+    },
+    "d2dbbf5478d08316": {
+      "pkg": "sfcc-dev-mcp",
+      "from": "1.0.22",
+      "to": "1.1.0",
+      "stratum": "expanded",
+      "detector_expanded": true,
+      "detector_identical": false
+    }
+  }
+}

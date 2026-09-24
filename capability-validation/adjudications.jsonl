@@ -1,0 +1,90 @@
+{"id": "401dddd8046b488a", "label": "no", "note": "host only in console.error dashboard log line"}
+{"id": "addf9f73f754b834", "label": "yes", "note": "process.env.DO_NOT_TRACK/READYSTACK_NO_TELEMETRY real runtime guard on new telemetry"}
+{"id": "3f11d7c1d439a83d", "label": "yes", "note": "process.env.MCP_INSTALL_SOURCE read in dist/telemetry.js runtime path"}
+{"id": "e77b73eb269d72c8", "label": "no", "note": "hosts are server.json metadata (docsUrl/logoUrl/homepage/favicon) + marketing string"}
+{"id": "a3fe30d545809bb7", "label": "no", "note": "host inside a user-facing confirmation string"}
+{"id": "0c9e91e0d602a014", "label": "no", "note": "hosts from package.json homepage and server.json url metadata"}
+{"id": "8a1f00f76f029e6b", "label": "yes", "note": "exec +13 sites, substantial"}
+{"id": "8b3b989162fb9ad5", "label": "yes", "note": "exec +4 real; host itself is a console.error install hint (FP on host, TP on exec)"}
+{"id": "e6d99a9d5a1a73f4", "label": "no", "note": "homepage metadata only"}
+{"id": "ed69b8af4854a3bb", "label": "unclear", "note": "all visible OBSBOT_LIVE_POSE hits are comments/.d.ts; real read not observable"}
+{"id": "5a5d5ce8bf8575da", "label": "yes", "note": "Boolean(process.env.GROK_HOOK_EVENT) real read + fs +8"}
+{"id": "9b2b2a2707d70e2f", "label": "no", "note": "glama.ai is a $schema URL in glama.json"}
+{"id": "2fd42ae1c0600c88", "label": "no", "note": "server.json metadata + marketing string"}
+{"id": "c0aae29048d926ba", "label": "no", "note": "127.0.0.1 only in test/dist-smoke.test.js fixture"}
+{"id": "8ccc40def6bae411", "label": "no", "note": "host parsed out of tool description prose; trailing-dot artifact; net delta NEGATIVE"}
+{"id": "77ca0786ca29f2bf", "label": "yes", "note": "DEFAULT_URL const in dist/connection.js, real connection target"}
+{"id": "4a5a490eeeb00b3a", "label": "yes", "note": "process.env.IW_TONAPI_KEY real read + tonapi.io in env-config url"}
+{"id": "c658f9794ca9c0c4", "label": "yes", "note": "exec +63 sites"}
+{"id": "9e05ff618fa6d252", "label": "yes", "note": "DEFAULT_API_BASE const + env.ORCAROUTER_API_KEY real reads, fs+10 net+22"}
+{"id": "75237a5084d44842", "label": "yes", "note": "new dependency ethers in package.json"}
+{"id": "bb4f141dfb37a8e5", "label": "yes", "note": "new dependency js-yaml, imported in dist/index.js"}
+{"id": "196344502b9af2f7", "label": "yes", "note": "real fetch() to api.trongrid.io / api.etherscan.io in src/billing-crypto.js + real env reads"}
+{"id": "1615af2a7d45901e", "label": "yes", "note": "process.env.VERUS_RPC_USER/PASSWORD real reads, RPC URL construction"}
+{"id": "ad8c941e9a3245cb", "label": "unclear", "note": "fs +1 only, no string signal, not resolvable from counts"}
+{"id": "824251b75a004ba9", "label": "no", "note": "server.json metadata + marketing string"}
+{"id": "74d3ef2e15b57a98", "label": "yes", "note": "process.env.AIVP_USAGE_DIR real read + fs +4"}
+{"id": "e08f17268d866751", "label": "yes", "note": "new dependency mcp-pequerecetas, actually imported"}
+{"id": "004bb903e5faf4b0", "label": "yes", "note": "multiple real process.env.INDEX_SERVER_* reads"}
+{"id": "2f634891af43b403", "label": "no", "note": "host inside an error-message string"}
+{"id": "d2dbbf5478d08316", "label": "no", "note": "\"hostname\" extracted as a host from a doc comment \u2014 parser artifact"}
+{"id": "6f87c4e0c1a679b5", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "1bf109b3002f8e1b", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "3311dc024734ff5b", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "7ddd20b7f19128ac", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "4a6095f1e5301d07", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "6167c65a051fb672", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "d0f3fbb9d44137a0", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "f8a9c9d91112c801", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "fcd2833bbbc855ad", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "1808c19a775988d8", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "b88e5dbab9dd348d", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "cbf1eeb38bc22d74", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "98f26fa1ecad364e", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "3400a14c821fac76", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "9d62420e97468450", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "2c3469c14e832f55", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "c997e1da2ec0a12f", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "90ca1619c02ff8ec", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "88702f80f266ee1e", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "aa484a653a2063bc", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "38a6e0baef2a7b9e", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "463e99e0fd97fe4c", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "baa77891f35192fc", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "45ef476ca0a88c13", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "b2559376118066e0", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "d3f323433e3cdc59", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "97c7cfe51113489c", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "1c9a95645bcbc899", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "374e436b955e42dd", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "38da7c99ef8159c9", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "505925e3bb24898e", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "779626caf3fa13d4", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "1d4f81420240f625", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "42162b24571ee124", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "6ef080b2db9b67b8", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "b33cb529e6e41fbf", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "9f810c3da7f3c5de", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "f04fcfa31ed6388c", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "fe988042e518a568", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "fa72ee1946733676", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "1caa247706fa6c96", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "db8b23b055568e35", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "af2c436c46d7f7ca", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "5be104c508c72167", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "4132a81031c19f00", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "53d7e084b05aa42a", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "20e279b06d27527c", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "fcbbd7b3df9a6f74", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "de72866aa12ef764", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "f88891ceb7ecbf9a", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "746ce690e3e6c736", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "641d4eaad2a19692", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "aea58acb34d0075c", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "10ca325763fd414c", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "8f83df6bd6cb8fbd", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "35ddea613c860cbc", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "09f42668df3757cc", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "fa9bb686f82be4bf", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "f7c91816b51afe5a", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}
+{"id": "f4d7a6ba4cc9f5ea", "label": "no", "note": "no capability signal of any kind (no new dep/host/env/bin; exec/fs/eval deltas <= 0)"}

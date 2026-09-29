@@ -58,6 +58,7 @@
  */
 
 const fs = require('fs');
+const os = require('os');
 const path = require('path');
 const crypto = require('crypto');
 const { execFileSync } = require('child_process');
@@ -102,6 +103,19 @@ const SUBJECTS = [
     surface: 'https://datatracker.ietf.org/doc/draft-krausz-verification-state/',
     kind: 'specification',
   },
+  // Added 2026-09-29. The spec row above used to carry the claim that "no public
+  // implementation surface is named in wg-identity#21 or tsc#4". That was false
+  // for nine days: @TKCollective named one directly at tsc#4 on 2026-09-20
+  // ("Naming it rather than correcting you: pip install agentoracle-receipt-verify"),
+  // superseded by tanilo-receipt-verify. A specification genuinely has no
+  // vocabulary to EMIT, so that row stays NOT_EVALUATED — but the implementation
+  // is a separate artifact and gets measured like every other row.
+  {
+    id: 'tanilo-receipt-verify',
+    operator: '@TKCollective',
+    surface: 'https://pypi.org/project/tanilo-receipt-verify/',
+    kind: 'python_package',
+  },
 ];
 
 /* ------------------------------------------------------------------ *
@@ -131,6 +145,13 @@ const NAME_ROLES = {
   AGREE: SETTLED, DISAGREE: SETTLED, VERIFIED: SETTLED, FAILED: SETTLED,
   OK: SETTLED, WARN: SETTLED, BLOCKED: SETTLED, V1: SETTLED,
   UNPARSEABLE: SETTLED, NO_402: SETTLED,
+  // Added 2026-09-29: a genuine gap, not a tune. VALID/INVALID are the most
+  // common names for exactly the two outcomes VERIFIED/FAILED already occupy
+  // above — an answer was reached about the artifact. Their absence made every
+  // valid/invalid/indeterminate vocabulary undecidable on unclassified values
+  // alone, which reads as "we could not place this" when in fact the names are
+  // the least ambiguous in the field.
+  VALID: SETTLED, INVALID: SETTLED,
   // world — we asked; their side did not settle it
   INDETERMINATE: WORLD, UNREACHABLE: WORLD, TIMEOUT: WORLD, PARTIAL: WORLD,
   // instrument — no valid check ran, or this prober cannot assess it
@@ -452,9 +473,62 @@ async function gatherSpec(url) {
     method: 'no_executable_surface',
     detail: total
       ? `draft is published (datatracker returns ${total} matching document) and carries the four-state term; ` +
-        'no public implementation surface is named in wg-identity#21 or tsc#4, so nothing was executed'
+        'a specification has no vocabulary to EMIT, so this row is not evaluated by construction — ' +
+        'the implementation its author names is measured as its own row (tanilo-receipt-verify)'
       : 'datatracker returned no matching document from this run',
   };
+}
+
+/**
+ * tanilo-receipt-verify — the implementation @TKCollective named at tsc#4 on
+ * 2026-09-20, superseding agentoracle-receipt-verify.
+ *
+ * MEASURED, not read off the thread. The vocabulary comes from the installed
+ * module's own exported STATUS_* constants, so the row is established by the
+ * package rather than by anyone's description of it — including the author's,
+ * and including ours. It then goes through the same classifyVocabulary() rule
+ * as every other row.
+ *
+ * Any missing toolchain, offline pip, or import failure is OUR instrument
+ * failing and returns established:false with the reason named. It must never
+ * fabricate a vocabulary, and it must never report our own broken venv as a
+ * finding about their package.
+ */
+function gatherPythonPackage(pkg) {
+  const venv = path.join(os.tmpdir(), 'interop-venv-' + pkg.replace(/[^a-z0-9-]/gi, ''));
+  try {
+    sh('python3', ['-m', 'venv', venv]);
+    sh(path.join(venv, 'bin', 'pip'), ['install', '-q', pkg]);
+    const mod = pkg.replace(/-/g, '_');
+    // Print the module's OWN constants. Nothing here names a status value, so a
+    // typo in this file cannot invent one.
+    const out = sh(path.join(venv, 'bin', 'python'), ['-c',
+      'import json,' + mod + ' as m;' +
+      'print(json.dumps({' +
+      '"version": getattr(m,"__version__",None),' +
+      '"statuses": sorted([getattr(m,n) for n in dir(m) if n.startswith("STATUS_")]),' +
+      '"status_names": sorted([n for n in dir(m) if n.startswith("STATUS_")]),' +
+      '"has_not_evaluated_token": any("not_evaluated" in str(getattr(m,n)).lower() ' +
+      '  for n in dir(m) if n.startswith("STATUS_"))}))']);
+    const j = JSON.parse(out.trim().split('\n').pop());
+    if (!Array.isArray(j.statuses) || j.statuses.length === 0) {
+      return { established: false, method: 'source_read',
+        detail: `${pkg} installed but exports no STATUS_* constants; nothing measured` };
+    }
+    return {
+      established: true,
+      method: 'executed_install',
+      vocabulary: j.statuses,
+      vocabulary_source: `${j.status_names.length} STATUS_* constants exported by ` +
+        `${pkg}${j.version ? ' ' + j.version : ''}, read from a fresh venv install in this run`,
+      detail: `exports ${j.statuses.map((s) => JSON.stringify(s)).join(', ')}; ` +
+        `no not_evaluated status constant: ${!j.has_not_evaluated_token}`,
+    };
+  } catch (err) {
+    return { established: false, method: 'instrument_failed',
+      detail: 'could not install or import ' + pkg + ' in this run (our toolchain, ' +
+        'not a statement about the package): ' + String(err && err.message || err).slice(0, 200) };
+  }
 }
 
 /* ------------------------------------------------------------------ */
@@ -512,6 +586,7 @@ async function main() {
       'https://github.com/meloliva14/x402-measure.git'),
     'babyblueviper-verify-proof': gatherLiveVector(),
     'draft-krausz-verification-state': await gatherSpec(),
+    'tanilo-receipt-verify': gatherPythonPackage('tanilo-receipt-verify'),
   };
 
   const rows = SUBJECTS.map(s => {

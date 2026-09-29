@@ -1,7 +1,7 @@
 {
   "corpus": "assurance-run/interop-matrix",
   "question": "which implementations can express the four verification states distinctly, and where do they collapse",
-  "observed_at": "2026-09-29T02:24:05.804Z",
+  "observed_at": "2026-09-29T03:01:17.482Z",
   "classification_rule": {
     "buckets": {
       "SETTLED": "the check ran and reached an answer",
@@ -25,6 +25,8 @@
       "V1": "SETTLED",
       "UNPARSEABLE": "SETTLED",
       "NO_402": "SETTLED",
+      "VALID": "SETTLED",
+      "INVALID": "SETTLED",
       "INDETERMINATE": "WORLD",
       "UNREACHABLE": "WORLD",
       "TIMEOUT": "WORLD",
@@ -51,11 +53,13 @@
       "rows.2.distinguishes_absence": "classifyVocabulary() over 10 declared values read from snapshots/2026-09-19/observation.json — manifest.verdict_vocabulary (signature verified here)",
       "rows.3.distinguishes_absence": "live tamper (BB-08) → UNRUN_CHECKS_ABSENT: checks that could no longer run are encoded ABSENT, never false",
       "rows.4.distinguishes_absence": "not established by this run (no_executable_surface)",
+      "rows.5.distinguishes_absence": "classifyVocabulary() over 3 declared values read from 3 STATUS_* constants exported by tanilo-receipt-verify 0.1.2, read from a fresh venv install in this run",
       "rows.0.verdict": "column true via classifyVocabulary() over 4 declared values read from kernel.cjs exports (AGREE/DISAGREE/INDETERMINATE/NOT_EVALUATED)",
       "rows.1.verdict": "column false via classifyVocabulary() over 3 declared values read from crates/elara-verify/src/lib.rs — pub enum Verdict + variant doc comments",
       "rows.2.verdict": "column true via classifyVocabulary() over 10 declared values read from snapshots/2026-09-19/observation.json — manifest.verdict_vocabulary (signature verified here)",
       "rows.3.verdict": "column true via live tamper (BB-08) → UNRUN_CHECKS_ABSENT: checks that could no longer run are encoded ABSENT, never false",
-      "rows.4.verdict": "row not established: no_executable_surface"
+      "rows.4.verdict": "row not established: no_executable_surface",
+      "rows.5.verdict": "column false via classifyVocabulary() over 3 declared values read from 3 STATUS_* constants exported by tanilo-receipt-verify 0.1.2, read from a fresh venv install in this run"
     }
   },
   "rows": [
@@ -67,7 +71,7 @@
       "verdict": "AGREE",
       "established": true,
       "method": "executed",
-      "pin": "e4ae815",
+      "pin": "dff428b",
       "vocabulary": [
         "AGREE",
         "DISAGREE",
@@ -299,18 +303,62 @@
       "instrument_side": null,
       "unclassified_values": null,
       "corroboration": null,
-      "detail": "draft is published (datatracker returns 1 matching document) and carries the four-state term; no public implementation surface is named in wg-identity#21 or tsc#4, so nothing was executed"
+      "detail": "draft is published (datatracker returns 1 matching document) and carries the four-state term; a specification has no vocabulary to EMIT, so this row is not evaluated by construction — the implementation its author names is measured as its own row (tanilo-receipt-verify)"
+    },
+    {
+      "id": "tanilo-receipt-verify",
+      "operator": "@TKCollective",
+      "surface": "https://pypi.org/project/tanilo-receipt-verify/",
+      "kind": "python_package",
+      "verdict": "INDETERMINATE",
+      "established": true,
+      "method": "executed_install",
+      "pin": null,
+      "vocabulary": [
+        "indeterminate",
+        "invalid",
+        "valid"
+      ],
+      "cardinality": 3,
+      "vocabulary_source": "3 STATUS_* constants exported by tanilo-receipt-verify 0.1.2, read from a fresh venv install in this run",
+      "distinguishes_absence": false,
+      "decided_by": "classified from 3 STATUS_* constants exported by tanilo-receipt-verify 0.1.2, read from a fresh venv install in this run",
+      "value_roles": [
+        {
+          "value": "indeterminate",
+          "role": "WORLD",
+          "basis": "name_map"
+        },
+        {
+          "value": "invalid",
+          "role": "SETTLED",
+          "basis": "name_map"
+        },
+        {
+          "value": "valid",
+          "role": "SETTLED",
+          "basis": "name_map"
+        }
+      ],
+      "world_side": [
+        "indeterminate"
+      ],
+      "instrument_side": [],
+      "unclassified_values": [],
+      "corroboration": null,
+      "detail": "exports \"indeterminate\", \"invalid\", \"valid\"; no not_evaluated status constant: true"
     }
   ],
   "summary": {
-    "subjects": 5,
+    "subjects": 6,
     "absence_side_distinct": [
       "assurance-run",
       "x402-measure",
       "babyblueviper-verify-proof"
     ],
     "absence_side_collapsed": [
-      "elara-verify"
+      "elara-verify",
+      "tanilo-receipt-verify"
     ],
     "undecidable_by_this_rule": [],
     "not_established_by_this_run": [

@@ -1,0 +1,323 @@
+{
+  "corpus": "assurance-run/interop-matrix",
+  "question": "which implementations can express the four verification states distinctly, and where do they collapse",
+  "observed_at": "2026-09-29T02:24:05.804Z",
+  "classification_rule": {
+    "buckets": {
+      "SETTLED": "the check ran and reached an answer",
+      "WORLD": "the check ran; the source did not settle it",
+      "INSTRUMENT": "no valid check ran, or not assessable by this prober"
+    },
+    "column_is_true_when": "the vocabulary carries at least one WORLD value AND at least one INSTRUMENT value",
+    "basis_precedence": [
+      "operator_note",
+      "name_map",
+      "unclassified"
+    ],
+    "name_map": {
+      "AGREE": "SETTLED",
+      "DISAGREE": "SETTLED",
+      "VERIFIED": "SETTLED",
+      "FAILED": "SETTLED",
+      "OK": "SETTLED",
+      "WARN": "SETTLED",
+      "BLOCKED": "SETTLED",
+      "V1": "SETTLED",
+      "UNPARSEABLE": "SETTLED",
+      "NO_402": "SETTLED",
+      "INDETERMINATE": "WORLD",
+      "UNREACHABLE": "WORLD",
+      "TIMEOUT": "WORLD",
+      "PARTIAL": "WORLD",
+      "NOT_EVALUATED": "INSTRUMENT",
+      "NOT_ASSESSED": "INSTRUMENT",
+      "RATE_LIMITED": "INSTRUMENT",
+      "NON_EVM": "INSTRUMENT",
+      "UNKNOWN_NETWORK": "INSTRUMENT"
+    },
+    "undecidable_yields": "null -> NOT_EVALUATED, never a default in either direction"
+  },
+  "derivation_gate": {
+    "enforced_paths": [
+      "rows[].distinguishes_absence",
+      "rows[].verdict"
+    ],
+    "rule": "a load-bearing field must arrive as derived(value, source) or the run fails before publication",
+    "proves": "the value was produced by code that ran this run, with its artifact named",
+    "does_not_prove": "that the derivation is correct — a wrong derivation still passes",
+    "provenance": {
+      "rows.0.distinguishes_absence": "classifyVocabulary() over 4 declared values read from kernel.cjs exports (AGREE/DISAGREE/INDETERMINATE/NOT_EVALUATED)",
+      "rows.1.distinguishes_absence": "classifyVocabulary() over 3 declared values read from crates/elara-verify/src/lib.rs — pub enum Verdict + variant doc comments",
+      "rows.2.distinguishes_absence": "classifyVocabulary() over 10 declared values read from snapshots/2026-09-19/observation.json — manifest.verdict_vocabulary (signature verified here)",
+      "rows.3.distinguishes_absence": "live tamper (BB-08) → UNRUN_CHECKS_ABSENT: checks that could no longer run are encoded ABSENT, never false",
+      "rows.4.distinguishes_absence": "not established by this run (no_executable_surface)",
+      "rows.0.verdict": "column true via classifyVocabulary() over 4 declared values read from kernel.cjs exports (AGREE/DISAGREE/INDETERMINATE/NOT_EVALUATED)",
+      "rows.1.verdict": "column false via classifyVocabulary() over 3 declared values read from crates/elara-verify/src/lib.rs — pub enum Verdict + variant doc comments",
+      "rows.2.verdict": "column true via classifyVocabulary() over 10 declared values read from snapshots/2026-09-19/observation.json — manifest.verdict_vocabulary (signature verified here)",
+      "rows.3.verdict": "column true via live tamper (BB-08) → UNRUN_CHECKS_ABSENT: checks that could no longer run are encoded ABSENT, never false",
+      "rows.4.verdict": "row not established: no_executable_surface"
+    }
+  },
+  "rows": [
+    {
+      "id": "assurance-run",
+      "operator": "@stillmarcus24",
+      "surface": "https://github.com/stillmarcus24/assurance-run",
+      "kind": "executable",
+      "verdict": "AGREE",
+      "established": true,
+      "method": "executed",
+      "pin": "e4ae815",
+      "vocabulary": [
+        "AGREE",
+        "DISAGREE",
+        "INDETERMINATE",
+        "NOT_EVALUATED"
+      ],
+      "cardinality": 4,
+      "vocabulary_source": "kernel.cjs exports (AGREE/DISAGREE/INDETERMINATE/NOT_EVALUATED)",
+      "distinguishes_absence": true,
+      "decided_by": "classified from kernel.cjs exports (AGREE/DISAGREE/INDETERMINATE/NOT_EVALUATED)",
+      "value_roles": [
+        {
+          "value": "AGREE",
+          "role": "SETTLED",
+          "basis": "name_map"
+        },
+        {
+          "value": "DISAGREE",
+          "role": "SETTLED",
+          "basis": "name_map"
+        },
+        {
+          "value": "INDETERMINATE",
+          "role": "WORLD",
+          "basis": "name_map"
+        },
+        {
+          "value": "NOT_EVALUATED",
+          "role": "INSTRUMENT",
+          "basis": "name_map"
+        }
+      ],
+      "world_side": [
+        "INDETERMINATE"
+      ],
+      "instrument_side": [
+        "NOT_EVALUATED"
+      ],
+      "unclassified_values": [],
+      "corroboration": null,
+      "detail": "17 semantic cases executed, all prohibitions held"
+    },
+    {
+      "id": "elara-verify",
+      "operator": "@navigatorbuilds",
+      "surface": "https://github.com/navigatorbuilds/elara-mesh",
+      "kind": "source",
+      "verdict": "INDETERMINATE",
+      "established": true,
+      "method": "source_read",
+      "pin": "e44d4a6",
+      "vocabulary": [
+        "Verified",
+        "Partial",
+        "Failed"
+      ],
+      "cardinality": 3,
+      "vocabulary_source": "crates/elara-verify/src/lib.rs — pub enum Verdict + variant doc comments",
+      "distinguishes_absence": false,
+      "decided_by": "classified from crates/elara-verify/src/lib.rs — pub enum Verdict + variant doc comments",
+      "value_roles": [
+        {
+          "value": "Verified",
+          "role": "SETTLED",
+          "basis": "name_map"
+        },
+        {
+          "value": "Partial",
+          "role": "WORLD",
+          "basis": "name_map"
+        },
+        {
+          "value": "Failed",
+          "role": "SETTLED",
+          "basis": "name_map"
+        }
+      ],
+      "world_side": [
+        "Partial"
+      ],
+      "instrument_side": [],
+      "unclassified_values": [],
+      "corroboration": null,
+      "detail": "Verdict{Verified, Partial, Failed} in crates/elara-verify/src/lib.rs; its own docstring assigns \"absent or pending evidence\" to the single Partial"
+    },
+    {
+      "id": "x402-measure",
+      "operator": "@meloliva14",
+      "surface": "https://github.com/meloliva14/x402-measure",
+      "kind": "source",
+      "verdict": "AGREE",
+      "established": true,
+      "method": "source_read",
+      "pin": "8b5513d",
+      "vocabulary": [
+        "BLOCKED",
+        "NON_EVM",
+        "NO_402",
+        "OK",
+        "RATE_LIMITED",
+        "UNKNOWN_NETWORK",
+        "UNPARSEABLE",
+        "UNREACHABLE",
+        "V1",
+        "WARN"
+      ],
+      "cardinality": 10,
+      "vocabulary_source": "snapshots/2026-09-19/observation.json — manifest.verdict_vocabulary (signature verified here)",
+      "distinguishes_absence": true,
+      "decided_by": "classified from snapshots/2026-09-19/observation.json — manifest.verdict_vocabulary (signature verified here)",
+      "value_roles": [
+        {
+          "value": "BLOCKED",
+          "role": "SETTLED",
+          "basis": "name_map"
+        },
+        {
+          "value": "NON_EVM",
+          "role": "INSTRUMENT",
+          "basis": "operator_note"
+        },
+        {
+          "value": "NO_402",
+          "role": "SETTLED",
+          "basis": "name_map"
+        },
+        {
+          "value": "OK",
+          "role": "SETTLED",
+          "basis": "name_map"
+        },
+        {
+          "value": "RATE_LIMITED",
+          "role": "INSTRUMENT",
+          "basis": "operator_note"
+        },
+        {
+          "value": "UNKNOWN_NETWORK",
+          "role": "INSTRUMENT",
+          "basis": "name_map"
+        },
+        {
+          "value": "UNPARSEABLE",
+          "role": "SETTLED",
+          "basis": "name_map"
+        },
+        {
+          "value": "UNREACHABLE",
+          "role": "WORLD",
+          "basis": "operator_note"
+        },
+        {
+          "value": "V1",
+          "role": "SETTLED",
+          "basis": "name_map"
+        },
+        {
+          "value": "WARN",
+          "role": "SETTLED",
+          "basis": "name_map"
+        }
+      ],
+      "world_side": [
+        "UNREACHABLE"
+      ],
+      "instrument_side": [
+        "NON_EVM",
+        "RATE_LIMITED",
+        "UNKNOWN_NETWORK"
+      ],
+      "unclassified_values": [],
+      "corroboration": {
+        "snapshots_total": 43,
+        "snapshots_declaring_vocabulary": 33,
+        "first_declaring": "2026-08-18",
+        "rows_in_read_snapshot": 1521,
+        "verdicts_emitted": [
+          "BLOCKED",
+          "NON_EVM",
+          "NO_402",
+          "OK",
+          "RATE_LIMITED",
+          "UNREACHABLE",
+          "V1",
+          "WARN"
+        ],
+        "verdicts_undeclared": [],
+        "signature_verified": true
+      },
+      "detail": "10 declared values in manifest.verdict_vocabulary on 2026-09-19; 33 of 43 snapshots declare one (first 2026-08-18). Ed25519 ed25519:5d99c600ea396f4e, payload_sha256 recomputed here over 713506 bytes. 1521 rows in this snapshot emit 8 distinct verdicts, 0 of them undeclared."
+    },
+    {
+      "id": "babyblueviper-verify-proof",
+      "operator": "@babyblueviper1",
+      "surface": "https://api.babyblueviper.com",
+      "kind": "live",
+      "verdict": "AGREE",
+      "established": true,
+      "method": "executed_live",
+      "pin": null,
+      "vocabulary": null,
+      "cardinality": null,
+      "vocabulary_source": "machine-readable `state` observed live (indeterminate); scope: only the values this run elicited, not an enumeration of their full vocabulary",
+      "distinguishes_absence": true,
+      "decided_by": "live tamper (BB-08) → UNRUN_CHECKS_ABSENT: checks that could no longer run are encoded ABSENT, never false",
+      "value_roles": null,
+      "world_side": null,
+      "instrument_side": null,
+      "unclassified_values": null,
+      "corroboration": null,
+      "detail": "declares a machine-readable `state` (observed live: indeterminate), alongside boolean `valid` and sibling check fields. live tamper (BB-08) → UNRUN_CHECKS_ABSENT: checks that could no longer run are encoded ABSENT, never false."
+    },
+    {
+      "id": "draft-krausz-verification-state",
+      "operator": "@TKCollective",
+      "surface": "https://datatracker.ietf.org/doc/draft-krausz-verification-state/",
+      "kind": "specification",
+      "verdict": "NOT_EVALUATED",
+      "established": false,
+      "method": "no_executable_surface",
+      "pin": null,
+      "vocabulary": null,
+      "cardinality": null,
+      "vocabulary_source": null,
+      "distinguishes_absence": null,
+      "decided_by": "no_executable_surface",
+      "value_roles": null,
+      "world_side": null,
+      "instrument_side": null,
+      "unclassified_values": null,
+      "corroboration": null,
+      "detail": "draft is published (datatracker returns 1 matching document) and carries the four-state term; no public implementation surface is named in wg-identity#21 or tsc#4, so nothing was executed"
+    }
+  ],
+  "summary": {
+    "subjects": 5,
+    "absence_side_distinct": [
+      "assurance-run",
+      "x402-measure",
+      "babyblueviper-verify-proof"
+    ],
+    "absence_side_collapsed": [
+      "elara-verify"
+    ],
+    "undecidable_by_this_rule": [],
+    "not_established_by_this_run": [
+      {
+        "id": "draft-krausz-verification-state",
+        "why": "no_executable_surface"
+      }
+    ]
+  }
+}

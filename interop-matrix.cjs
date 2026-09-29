@@ -379,17 +379,60 @@ function gatherLiveVector() {
       basis = 'live tamper (BB-08) → unreached checks reported false: the two sides collapse';
     }
 
+    // DECLARED-STATE DETECTION, added 2026-09-29.
+    // This row read "no verdict enum — boolean `valid` with sibling check fields"
+    // as a hardcoded string. Between 2026-09-22 and 2026-09-29 the live endpoint
+    // began returning a machine-readable `state` / `state_reason`, so that string
+    // became a stale assertion about someone else's system, written down here
+    // rather than measured. It is now derived from what BB-03 actually observed.
+    //
+    // SCOPE: this reports only the state values THIS run elicited. It is not a
+    // claim to have enumerated their full vocabulary from outside — that would
+    // need one request per state, and the operator's own public check is the
+    // reference for the complete set.
+    let observedStates = [];
+    let vocabSource = 'no verdict enum — boolean `valid` with sibling check fields';
+    try {
+      const vpath = path.join(__dirname, 'verdicts', 'babyblueviper-verify-proof-2026-09-20.json');
+      const vf = JSON.parse(fs.readFileSync(vpath, 'utf8'));
+      for (const f of (vf.payload && vf.payload.findings) || []) {
+        const hit = /state:"([a-z_]+)"/.exec(f.detail || '');
+        if (hit) observedStates.push(hit[1]);
+      }
+      observedStates = [...new Set(observedStates)];
+      if (observedStates.length) {
+        vocabSource = 'machine-readable `state` observed live (' +
+          observedStates.join(', ') + '); scope: only the values this run elicited, ' +
+          'not an enumeration of their full vocabulary';
+      }
+    } catch (e) {
+      // An unreadable verdict file is a fact about THIS instrument. Leave the
+      // source string unchanged rather than inventing a vocabulary.
+      observedStates = [];
+    }
+
     return {
       established: true,
       method: 'executed_live',
+      // DELIBERATELY NULL. `vocabulary` is what the absence-split classifier
+      // reads, and a scope-limited list of the states THIS run happened to
+      // elicit is not their vocabulary. Populating it with the single observed
+      // value flipped this row to COLLAPSED on 2026-09-29 — a false accusation
+      // against their system, manufactured by our own partial sample, which is
+      // precisely the defect §3.1 exists to prohibit. The absence split for this
+      // row stays decided by the live tamper evidence below, which is real.
       vocabulary: null,
-      vocabulary_source: 'no verdict enum — boolean `valid` with sibling check fields',
+      states_observed: observedStates,
+      vocabulary_source: vocabSource,
       // Minted here, at the point the live run produced it. Downstream never
       // adds a mark it did not earn.
       distinguishes_absence: K.derived(distinguishes, basis),
       distinguishes_basis: basis,
       counts: parsed,
-      detail: `no verdict enum; a boolean with sibling check fields. ${basis}.`,
+      detail: (observedStates.length
+        ? `declares a machine-readable \`state\` (observed live: ${observedStates.join(', ')}), ` +
+          'alongside boolean `valid` and sibling check fields'
+        : 'no verdict enum; a boolean with sibling check fields') + `. ${basis}.`,
     };
   } catch (err) {
     return { established: false, method: 'executed_live', detail: String(err && err.message || err) };

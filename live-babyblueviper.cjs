@@ -96,6 +96,62 @@ async function http(method, url, body) {
  * whose observation is missing, or which was never actually fetched this run.
  * A hand-written finding has nothing to name and cannot be published.
  */
+/**
+ * BB-03, extracted so it is testable without a network. THE CLAUSE: an
+ * unresolvable proof id must come back as a DISTINCT non-verified signal and
+ * never as a pass.
+ *
+ * Pure: takes the observation, returns the finding. The runner and the
+ * known-answer test call THIS, so there is no second copy of the predicate to
+ * drift (the defect class that produced two stale instruments here already).
+ *
+ * The four §3.1 states as draft-krausz-verification-state names them. `verified`
+ * is the one value that would be a collapse: the id has no durably-stored event,
+ * so a verifier claiming it checked out has reported absence as a pass.
+ */
+const STATES_321 = ['verified', 'contradicted', 'indeterminate', 'not_evaluated'];
+
+function classifyMissShape(miss, knownId) {
+  const claim = 'wg-identity#21: a proof it cannot resolve returns a DISTINCT ' +
+    'non-verified signal, not a pass';
+  const msg = (miss.json && (miss.json.detail || miss.json.error)) || miss.text || '';
+  const state = miss.json && typeof miss.json.state === 'string'
+    ? miss.json.state.toLowerCase() : null;
+  const id12 = String(knownId || '').slice(0, 12);
+
+  // Checked FIRST: a declared state must never be able to launder a valid:true.
+  if (miss.ok && miss.json && miss.json.valid === true) {
+    return { verdict: DISAGREE, reason: 'ABSENCE_READ_AS_PASS', claim,
+      detail: 'POST returned valid:true for an id with no durable event — ' +
+        'the exact collapse the clause prohibits' };
+  }
+  if (miss.ok && state && STATES_321.includes(state) && state !== 'verified') {
+    // STRUCTURED SHAPE, adopted live between 2026-09-22 and 2026-09-29.
+    // Strictly stronger than the 404+prose this runner was written against: a
+    // declared machine-readable value instead of a sentence a reader must
+    // interpret. Our expectation was the stale half, which is why the previous
+    // run returned INDETERMINATE — a statement about THIS instrument — and
+    // never DISAGREE, a statement about their server. AC-11, applied to us.
+    return { verdict: AGREE, reason: 'HONEST_STATE_DECLARED', claim,
+      detail: `POST /verify-proof {event_id:${id12}…} → HTTP ${miss.status}; ` +
+        `state:"${state}"` +
+        (miss.json.state_reason ? `, state_reason:"${miss.json.state_reason}"` : '') +
+        (miss.json.verdict ? `, verdict:"${miss.json.verdict}"` : '') +
+        `, valid:${JSON.stringify(miss.json.valid)} — a declared machine-readable ` +
+        'state, not prose; it does not return valid:true' };
+  }
+  if (miss.ok && miss.status === 404 &&
+      /no durably-stored|predates|fallback|no .*event/i.test(msg)) {
+    return { verdict: AGREE, reason: 'HONEST_NOT_EVALUATED', claim,
+      detail: `POST /verify-proof {event_id:${id12}…} → HTTP 404 naming the reason ` +
+        '("no durably-stored event … predates this fix … HMAC fallback"); ' +
+        'it does not return valid:true' };
+  }
+  // Neither shape recognised. A statement about our expectation, not their server.
+  return { verdict: INDETERMINATE, reason: 'UNEXPECTED_MISS_SHAPE', claim,
+    detail: miss.ok ? `HTTP ${miss.status}: ${String(msg).slice(0, 160)}` : miss.fault.detail };
+}
+
 function emit(findings, observation, f) {
   if (!observation || observation.__fetched !== true) {
     const err = new Error(
@@ -153,21 +209,7 @@ async function run() {
   // so the honest answer is "no stored event", NOT a verification failure.
   const knownId = (ledger.json && ledger.json.event_id) || 'eb22294404b2021588f90747b6404e878431191845c2aab26a919702394c68ac';
   const miss = await http('POST', `${BASE}/verify-proof`, { event_id: knownId });
-  const missMsg = (miss.json && (miss.json.detail || miss.json.error)) || miss.text || '';
-  if (miss.ok && miss.status === 404 && /no durably-stored|predates|fallback|no .*event/i.test(missMsg)) {
-    emit(findings, miss, { verdict: AGREE, reason: 'HONEST_NOT_EVALUATED',
-      claim: 'wg-identity#21: a proof it cannot resolve returns a DISTINCT not-evaluated signal, not a pass',
-      detail: `POST /verify-proof {event_id:${knownId.slice(0, 12)}…} → HTTP 404 naming the reason ` +
-        `("no durably-stored event … predates this fix … HMAC fallback"); it does not return valid:true` });
-  } else if (miss.ok && (miss.json && miss.json.valid === true)) {
-    emit(findings, miss, { verdict: DISAGREE, reason: 'ABSENCE_READ_AS_PASS',
-      claim: 'a proof it cannot resolve returns a distinct not-evaluated signal, not a pass',
-      detail: `POST returned valid:true for an id with no durable event — the exact collapse the clause prohibits` });
-  } else {
-    emit(findings, miss, { verdict: INDETERMINATE, reason: 'UNEXPECTED_MISS_SHAPE',
-      claim: 'a proof it cannot resolve returns a distinct not-evaluated signal, not a pass',
-      detail: miss.ok ? `HTTP ${miss.status}: ${missMsg.slice(0, 160)}` : miss.fault.detail });
-  }
+  emit(findings, miss, classifyMissShape(miss, knownId));
 
   // ---- BB-04: a mis-shaped event → valid:false + unverifiable, never a pass ---
   const malformed = ledger.json ? await http('POST', `${BASE}/verify-proof`, { event: ledger.json }) : null;
@@ -396,6 +438,13 @@ function signedVerdict(r, observed_at) {
   const digest = K.sha256(K.canonical(payload));
   return { payload, digest, signature: K.sign(digest), algorithm: 'ed25519' };
 }
+
+module.exports = { classifyMissShape, STATES_321 };
+
+// MAIN GUARD. Without it, `require()`ing this file to test the classifier fires a
+// real live sweep against a third party's server AND overwrites the signed
+// verdict. Same defect class as the joint-window runner (2026-09-25).
+if (require.main !== module) return;
 
 (async () => {
   const observed_at = new Date().toISOString().replace(/\.\d{3}Z$/, 'Z'); // clock enters at the edge only

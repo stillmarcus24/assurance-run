@@ -3,7 +3,7 @@
     "tool": "live-babyblueviper/0.1",
     "kernel": "assurance-run/0.1",
     "target": "https://api.babyblueviper.com",
-    "observed_at": "2026-09-22T15:47:22Z",
+    "observed_at": "2026-09-29T02:24:01Z",
     "routes_examined": [
       "https://api.babyblueviper.com/ledger/1",
       "https://api.babyblueviper.com/verify-proof",
@@ -26,9 +26,9 @@
       },
       {
         "verdict": "AGREE",
-        "reason": "HONEST_NOT_EVALUATED",
-        "claim": "wg-identity#21: a proof it cannot resolve returns a DISTINCT not-evaluated signal, not a pass",
-        "detail": "POST /verify-proof {event_id:eb22294404b2…} → HTTP 404 naming the reason (\"no durably-stored event … predates this fix … HMAC fallback\"); it does not return valid:true",
+        "reason": "HONEST_STATE_DECLARED",
+        "claim": "wg-identity#21: a proof it cannot resolve returns a DISTINCT non-verified signal, not a pass",
+        "detail": "POST /verify-proof {event_id:eb22294404b2…} → HTTP 200; state:\"indeterminate\", state_reason:\"absence\", verdict:\"cannot_establish\", valid:null — a declared machine-readable state, not prose; it does not return valid:true",
         "decided_from": "POST /verify-proof"
       },
       {
@@ -84,16 +84,16 @@
       "provenance": {
         "findings.0.verdict": "decided from GET /ledger/1 (HTTP 200, 8230 bytes)",
         "findings.1.verdict": "decided from POST /verify-proof (HTTP 200, 391 bytes)",
-        "findings.2.verdict": "decided from POST /verify-proof (HTTP 404, 137 bytes)",
-        "findings.3.verdict": "decided from POST /verify-proof (HTTP 200, 8988 bytes)",
+        "findings.2.verdict": "decided from POST /verify-proof (HTTP 200, 597 bytes)",
+        "findings.3.verdict": "decided from POST /verify-proof (HTTP 200, 9127 bytes)",
         "findings.4.verdict": "decided from GET /ledger/1 (HTTP 200, 8230 bytes)",
-        "findings.5.verdict": "decided from POST /verify-proof (HTTP 200, 12257 bytes)",
-        "findings.6.verdict": "decided from POST /verify-proof (HTTP 200, 12257 bytes)",
-        "findings.7.verdict": "decided from POST /verify-proof (HTTP 200, 6299 bytes)"
+        "findings.5.verdict": "decided from POST /verify-proof (HTTP 200, 12392 bytes)",
+        "findings.6.verdict": "decided from POST /verify-proof (HTTP 200, 12392 bytes)",
+        "findings.7.verdict": "decided from POST /verify-proof (HTTP 200, 6438 bytes)"
       }
     }
   },
-  "digest": "703b05f9edc923d99968fe077cd14670c31c38179bd918185d87c3e62d41d9a3",
-  "signature": "m8Cx9ti+Ih0iVDsswhOnXXqNT3XNY13DJnpLqsyorqAn5l/4TzQ1yJDjA1jcxhAZ3/YReNDHE8op7E1G0MvXCA==",
+  "digest": "8597c3699c11168bc16a426b3299928bc47dfdc81043968ccac1a999cb2798ef",
+  "signature": "XLs1SxaUgNBf6Fb7+/qWadaodXVFgwyAo2D9JfKgzIz1Q6LW1FmWG9XZ3/wBXIpTWuBV2Bb6UIyJUOspm1uRCA==",
   "algorithm": "ed25519"
 }

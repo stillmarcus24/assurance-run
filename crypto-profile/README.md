@@ -71,6 +71,27 @@ plainly: *agreement makes neither verifier a reference, ours included.* My 8/8 a
 has the same defect: I read their README first. A commitment published before the
 vectors exist is the only version of this claim a stranger can check.
 
+## Ed25519 non-canonical-S test
+
+```
+node ed25519_malleability.cjs      # 4/4, public inputs only, no local files or keys
+```
+
+Runs against four **published** commitment files, their detached signatures, and the
+public keyring resolved by fingerprint — so a stranger reproduces it without anything
+from this box. All four: digest matches, **original verifies** (positive control),
+`S` canonical, malleated `S + L` rejected.
+
+**Scope, because it bounds the claim:** the `S + L` non-canonical encoding form only.
+Not a statement about every Ed25519 malleability class — small-order `R` and
+cofactor/mixed-order points are not covered.
+
+The positive control runs first for a reason: an earlier version of this test reported
+"safe" while the *original* signature also failed to verify, which proved nothing. The
+preimage is domain-separated as `domain || 0x00 || ascii(sha256_hex(file))` and I had
+signed the wrong bytes. A rejection only means something once the genuine signature is
+shown to verify.
+
 ## Verify the signature yourself
 
 Detached Ed25519 over `domain || 0x00 || ascii(sha256_hex(file))`. The zero byte stops

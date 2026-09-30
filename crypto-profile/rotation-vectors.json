@@ -1,0 +1,130 @@
+{
+  "_spec": "signer-set rotation vectors for the evidence-record crypto profile",
+  "_why": "Second open item in the crypto profile scope list (tersignhq/evidence-record-conformance#11): which key was authoritative at which seq. No vectors existed.",
+  "_rule": "valid iff the key verifies the signature AND effective_from <= t < effective_until (half-open; null until = open-ended)",
+  "_material": "live two-key rotation: 969 real receipts under the retired key, 4611 under the active key; Ed25519 over ascii(receipt_hash)",
+  "_boundary_finding": "retired.effective_until == active.effective_from == 2026-07-31T00:09:13.684Z — identical to the millisecond, so an inclusive reading makes BOTH keys authoritative at that instant",
+  "registry": [
+    {
+      "fingerprint": "921e3af51250a1f5",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEAsFIB67A7w7j7oLHjuJeErxMpq2VTZyUXD2785nbgqMM=\n-----END PUBLIC KEY-----\n",
+      "status": "retired",
+      "effective_from": "2026-06-27T08:39:51.304Z",
+      "effective_until": "2026-07-31T00:09:13.684Z",
+      "successor_fingerprint": "21de066900082465"
+    },
+    {
+      "fingerprint": "21de066900082465",
+      "public_key_pem": "-----BEGIN PUBLIC KEY-----\nMCowBQYDK2VwAyEARz4QMQCVd+ImBqd3YmkIA3NYd857O+5dAWNhY7V2ryk=\n-----END PUBLIC KEY-----\n",
+      "status": "active",
+      "effective_from": "2026-07-31T00:09:13.684Z",
+      "effective_until": null,
+      "successor_fingerprint": null
+    }
+  ],
+  "vectors": [
+    {
+      "id": "rp1-retired-key-historical-record-stays-valid",
+      "expect": "valid",
+      "description": "A REAL receipt signed by the now-retired key, at a time inside its window. Rotation must not invalidate history. A verifier that only accepts the active key fails here.",
+      "input": {
+        "fingerprint": "921e3af51250a1f5",
+        "receipt_hash": "82d10d6e2e1d361c253d12a5387329a2817ba0dd88b3c1d74d6ddaee026fb710",
+        "signature": "bopatkCZrAt0ZylkwQfl7j7qRUh5j/rKqwpkpNa9q3XAO+Ore/ntMhBoeZVe3l4eLnesvDuCveobIqF19ur7Cw==",
+        "at": "2026-06-28T20:02:05.455Z"
+      }
+    },
+    {
+      "id": "rp2-active-key-inside-window",
+      "expect": "valid",
+      "description": "A REAL receipt signed by the active key, at a time inside its window.",
+      "input": {
+        "fingerprint": "21de066900082465",
+        "receipt_hash": "20788e3ab5eec80c803a9bf6a5af5df4f6d11d23a8f2783ebd94f01f3092df6f",
+        "signature": "42WKH0i4u93iS7dcE9Oy2XFGqIQjcTyBJM1UllnhDj7aWDE3j+PTREZwgww0IijcxvkuQJ5jTbmwPiTuXZPoCw==",
+        "at": "2026-07-31T00:26:32.955Z"
+      }
+    },
+    {
+      "id": "rn1-retired-key-after-effective-until",
+      "expect": "reject",
+      "reject_reason": "signer_not_authoritative_at_time",
+      "description": "The same real retired-key signature, evaluated at a time after its effective_until. The signature is cryptographically fine; the key was no longer authoritative.",
+      "input": {
+        "fingerprint": "921e3af51250a1f5",
+        "receipt_hash": "82d10d6e2e1d361c253d12a5387329a2817ba0dd88b3c1d74d6ddaee026fb710",
+        "signature": "bopatkCZrAt0ZylkwQfl7j7qRUh5j/rKqwpkpNa9q3XAO+Ore/ntMhBoeZVe3l4eLnesvDuCveobIqF19ur7Cw==",
+        "at": "2026-08-15T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "rn2-active-key-before-effective-from",
+      "expect": "reject",
+      "reject_reason": "signer_not_yet_authoritative",
+      "description": "The real active-key signature evaluated before its effective_from. Pins the other side of the interval.",
+      "input": {
+        "fingerprint": "21de066900082465",
+        "receipt_hash": "20788e3ab5eec80c803a9bf6a5af5df4f6d11d23a8f2783ebd94f01f3092df6f",
+        "signature": "42WKH0i4u93iS7dcE9Oy2XFGqIQjcTyBJM1UllnhDj7aWDE3j+PTREZwgww0IijcxvkuQJ5jTbmwPiTuXZPoCw==",
+        "at": "2026-07-01T00:00:00.000Z"
+      }
+    },
+    {
+      "id": "rn3-boundary-instant-exactly-one-authoritative",
+      "kind": "exactly_one_authoritative",
+      "expect_count": 1,
+      "description": "At 2026-07-31T00:09:13.684Z the retired key's effective_until and the active key's effective_from are the same instant. Half-open yields exactly one authoritative key; inclusive/inclusive yields two.",
+      "input": {
+        "at": "2026-07-31T00:09:13.684Z"
+      }
+    },
+    {
+      "id": "rn4-signer-absent-from-the-published-registry",
+      "expect": "reject",
+      "reject_reason": "signer_not_in_registry",
+      "description": "A REAL production receipt whose notary_fp is not in the published keyring at all (fp_test, 2 rows, carried authoritative:false). A rotation-aware verifier must reject it rather than treat an unknown signer as an old one.",
+      "input": {
+        "fingerprint": "fp_test",
+        "receipt_hash": "f2fef47694e7e31d39161c9843c1b0f4c1fadb790bea8da6f870b077c02a1ba4",
+        "signature": "mrM5YpxaVz/p5U10aq8a8qCea8T7uteTUtiF5oRpZpAvCErP/BFpTXB2rEIhlK8NIKbck/sDWRQ+YATSAfqiDA==",
+        "at": "2026-09-15T01:37:20.090Z"
+      }
+    },
+    {
+      "id": "rn6-retired-key-AT-the-boundary-instant",
+      "expect": "reject",
+      "reject_reason": "signer_not_authoritative_at_time",
+      "description": "The real retired-key signature evaluated at EXACTLY effective_until. Half-open rejects it; an inclusive reading accepts it. This is the vector that kills the inclusive-interval implementation through the normal check path rather than incidentally.",
+      "input": {
+        "fingerprint": "921e3af51250a1f5",
+        "receipt_hash": "82d10d6e2e1d361c253d12a5387329a2817ba0dd88b3c1d74d6ddaee026fb710",
+        "signature": "bopatkCZrAt0ZylkwQfl7j7qRUh5j/rKqwpkpNa9q3XAO+Ore/ntMhBoeZVe3l4eLnesvDuCveobIqF19ur7Cw==",
+        "at": "2026-07-31T00:09:13.684Z"
+      }
+    },
+    {
+      "id": "rn7-active-key-AT-the-boundary-instant",
+      "expect": "valid",
+      "description": "The mirror of rn6: at exactly that instant the ACTIVE key IS authoritative, because effective_from is inclusive. rn6 and rn7 together pin the convention as [from, until) rather than merely asserting it.",
+      "input": {
+        "fingerprint": "21de066900082465",
+        "receipt_hash": "20788e3ab5eec80c803a9bf6a5af5df4f6d11d23a8f2783ebd94f01f3092df6f",
+        "signature": "42WKH0i4u93iS7dcE9Oy2XFGqIQjcTyBJM1UllnhDj7aWDE3j+PTREZwgww0IijcxvkuQJ5jTbmwPiTuXZPoCw==",
+        "at": "2026-07-31T00:09:13.684Z"
+      }
+    },
+    {
+      "id": "rn5-successor-not-named-by-predecessor",
+      "expect": "reject",
+      "reject_reason": "successor_not_named_by_predecessor",
+      "description": "The retired key claiming to be the successor of the active key. Succession must be read from the predecessor's own record, never from the claimant.",
+      "input": {
+        "fingerprint": "921e3af51250a1f5",
+        "receipt_hash": "82d10d6e2e1d361c253d12a5387329a2817ba0dd88b3c1d74d6ddaee026fb710",
+        "signature": "bopatkCZrAt0ZylkwQfl7j7qRUh5j/rKqwpkpNa9q3XAO+Ore/ntMhBoeZVe3l4eLnesvDuCveobIqF19ur7Cw==",
+        "at": "2026-06-28T20:02:05.455Z",
+        "claims_successor_of": "21de066900082465"
+      }
+    }
+  ]
+}

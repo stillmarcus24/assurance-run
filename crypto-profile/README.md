@@ -92,6 +92,66 @@ preimage is domain-separated as `domain || 0x00 || ascii(sha256_hex(file))` and 
 signed the wrong bytes. A rejection only means something once the genuine signature is
 shown to verify.
 
+## Signer-set rotation
+
+```
+node build_rotation_vectors.cjs    # author from live material
+node signer_rotation.cjs           # 9 vectors + 5 mutants, 14/14, no network
+```
+
+Second open item in the crypto profile's scope list: *which key was authoritative at
+which seq*. No vectors existed, so these are authored from a **live two-key rotation** —
+`921e3af51250a1f5` retired naming its successor, `21de066900082465` active, **5,581 real
+receipts across both**, Ed25519 over `ascii(receipt_hash)`, keys resolved from the public
+keyring by fingerprint.
+
+**Rule:** authoritative iff the key verifies the signature **and**
+`effective_from <= t < effective_until` (null = open-ended).
+
+**Half-open is normative, not stylistic.** In this live registry
+`retired.effective_until` and `active.effective_from` are the same instant to the
+millisecond — inclusive/inclusive makes two keys authoritative there, so one record
+admits two authoritative signers. `rn3`/`rn6`/`rn7` pin `[from, until)` from both sides.
+
+**Rotation must not invalidate history.** `rp1` is a real receipt under the now-retired
+key and must stay valid forever. "Accepts only the currently-active key" is the likeliest
+wrong implementation and dies on it.
+
+`rn4` is a disclosure: a real production receipt whose signer is **absent from our own
+published keyring** (`fp_test`, 2 rows, `authoritative: false`). A rotation-aware
+verifier must reject it, so it is a negative vector rather than something quietly
+cleaned up.
+
+Five mutants ship — accepts-only-active, ignores-time, inclusive-interval,
+trusts-the-claimant-on-succession, policy-before-crypto — each killed by the vector built
+for it. An earlier pass had `inclusive-interval` dying to an unrelated vector because the
+mutant sweep skipped the boundary case; a suite whose mutants die to the wrong vector
+gives false assurance.
+
+## EIP-712: p1 is fully verifiable, and the canonical form was not published
+
+```
+node verify_p1_digest.cjs      # live recompute from /v1/genesis
+node derive_canonical.cjs      # how the canonical form was recovered
+node derive_signer.cjs         # 18 preimage forms, 16 distinct addresses, 0 published
+node derive_eip712.cjs         # 5,184 typed-data constructions, 0 recover
+```
+
+p1's `kind` is `digest_recompute`, so its target had to be reachable from published
+bytes. Using the digest as an oracle rather than guessing: the canonical form is
+**`keccak256` over JCS of the whole artifact, signature included** — recomputed live,
+395 canonical bytes, exact match.
+
+Two discrimination checks show what the content address does: drop the signature and it
+differs (`0x09b78689…`); drop the `format` label and it differs (`0xf112d84a…`). Both are
+committed **as bytes**, neither is interpreted. **A conformant verifier validates p1
+completely while never checking the payload signature.**
+
+So `format: "eip712"` is an uninterpreted assertion. Four things unblock the vectors —
+**domain fields, `primaryType`, field order with solidity types, and the signer's
+address**. Without the last, recovery has nothing to compare against, and the signer may
+not be `payer`: no address for `sellerId: tersign-first` is published.
+
 ## Verify the signature yourself
 
 Detached Ed25519 over `domain || 0x00 || ascii(sha256_hex(file))`. The zero byte stops

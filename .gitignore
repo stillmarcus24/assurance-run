@@ -13,3 +13,6 @@ verdicts/checker-submissions.jsonl
 
 # peer source trees cloned read-only by interop-matrix.cjs
 .peers/
+
+.reveal-private.json
+node_modules/

@@ -1,0 +1,6 @@
+{
+  "commitment_scheme": "sha256(nonce_hex || canonical_json(record_body))",
+  "commitment_sha256": "0c6a0ba1455f3e18fa24d97f7fae1568d2466626bb50ddcc404f03c53736db16",
+  "record_sha256": "d72c45c20f7a75534354209ad0404311a7a6e30808a0b044ce2bdba783d4f585",
+  "note": "Publish this digest alone. The record body and nonce are revealed only after every participant has published a commitment."
+}

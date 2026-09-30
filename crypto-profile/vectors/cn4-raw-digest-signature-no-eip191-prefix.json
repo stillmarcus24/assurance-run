@@ -1,0 +1,14 @@
+{
+  "id": "cn4-raw-digest-signature-no-eip191-prefix",
+  "kind": "countersignature",
+  "expect": "reject",
+  "description": "The test key signs the raw 32-byte link without the EIP-191 personal_sign prefix; the record declares the test key. Recovering over the prefixed hash (the profile's domain) returns a different key. A runner that recovers over the raw digest accepts it: the domain must be pinned.",
+  "input": {
+    "artifact_digest": "0xe5874f1ffe87f0a6dd9eb157730f67b86ee4538b125fe30fcc4e165213dd3fc4",
+    "prev_digest": null,
+    "seq": 1,
+    "countersignature": "0xc71e83c3996f7eaa85353b606ec9d78e05cd7633ec4ced0a7fbced96cb7f6f411a00c7880ff756709ace45bb5efabcfdfe1bb1b14cbe4ba7309c773a0fa87ac41c",
+    "ledger_signer": "0xc6c2919698cd8f3c63e731f9231871f75138e60b"
+  },
+  "reject_reason": "signer_mismatch"
+}

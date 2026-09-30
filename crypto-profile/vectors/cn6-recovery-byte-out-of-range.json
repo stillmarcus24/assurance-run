@@ -1,0 +1,14 @@
+{
+  "id": "cn6-recovery-byte-out-of-range",
+  "kind": "countersignature",
+  "expect": "reject",
+  "description": "The live signature with v = 29. personal_sign signatures carry v in {27, 28}; any other value is malformed, not silently normalized.",
+  "input": {
+    "artifact_digest": "0xe5874f1ffe87f0a6dd9eb157730f67b86ee4538b125fe30fcc4e165213dd3fc4",
+    "prev_digest": null,
+    "seq": 1,
+    "countersignature": "0xfccc1add7301c688e03311ff04b9aecac4f0d81a468fc95128b24aa0c8aff2bf3b148181befffc6dbe739b1991d936cd434a2fa2bcb8ea1f49a06b8f7a3fff1d1d",
+    "ledger_signer": "0x9d38BA84730271eb27Ac9bD4Bd2620c08dB4FDa6"
+  },
+  "reject_reason": "malformed_signature"
+}

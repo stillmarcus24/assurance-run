@@ -1,0 +1,90 @@
+{
+  "vectors": 8,
+  "agree": 8,
+  "disagree": 0,
+  "reasonsOk": 6,
+  "reasonsChecked": 6,
+  "distinct_outcomes": 4,
+  "rows": [
+    {
+      "id": "cn1-signature-moved-to-another-seq",
+      "expect": "reject",
+      "got": "reject",
+      "expect_reason": "signer_mismatch",
+      "got_reason": "signer_mismatch",
+      "link": "0x428e5e2789fe45403d59278e06e03a5e55f1d36f4273982fa7281c39f48f933f",
+      "recovered": "0x19024be8f27608367598f58f254D92DeAFE1c40B",
+      "ok": true
+    },
+    {
+      "id": "cn2-foreign-signer-claims-ledger",
+      "expect": "reject",
+      "got": "reject",
+      "expect_reason": "signer_mismatch",
+      "got_reason": "signer_mismatch",
+      "link": "0x837c2d85db422b59f89527ef33bfe862af7230895635b63141b09cde169187a5",
+      "recovered": "0xC6c2919698CD8F3c63e731F9231871F75138E60B",
+      "ok": true
+    },
+    {
+      "id": "cn3-high-s-malleated-live-signature",
+      "expect": "reject",
+      "got": "reject",
+      "expect_reason": "non_canonical_s",
+      "got_reason": "non_canonical_s",
+      "link": "0x837c2d85db422b59f89527ef33bfe862af7230895635b63141b09cde169187a5",
+      "recovered": null,
+      "ok": true
+    },
+    {
+      "id": "cn4-raw-digest-signature-no-eip191-prefix",
+      "expect": "reject",
+      "got": "reject",
+      "expect_reason": "signer_mismatch",
+      "got_reason": "signer_mismatch",
+      "link": "0x837c2d85db422b59f89527ef33bfe862af7230895635b63141b09cde169187a5",
+      "recovered": "0xc15e347E393F829DF665Eda846435cB63FbD57aa",
+      "ok": true
+    },
+    {
+      "id": "cn5-truncated-64-byte-signature",
+      "expect": "reject",
+      "got": "reject",
+      "expect_reason": "malformed_signature",
+      "got_reason": "malformed_signature",
+      "link": "0x837c2d85db422b59f89527ef33bfe862af7230895635b63141b09cde169187a5",
+      "recovered": null,
+      "ok": true
+    },
+    {
+      "id": "cn6-recovery-byte-out-of-range",
+      "expect": "reject",
+      "got": "reject",
+      "expect_reason": "malformed_signature",
+      "got_reason": "malformed_signature",
+      "link": "0x837c2d85db422b59f89527ef33bfe862af7230895635b63141b09cde169187a5",
+      "recovered": null,
+      "ok": true
+    },
+    {
+      "id": "cp1-live-genesis-link-countersignature",
+      "expect": "valid",
+      "got": "valid",
+      "expect_reason": null,
+      "got_reason": null,
+      "link": "0x837c2d85db422b59f89527ef33bfe862af7230895635b63141b09cde169187a5",
+      "recovered": "0x9d38BA84730271eb27Ac9bD4Bd2620c08dB4FDa6",
+      "ok": true
+    },
+    {
+      "id": "cp2-test-key-accepting-twin",
+      "expect": "valid",
+      "got": "valid",
+      "expect_reason": null,
+      "got_reason": null,
+      "link": "0x837c2d85db422b59f89527ef33bfe862af7230895635b63141b09cde169187a5",
+      "recovered": "0xC6c2919698CD8F3c63e731F9231871F75138E60B",
+      "ok": true
+    }
+  ]
+}

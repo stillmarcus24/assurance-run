@@ -1,0 +1,13 @@
+{
+  "id": "cp2-test-key-accepting-twin",
+  "kind": "countersignature",
+  "expect": "valid",
+  "description": "Accepting twin of cn4: a published TEST key's personal_sign over the same link, declared signer = that key. A runner that hard-codes the tersign signer instead of reading ledger_signer fails here.",
+  "input": {
+    "artifact_digest": "0xe5874f1ffe87f0a6dd9eb157730f67b86ee4538b125fe30fcc4e165213dd3fc4",
+    "prev_digest": null,
+    "seq": 1,
+    "countersignature": "0xc71e83c3996f7eaa85353b606ec9d78e05cd7633ec4ced0a7fbced96cb7f6f412caf157b6be680cd45c776fcd239ce088719d9313edf12e96295b2cb2ce2dc761c",
+    "ledger_signer": "0xc6c2919698cd8f3c63e731f9231871f75138e60b"
+  }
+}

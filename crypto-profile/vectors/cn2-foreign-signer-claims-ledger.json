@@ -1,0 +1,14 @@
+{
+  "id": "cn2-foreign-signer-claims-ledger",
+  "kind": "countersignature",
+  "expect": "reject",
+  "description": "A different key (the published test key) signs the genuine link, but the record claims the ledger as signer. Recovery returns the test key.",
+  "input": {
+    "artifact_digest": "0xe5874f1ffe87f0a6dd9eb157730f67b86ee4538b125fe30fcc4e165213dd3fc4",
+    "prev_digest": null,
+    "seq": 1,
+    "countersignature": "0xc71e83c3996f7eaa85353b606ec9d78e05cd7633ec4ced0a7fbced96cb7f6f412caf157b6be680cd45c776fcd239ce088719d9313edf12e96295b2cb2ce2dc761c",
+    "ledger_signer": "0x9d38BA84730271eb27Ac9bD4Bd2620c08dB4FDa6"
+  },
+  "reject_reason": "signer_mismatch"
+}

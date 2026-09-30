@@ -1,0 +1,10 @@
+{
+  "alg": "ed25519",
+  "signed_file": "precommitment.json",
+  "signed_file_sha256": "8ea808721d4163c3c9c347f2919c8b0db64e4ea980368fc0f0faf869a9944777",
+  "domain": "evidence-record-conformance/crypto/v1/precommitment",
+  "key_fingerprint": "21de066900082465",
+  "signing_keys_url": "https://stillosdigitalholdings.com/notary/keyring",
+  "signature": "mKvPXB46RoKFkFz4XWmer6WI9aBUgC1rl1L0tGQWvlj5dOOMb+yfL4TBYYcoVzbF66+lZIow+TMr8F33Kt0cCA==",
+  "proves": "the holder of this key produced these exact bytes — NOT that the claim inside is true"
+}

@@ -1,0 +1,49 @@
+{
+ "description": "probe: sentence 7, whitespace-only confirming_party",
+ "vectors": [
+  {
+   "id": "acc-confirming-party-whitespace-only",
+   "what": "sentence 7: confirming_party is not trimmed, so whitespace only is a party name",
+   "case": {
+    "acceptance": {
+     "payload": "eyJhY2NlcHRhbmNlX3ZlcnNpb24iOiJhY2NlcHRhbmNlLXJlY29yZC12MCIsImFjY2VwdGVkX2F0IjoiMjAyNi0xMC0wNFQxODowNTowMC4wMDBaIiwiYWNjZXB0ZWRfcmVjb3JkX3NoYTI1NiI6IjUzMDIyYWZlMjZjZGJlMDhkNThjZWUwYTVmNmE3NDA5MDhlYmFiZTVlYmVkYzhmNGJjOGQzZGVkYzU1ZjZhNjgiLCJjb25maXJtaW5nX3BhcnR5IjoiICAgIiwiZGlzcG9zaXRpb24iOiJhY2NlcHRlZCIsIm91dGNvbWVfc2hhMjU2IjoiMWMyNzNjZGFiYzg3MmEzNjEwNTcwOTkwMThiMDlmZTQ3ODNhMWUxNmU2NWFjYTVkMDE1NTY3Yjc3OTg3MmQ5ZCIsInRlcm1zX3NoYTI1NiI6ImQyNGE1MjY0NmNhY2E2OGZmNzRmZTIyMzRlYjgxY2VhNjU4OGU3MTY2ZmMxOTVkNTQ5NjFlYzdjMGE2YTY1MzUifQ",
+     "protected": "eyJhbGciOiJFZERTQSIsImtpZCI6ImNwLTEifQ",
+     "signature": "X6ElFrOg7byFWCOa4A-WxKNBzFFS3iuSFOzqmEgpCF4lWQmQnRg_l2rZonRhzL7oKpLGLd21aJH5nJ6DWxM9CQ"
+    },
+    "accepted_record": {
+     "issuer": "did:example:issuer",
+     "issuer_kid": "iss-1",
+     "outcome_at": "2026-10-04T18:00:00.000Z",
+     "outcome_sha256": "1c273cdabc872a361057099018b09fe4783a1e16e65aca5d015567b779872d9d",
+     "record_id": "receipt-0001",
+     "terms_sha256": "d24a52646caca68ff74fe2234eb81cea6588e7166fc195d54961ec7c0a6a6535"
+    },
+    "delegation": {
+     "did:example:counterparty": [
+      "cp-1"
+     ],
+     "did:example:issuer": [
+      "iss-1"
+     ]
+    },
+    "trust_material": {
+     "keys": [
+      {
+       "crv": "Ed25519",
+       "kid": "cp-1",
+       "kty": "OKP",
+       "x": "tEYQJHI0koE3BU6mkHDbqNJqFlMgNGyiwLAi9fPNnXQ"
+      }
+     ]
+    },
+    "trust_material_complete": false
+   },
+   "expect": {
+    "result": "unknown",
+    "conditions": [
+     "acceptance_authority_unresolved"
+    ]
+   }
+  }
+ ]
+}

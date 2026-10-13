@@ -1,0 +1,221 @@
+[
+ {
+  "file": "cp1-live-genesis-link-countersignature.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "cp2-test-key-accepting-twin.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "cp3-prev-digest-absent-key-equals-null.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "cp4-live-seq2-link-countersignature.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "cp5-digest-trailing-newline-normalized.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "cp6-ledger-signer-trailing-newline-normalized.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "cp7-digest-uppercase-0X-normalized.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "cp8-explicit-link-version-1.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "cp9-seq-max-test-key.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "cn1-signature-moved-to-another-seq.json",
+  "verdict": "reject",
+  "reason": "signer_mismatch"
+ },
+ {
+  "file": "cn2-foreign-signer-claims-ledger.json",
+  "verdict": "reject",
+  "reason": "signer_mismatch"
+ },
+ {
+  "file": "cn3-high-s-malleated-live-signature.json",
+  "verdict": "reject",
+  "reason": "non_canonical_s"
+ },
+ {
+  "file": "cn4-raw-digest-signature-no-eip191-prefix.json",
+  "verdict": "reject",
+  "reason": "signer_mismatch"
+ },
+ {
+  "file": "cn5-truncated-64-byte-signature.json",
+  "verdict": "reject",
+  "reason": "malformed_signature"
+ },
+ {
+  "file": "cn6-recovery-byte-out-of-range.json",
+  "verdict": "reject",
+  "reason": "malformed_signature"
+ },
+ {
+  "file": "cn7-non-hex-artifact-digest.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "cn8-negative-seq.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "cn9-seq-out-of-range.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "cn10-seq-wrong-type-string.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "cn11-seq-wrong-type-bool.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "cn12-malformed-ledger-signer.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "cn13-malformed-prev-digest.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "cn14-signature-missing-0x-prefix.json",
+  "verdict": "reject",
+  "reason": "malformed_signature"
+ },
+ {
+  "file": "cn15-signature-embedded-whitespace.json",
+  "verdict": "reject",
+  "reason": "malformed_signature"
+ },
+ {
+  "file": "cn16-signature-trailing-newline.json",
+  "verdict": "reject",
+  "reason": "malformed_signature"
+ },
+ {
+  "file": "cn17-digest-bom-padded.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "cn18-signature-uppercase-0X-prefix.json",
+  "verdict": "reject",
+  "reason": "malformed_signature"
+ },
+ {
+  "file": "cn19-moved-predecessor-live-seq2.json",
+  "verdict": "reject",
+  "reason": "signer_mismatch"
+ },
+ {
+  "file": "cn20-unrecoverable-r-off-curve.json",
+  "verdict": "reject",
+  "reason": "unrecoverable"
+ },
+ {
+  "file": "cn21-recovery-byte-zero.json",
+  "verdict": "reject",
+  "reason": "malformed_signature"
+ },
+ {
+  "file": "cn22-recovery-byte-one.json",
+  "verdict": "reject",
+  "reason": "malformed_signature"
+ },
+ {
+  "file": "cn23-low-s-boundary-accepted-then-mismatch.json",
+  "verdict": "reject",
+  "reason": "signer_mismatch"
+ },
+ {
+  "file": "cn24-low-s-boundary-plus-one.json",
+  "verdict": "reject",
+  "reason": "non_canonical_s"
+ },
+ {
+  "file": "cn25-seq-zero.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "cn26-seq-above-2-53.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "cn27-unsupported-link-version.json",
+  "verdict": "reject",
+  "reason": "unsupported_link_version"
+ },
+ {
+  "file": "cn28-link-version-string.json",
+  "verdict": "reject",
+  "reason": "unsupported_link_version"
+ },
+ {
+  "file": "cp10-whitespace-padding-nel-and-ideographic-space.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "cp11-signature-uppercase-hex-digits.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "cn29-seq-integral-float.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "cn30-link-version-float.json",
+  "verdict": "reject",
+  "reason": "unsupported_link_version"
+ },
+ {
+  "file": "cn31-link-version-true.json",
+  "verdict": "reject",
+  "reason": "unsupported_link_version"
+ },
+ {
+  "file": "cn32-link-version-null.json",
+  "verdict": "reject",
+  "reason": "unsupported_link_version"
+ },
+ {
+  "file": "cn33-digest-u001c-padded.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "cn34-malformed-field-and-malformed-signature.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "cn35-link-version-zero.json",
+  "verdict": "reject",
+  "reason": "unsupported_link_version"
+ }
+]

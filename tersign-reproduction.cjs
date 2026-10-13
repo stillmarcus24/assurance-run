@@ -54,6 +54,33 @@ const kec = (buf) => keccak256(buf).slice(2);                    // hex, no 0x
 const kecUtf8 = (s) => kec(Buffer.from(s, 'utf8'));
 const sha256 = (buf) => crypto.createHash('sha256').update(buf).digest('hex');
 
+
+/**
+ * MUTANTS — each is a PLAUSIBLE MISREADING of the suite's own normative text, not a
+ * random code edit. Running the corpus against each asks the only question a clean
+ * score cannot: would this corpus have caught a wrong reading? A mutant that survives
+ * names a rule the suite states but does not bind.
+ */
+const MUTANTS = {
+  jcs_sort_by_codepoint: 'sorts member names by code POINT instead of UTF-16 code unit (RFC 8785 3.2.3)',
+  allow_duplicate_names: 'lets a duplicate object name through as last-wins',
+  number_allow_integral_float: 'accepts 2.0 as the integer 2 in the digest domain',
+  number_no_ijson_bound: 'drops the I-JSON integer range check',
+  surrogate_values_only: 'checks unpaired surrogates in values but not in member names',
+  surrogate_after_numbers: 'decides number tokens before shape, so n92 rejects on the number domain',
+  seq_value_not_token: 'checks seq as a parsed value rather than a token, so 1e2 passes',
+  seq_no_upper_bound: 'drops the 2^53-1 upper bound on seq',
+  id_trim_unicode_ws: 'uses String.trim(), which also strips U+FEFF',
+  id_no_percent_decode: 'does not percent-decode unreserved triplets',
+  id_no_trailing_strip: 'does not strip trailing / . and #',
+  id_case_sensitive: 'compares identifiers without lowercasing',
+  id_addr_no_prefix_fold: 'folds 0x-address digits but not the 0x/0X prefix',
+  id_no_caip10_equiv: 'does not treat a scheme-qualified final 0x component as the same address',
+  genesis_prev_any: 'accepts any prev_digest for a genesis link instead of 32 zero bytes',
+};
+let MUT = process.env.TERSIGN_MUT || null;
+const mu = (n) => MUT === n;
+
 /** A reject with a pinned reason code from the suite's closed set. */
 class Reject extends Error {
   constructor(reason, detail) { super(detail || reason); this.reason = reason; }
@@ -117,7 +144,7 @@ function parseJson(text) {
       if (text[i] !== '"') err('expected key');
       const k = str();
       // RFC 8785 has no defined behaviour for duplicate names; the suite rejects them.
-      if (seen.has(k)) throw new Reject('canonicalization_reject', `duplicate object name ${JSON.stringify(k)}`);
+      if (!mu('allow_duplicate_names') && seen.has(k)) throw new Reject('canonicalization_reject', `duplicate object name ${JSON.stringify(k)}`);
       seen.add(k);
       ws(); if (text[i] !== ':') err('expected :'); i++;
       e.push([k, value()]);
@@ -187,6 +214,7 @@ function parseJson(text) {
  * data. Sweeping at parse time rejected the envelope and killed the whole run.
  */
 function canonicalBytes(node) {
+  if (mu('surrogate_after_numbers')) { const r = jcs(node); assertNoLoneSurrogate(node); return r; }
   assertNoLoneSurrogate(node);
   return jcs(node);
 }
@@ -201,7 +229,7 @@ function assertNoLoneSurrogate(n) {
     case 'a': n.v.forEach(assertNoLoneSurrogate); return;
     case 'o':
       for (const [k, v] of n.e) {
-        if (hasLoneSurrogate(k)) throw new Reject('canonicalization_reject', 'member name carries an unpaired surrogate');
+        if (!mu('surrogate_values_only') && hasLoneSurrogate(k)) throw new Reject('canonicalization_reject', 'member name carries an unpaired surrogate');
         assertNoLoneSurrogate(v);
       }
       return;
@@ -240,11 +268,12 @@ function jcs(n) {
       if (hasLoneSurrogate(n.v)) throw new Reject('canonicalization_reject', 'string value carries an unpaired surrogate');
       return JSON.stringify(n.v);
     case 'n': {
-      if (!/^-?(0|[1-9][0-9]*)$/.test(n.tok)) {
+      const intRe = mu('number_allow_integral_float') ? /^-?(0|[1-9][0-9]*)(\.0+)?$/ : /^-?(0|[1-9][0-9]*)$/;
+      if (!intRe.test(n.tok)) {
         throw new Reject('number_domain_reject', `non-integer JSON number token "${n.tok}" in the digest domain`);
       }
       const v = Number(n.tok);
-      if (!Number.isSafeInteger(v) || Math.abs(v) > MAX_SAFE) {
+      if (!mu('number_no_ijson_bound') && (!Number.isSafeInteger(v) || Math.abs(v) > MAX_SAFE)) {
         throw new Reject('number_domain_reject', `integer ${n.tok} outside I-JSON range`);
       }
       return String(v);
@@ -253,9 +282,11 @@ function jcs(n) {
     case 'o': {
       // §3.2.3: sort by UTF-16 code units. JS string relational operators are exactly
       // code-unit order, so this is the standard ordering, not a coincidence of locale.
-      const e = n.e.slice().sort((x, y) => (x[0] < y[0] ? -1 : x[0] > y[0] ? 1 : 0));
+      const e = n.e.slice().sort(mu('jcs_sort_by_codepoint')
+        ? (x, y) => ([...x[0]].map(c=>c.codePointAt(0)) < [...y[0]].map(c=>c.codePointAt(0)) ? -1 : 1)
+        : (x, y) => (x[0] < y[0] ? -1 : x[0] > y[0] ? 1 : 0));
       return '{' + e.map(([k, v]) => {
-        if (hasLoneSurrogate(k)) throw new Reject('canonicalization_reject', 'member name carries an unpaired surrogate');
+        if (!mu('surrogate_values_only') && hasLoneSurrogate(k)) throw new Reject('canonicalization_reject', 'member name carries an unpaired surrogate');
         return JSON.stringify(k) + ':' + jcs(v);
       }).join(',') + '}';
     }
@@ -395,23 +426,23 @@ function decodeUnreservedOnce(p) {
  */
 function normId(raw) {
   if (typeof raw !== 'string') return null;
-  const s = wsStrip(raw);
+  const s = mu('id_trim_unicode_ws') ? raw.trim() : wsStrip(raw);
   // (2) a 0x-address compares lowercased, PREFIX INCLUDED, so 0X with upper-case
   // digits and the EIP-55 checksum form are one address (n106/p56).
-  if (ADDR_RE.test(s)) return { kind: 'addr', v: s.toLowerCase() };
+  if (ADDR_RE.test(s)) return { kind: 'addr', v: mu('id_addr_no_prefix_fold') ? s.slice(0,2) + s.slice(2).toLowerCase() : s.toLowerCase() };
   // (3) scheme-qualified ASCII: letter, then [A-Za-z0-9+.-], one colon, then one or
   // more printable non-space ASCII.
   const m = /^([A-Za-z][A-Za-z0-9+.\-]*):([\x21-\x7e]+)$/.exec(s);
   if (!m) return null;                                   // (4) anything else
   const scheme = m[1].toLowerCase();
-  let p = decodeUnreservedOnce(m[2]);
+  let p = mu('id_no_percent_decode') ? m[2] : decodeUnreservedOnce(m[2]);
   if (p.includes('%')) return null;                      // any % left -> does not parse
   if (p.includes('?')) return null;                      // a query component
   // a dot-segment in the path, from the colon to the first ? or #
   const pathPart = p.split('#')[0];
   if (pathPart.split('/').some((seg) => seg === '.' || seg === '..')) return null;
-  p = p.toLowerCase();
-  p = p.replace(/[/.#]+$/, '');                          // every trailing / . and #
+  if (!mu('id_case_sensitive')) p = p.toLowerCase();
+  if (!mu('id_no_trailing_strip')) p = p.replace(/[/.#]+$/, '');                          // every trailing / . and #
   if (p.includes('#')) return null;                      // a fragment with content
   if (!p.length) return null;                            // non-empty path (n51)
   if (!/^[\x21-\x7e]+$/.test(p)) return null;
@@ -426,6 +457,7 @@ function normId(raw) {
 const addrOf = (a) => {
   if (!a) return null;
   if (a.kind === 'addr') return a.v;
+  if (mu('id_no_caip10_equiv')) return null;
   return a.tail && ADDR_RE.test(a.tail) ? a.tail.toLowerCase() : null;
 };
 const sameId = (a, b) => {
@@ -452,10 +484,11 @@ const RECOGNIZED_CLAIMS = new Set(['independent', 'none', 'issuer_attested']);
 const IJSON_MAX = 9007199254740991; // 2^53-1 (p43 accepts this exact bound)
 function assertSeqToken(node) {
   if (!node || node.t !== 'n') throw new Reject('continuity_reject', 'seq is not a JSON number token');
-  if (!/^(0|[1-9][0-9]*)$/.test(node.tok)) throw new Reject('continuity_reject', `seq token ${JSON.stringify(node.tok)} is not an integer form`);
+  if (!mu('seq_value_not_token') && !/^(0|[1-9][0-9]*)$/.test(node.tok)) throw new Reject('continuity_reject', `seq token ${JSON.stringify(node.tok)} is not an integer form`);
+  if (mu('seq_value_not_token') && !Number.isInteger(Number(node.tok))) throw new Reject('continuity_reject', 'seq is not an integer');
   const v = Number(node.tok);
   if (v < 1) throw new Reject('continuity_reject', 'seq is below the lower bound of 1');
-  if (v > IJSON_MAX) throw new Reject('continuity_reject', 'seq is past the I-JSON integer bound 2^53-1');
+  if (!mu('seq_no_upper_bound') && v > IJSON_MAX) throw new Reject('continuity_reject', 'seq is past the I-JSON integer bound 2^53-1');
   return v;
 }
 
@@ -465,7 +498,7 @@ const ZERO32 = Buffer.alloc(32);
 /** keccak256(artifact_digest || prev_digest || seq_uint64_be); null prev -> 32 zero bytes. */
 function chainLink(artifact, prev, seq) {
   const a = hexBytes(artifact); if (!a) throw new Reject('continuity_reject', 'artifact_digest does not parse');
-  const p = prev === null || prev === undefined ? ZERO32 : hexBytes(prev);
+  const p = prev === null || prev === undefined ? (mu('genesis_prev_any') ? Buffer.alloc(32, 1) : ZERO32) : hexBytes(prev);
   if (!p) throw new Reject('continuity_reject', 'prev_digest does not parse');
   return kec(Buffer.concat([a, p, seqBE8(seq)]));
 }
@@ -959,6 +992,27 @@ if (require.main === module) {
     const structural = selfTest();
     cryptoSelfTest().then((c) => process.exit(structural && c ? 0 : 1));
     return;
+  }
+  if (argv.includes('--mutants')) {
+    const dir0 = argv.find((a) => !a.startsWith('--'));
+    const base = run(dir0).rows.filter((r) => r.agrees).length;
+    const total = run(dir0).rows.length;
+    console.log(`baseline ${base}/${total}\n`);
+    let killed = 0; const names = Object.keys(MUTANTS);
+    for (const name of names) {
+      MUT = name;
+      let rows;
+      try { rows = run(dir0).rows; } catch (e) { rows = null; }
+      MUT = null;
+      if (!rows) { console.log(`  KILLED   ${name.padEnd(30)} threw`); killed++; continue; }
+      const fails = rows.filter((r) => !r.agrees);
+      if (fails.length) killed++;
+      console.log(`  ${fails.length ? 'KILLED  ' : 'SURVIVED'} ${name.padEnd(30)} ${String(fails.length).padStart(3)}/${rows.length} vectors catch it`);
+      console.log(`           ${MUTANTS[name]}`);
+      if (fails.length) console.log(`           by: ${fails.slice(0,3).map((f)=>f.file.replace('.json','')).join(', ')}${fails.length>3?` (+${fails.length-3})`:''}`);
+    }
+    console.log(`\nmutants killed by the corpus: ${killed}/${names.length}`);
+    process.exit(0);
   }
   const dir = argv.find((a) => !a.startsWith('--'));
   if (dir && argv.includes('--policy-matrix')) {

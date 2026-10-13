@@ -1,0 +1,10 @@
+{
+ "id": "u1-half-raw-pair-no-repeat",
+ "kind": "canonical_bytes",
+ "expect": "valid",
+ "description": "unpinned: a surrogate pair written one half raw and the other escaped, where it repeats no name",
+ "input": {
+  "payload_text": "{\"\\ud842\udfb7\":\"v\"}",
+  "claimed_canonical": "{\"\ud842\udfb7\":\"v\"}"
+ }
+}

@@ -85,7 +85,14 @@ function hasLoneSurrogate(s) {
 
 function parseJson(text) {
   if (typeof text !== 'string') throw new Reject('canonicalization_reject', 'payload_text is not a string holding JSON text');
-  if (hasLoneSurrogate(text)) throw new Reject('canonicalization_reject', 'payload_text carries an unpaired surrogate and has no canonical bytes');
+  // ⚠️ DO NOT scan the RAW text for unpaired surrogates. A pair written with one half
+  // raw and the other escaped ("\ud842" + a raw U+DFB7) is unpaired in the raw text
+  // and a VALID PAIR after unescaping. A raw-text scan rejects it wrongly. The corpus
+  // does not catch this: its half-raw vectors (n41/n42/n93) all REPEAT a name, so they
+  // reject on the duplicate first and mask the defect — and MANIFEST.canonicalization
+  // says in as many words that "no vector pins whether a pair written half raw accepts
+  // where it repeats no name". This verifier scored 162/162 with the bug in it.
+  // The surrogate decision belongs on the PARSED tree, in canonicalBytes().
   let i = 0;
   const err = (m) => { throw new Reject('canonicalization_reject', `${m} at ${i}`); };
   const ws = () => { while (i < text.length && ' \t\n\r'.includes(text[i])) i++; };

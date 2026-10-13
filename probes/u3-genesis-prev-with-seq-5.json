@@ -1,0 +1,12 @@
+{
+ "id": "u3-genesis-prev-with-seq-5",
+ "kind": "chain_link",
+ "expect": "valid",
+ "description": "unpinned: whether a null prev_digest constrains seq",
+ "input": {
+  "artifact_digest": "0xaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "prev_digest": null,
+  "seq": 5,
+  "expected_link": "0x0000000000000000000000000000000000000000000000000000000000000000"
+ }
+}

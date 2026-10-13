@@ -1,0 +1,13 @@
+{
+ "id": "u4-phase-padded-presented",
+ "kind": "phase_claim",
+ "expect": "valid",
+ "description": "unpinned: a phase word padded with whitespace",
+ "input": {
+  "record": {
+   "economic_phase": "delivery",
+   "deliverable_digest": "0x4444444444444444444444444444444444444444444444444444444444444444"
+  },
+  "presented_as": " delivery "
+ }
+}

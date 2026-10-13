@@ -1,0 +1,13 @@
+{
+ "id": "u5-settlement-as-funding",
+ "kind": "phase_claim",
+ "expect": "valid",
+ "description": "unpinned: 17 of 20 ordered phase pairs, settlement's included",
+ "input": {
+  "record": {
+   "economic_phase": "settlement",
+   "deliverable_digest": "0x4444444444444444444444444444444444444444444444444444444444444444"
+  },
+  "presented_as": "funding"
+ }
+}

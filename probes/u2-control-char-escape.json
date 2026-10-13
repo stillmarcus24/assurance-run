@@ -1,0 +1,10 @@
+{
+ "id": "u2-control-char-escape",
+ "kind": "canonical_bytes",
+ "expect": "valid",
+ "description": "unpinned: the RFC 8785 3.2.2.2 escapes for U+0000-U+001F",
+ "input": {
+  "payload_text": "{\"a\":\"x\\u0001y\"}",
+  "claimed_canonical": "{\"a\":\"x\\u0001y\"}"
+ }
+}

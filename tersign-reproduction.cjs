@@ -61,7 +61,31 @@ class Reject extends Error {
 
 // ── token-preserving JSON parser ──────────────────────────────────────────────
 // Node shapes: {t:'o',e:[[k,node]]} {t:'a',v:[node]} {t:'s',v} {t:'n',tok} {t:'b',v} {t:'z'}
+/**
+ * MANIFEST.canonicalization: a `payload_text` that is not a string holding JSON text
+ * rejects as canonicalization_reject (n43/n44) — this verifier used to call .slice on
+ * it and throw a TypeError, which is not a verdict.
+ *
+ * And: "its shape, an unpaired surrogate included, is decided before its number
+ * tokens (n92)". An unpaired UTF-16 surrogate is not encodable as UTF-8, so the text
+ * has no canonical bytes at all; that decision precedes the number-token domain, so
+ * a text carrying both a lone surrogate and `2.0` rejects on canonicalization.
+ */
+function hasLoneSurrogate(s) {
+  for (let k = 0; k < s.length; k++) {
+    const c = s.charCodeAt(k);
+    if (c >= 0xd800 && c <= 0xdbff) {           // high surrogate: needs a low after it
+      const n = k + 1 < s.length ? s.charCodeAt(k + 1) : 0;
+      if (!(n >= 0xdc00 && n <= 0xdfff)) return true;
+      k++;
+    } else if (c >= 0xdc00 && c <= 0xdfff) return true; // low surrogate with no high
+  }
+  return false;
+}
+
 function parseJson(text) {
+  if (typeof text !== 'string') throw new Reject('canonicalization_reject', 'payload_text is not a string holding JSON text');
+  if (hasLoneSurrogate(text)) throw new Reject('canonicalization_reject', 'payload_text carries an unpaired surrogate and has no canonical bytes');
   let i = 0;
   const err = (m) => { throw new Reject('canonicalization_reject', `${m} at ${i}`); };
   const ws = () => { while (i < text.length && ' \t\n\r'.includes(text[i])) i++; };
@@ -142,6 +166,42 @@ function parseJson(text) {
   return v;
 }
 
+/**
+ * Canonical bytes of a payload under test.
+ *
+ * "its shape, an unpaired surrogate included, is decided BEFORE its number tokens
+ * (n92)". n92 writes the surrogate as a `\udfb7` ESCAPE, so it does not exist until
+ * the string is unescaped and a raw-text scan cannot see it — the tree is swept
+ * first, then serialized, so a payload carrying both a lone surrogate and `2.0`
+ * rejects on canonicalization rather than on the number domain.
+ *
+ * ⚠️ This is deliberately NOT done inside parseJson: that same parser loads the
+ * vector FILES, several of which legitimately carry escaped lone surrogates as test
+ * data. Sweeping at parse time rejected the envelope and killed the whole run.
+ */
+function canonicalBytes(node) {
+  assertNoLoneSurrogate(node);
+  return jcs(node);
+}
+
+/** Depth-first sweep for an unpaired surrogate in any string value or member name. */
+function assertNoLoneSurrogate(n) {
+  if (!n || typeof n !== 'object') return;
+  switch (n.t) {
+    case 's':
+      if (hasLoneSurrogate(n.v)) throw new Reject('canonicalization_reject', 'string value carries an unpaired surrogate');
+      return;
+    case 'a': n.v.forEach(assertNoLoneSurrogate); return;
+    case 'o':
+      for (const [k, v] of n.e) {
+        if (hasLoneSurrogate(k)) throw new Reject('canonicalization_reject', 'member name carries an unpaired surrogate');
+        assertNoLoneSurrogate(v);
+      }
+      return;
+    default:
+  }
+}
+
 /** Plain-JS view of a node, for logic that does not hash. Numbers become JS numbers. */
 function toJS(n) {
   if (n === undefined) return undefined;          // absent member, not a crash
@@ -167,7 +227,11 @@ function jcs(n) {
   switch (n.t) {
     case 'z': return 'null';
     case 'b': return n.v ? 'true' : 'false';
-    case 's': return JSON.stringify(n.v);
+    case 's':
+      // An unpaired surrogate has no UTF-8 encoding, so the value has no canonical
+      // bytes. JSON.stringify would happily emit a \udXXX escape and hide that.
+      if (hasLoneSurrogate(n.v)) throw new Reject('canonicalization_reject', 'string value carries an unpaired surrogate');
+      return JSON.stringify(n.v);
     case 'n': {
       if (!/^-?(0|[1-9][0-9]*)$/.test(n.tok)) {
         throw new Reject('number_domain_reject', `non-integer JSON number token "${n.tok}" in the digest domain`);
@@ -183,12 +247,29 @@ function jcs(n) {
       // §3.2.3: sort by UTF-16 code units. JS string relational operators are exactly
       // code-unit order, so this is the standard ordering, not a coincidence of locale.
       const e = n.e.slice().sort((x, y) => (x[0] < y[0] ? -1 : x[0] > y[0] ? 1 : 0));
-      return '{' + e.map(([k, v]) => JSON.stringify(k) + ':' + jcs(v)).join(',') + '}';
+      return '{' + e.map(([k, v]) => {
+        if (hasLoneSurrogate(k)) throw new Reject('canonicalization_reject', 'member name carries an unpaired surrogate');
+        return JSON.stringify(k) + ':' + jcs(v);
+      }).join(',') + '}';
     }
     default: throw new Reject('canonicalization_reject', `unknown node ${n.t}`);
   }
 }
-const contentAddress = (node) => kecUtf8(jcs(node));   // MANIFEST content_address
+const contentAddress = (node) => kecUtf8(canonicalBytes(node));   // MANIFEST content_address
+
+/**
+ * A binding criterion recomputes the commitment over a PRESENTED object. If that
+ * object has no canonical bytes at all (an unpaired surrogate, n94/n95/n96), the
+ * commitment cannot be recomputed and the binding is unverifiable — which is that
+ * criterion's own rejection, not a canonicalization verdict about the record.
+ */
+function boundAddress(node, reason) {
+  try { return contentAddress(node); }
+  catch (e) {
+    if (e instanceof Reject && e.reason === 'canonicalization_reject') throw new Reject(reason, `presented object has no canonical bytes: ${e.detail || e.message}`);
+    throw e;
+  }
+}
 
 // ── CRYPTO PROFILE: counter-signature recovery over the links ─────────────────
 //
@@ -277,28 +358,99 @@ const POLICY = {
   // OFF: the suite declines to fix it, and inventing a rule is not reproduction.
   percentDecode: false,
 };
-function normId(raw, policy) {
-  const P = policy || POLICY;
-  if (typeof raw !== 'string') return null;
-  const s = raw.trim();
-  if (/^0x[0-9a-fA-F]{40}$/.test(s)) return { kind: 'addr', v: s.toLowerCase() };
-  // lowercase alnum scheme, exactly one colon, printable non-space ASCII path
-  const m = /^([a-z0-9]+):([\x21-\x7e]+)$/.exec(s);
-  if (m && !m[2].includes(':')) {
-    let p = m[2];
-    if (P.stripTrailingSlash) p = p.replace(/\/+$/, '');
-    if (P.percentDecode) { try { p = decodeURIComponent(p); } catch { return null; } }
-    return { kind: 'urn', v: `${m[1]}:${p}` };
+// MANIFEST.identifier_normalization rule (1): exactly this White_Space set is
+// stripped, "and no others" — so U+FEFF (a format character, n52) and U+001C (a
+// control character without the property, n53) are NOT stripped and do not parse.
+// String.prototype.trim() strips U+FEFF, which is why it cannot be used here.
+const WS_CLASS = '\\u0009-\\u000D\\u0020\\u0085\\u00A0\\u1680\\u2000-\\u200A\\u2028\\u2029\\u202F\\u205F\\u3000';
+const WS_RE = new RegExp(`^[${WS_CLASS}]+|[${WS_CLASS}]+$`, 'g');
+const wsStrip = (s) => s.replace(WS_RE, '');
+const ADDR_RE = /^0[xX][0-9a-fA-F]{40}$/;
+const UNRESERVED = /^[A-Za-z0-9\-._~]$/;
+
+/** One left-to-right pass, never repeated (RFC 3986 §6.2.2.2, §2.4). */
+function decodeUnreservedOnce(p) {
+  let out = '';
+  for (let k = 0; k < p.length; k++) {
+    if (p[k] === '%' && k + 2 < p.length && /^[0-9a-fA-F]{2}$/.test(p.slice(k + 1, k + 3))) {
+      const ch = String.fromCharCode(parseInt(p.slice(k + 1, k + 3), 16));
+      if (UNRESERVED.test(ch)) { out += ch; k += 2; continue; }
+    }
+    out += p[k];
   }
-  return null;
+  return out;
 }
-const sameId = (a, b) => a && b && a.kind === b.kind && a.v === b.v;
+
+/**
+ * MANIFEST.identifier_normalization, rules (1)-(4). Returns null for "does not
+ * parse", which fails the claim closed — a non-parsing identifier is never counted
+ * outside the parties.
+ */
+function normId(raw) {
+  if (typeof raw !== 'string') return null;
+  const s = wsStrip(raw);
+  // (2) a 0x-address compares lowercased, PREFIX INCLUDED, so 0X with upper-case
+  // digits and the EIP-55 checksum form are one address (n106/p56).
+  if (ADDR_RE.test(s)) return { kind: 'addr', v: s.toLowerCase() };
+  // (3) scheme-qualified ASCII: letter, then [A-Za-z0-9+.-], one colon, then one or
+  // more printable non-space ASCII.
+  const m = /^([A-Za-z][A-Za-z0-9+.\-]*):([\x21-\x7e]+)$/.exec(s);
+  if (!m) return null;                                   // (4) anything else
+  const scheme = m[1].toLowerCase();
+  let p = decodeUnreservedOnce(m[2]);
+  if (p.includes('%')) return null;                      // any % left -> does not parse
+  if (p.includes('?')) return null;                      // a query component
+  // a dot-segment in the path, from the colon to the first ? or #
+  const pathPart = p.split('#')[0];
+  if (pathPart.split('/').some((seg) => seg === '.' || seg === '..')) return null;
+  p = p.toLowerCase();
+  p = p.replace(/[/.#]+$/, '');                          // every trailing / . and #
+  if (p.includes('#')) return null;                      // a fragment with content
+  if (!p.length) return null;                            // non-empty path (n51)
+  if (!/^[\x21-\x7e]+$/.test(p)) return null;
+  return { kind: 'urn', v: `${scheme}:${p}`, tail: p.split(':').pop() };
+}
+
+/**
+ * Rule (5): equal after normalization, OR both name the same 0x-address — where a
+ * scheme-qualified identifier whose FINAL colon-separated component is a 0x-address
+ * names that address, whatever the scheme (CAIP-10, did:pkh, did:ethr, acct:).
+ */
+const addrOf = (a) => {
+  if (!a) return null;
+  if (a.kind === 'addr') return a.v;
+  return a.tail && ADDR_RE.test(a.tail) ? a.tail.toLowerCase() : null;
+};
+const sameId = (a, b) => {
+  if (!a || !b) return false;
+  const x = addrOf(a), y = addrOf(b);
+  if (x && y) return x === y;
+  return a.kind === b.kind && a.v === b.v;
+};
 const hexNorm = (s) => (typeof s === 'string' ? s.trim().toLowerCase().replace(/^0x/, '') : null);
 const hexBytes = (s) => { const h = hexNorm(s); return h && /^[0-9a-f]*$/.test(h) && h.length % 2 === 0 ? Buffer.from(h, 'hex') : null; };
 
 // ── per-kind criteria ─────────────────────────────────────────────────────────
-const RECOGNIZED_PHASES = new Set(['funding', 'delivery', 'settlement']);
+// v0.5.5 closed the economic-phase vocabulary at five words, each compared as an
+// exact string (MANIFEST.phase_claim). `refund` and `reversal` were absent here
+// because this verifier was written against v0.5.3, where p49/p50 did not exist.
+const RECOGNIZED_PHASES = new Set(['funding', 'delivery', 'settlement', 'refund', 'reversal']);
 const RECOGNIZED_CLAIMS = new Set(['independent', 'none', 'issuer_attested']);
+
+/**
+ * MANIFEST.chain_link pins `seq` as an integer TOKEN in [1, 2^53-1]. Enforced on the
+ * parser's raw token node, never on the JS value: `1e2` and `100` are the same JS
+ * number and different tokens, and only the token form is normative here.
+ */
+const IJSON_MAX = 9007199254740991; // 2^53-1 (p43 accepts this exact bound)
+function assertSeqToken(node) {
+  if (!node || node.t !== 'n') throw new Reject('continuity_reject', 'seq is not a JSON number token');
+  if (!/^(0|[1-9][0-9]*)$/.test(node.tok)) throw new Reject('continuity_reject', `seq token ${JSON.stringify(node.tok)} is not an integer form`);
+  const v = Number(node.tok);
+  if (v < 1) throw new Reject('continuity_reject', 'seq is below the lower bound of 1');
+  if (v > IJSON_MAX) throw new Reject('continuity_reject', 'seq is past the I-JSON integer bound 2^53-1');
+  return v;
+}
 
 function seqBE8(n) { const b = Buffer.alloc(8); b.writeBigUInt64BE(BigInt(n)); return b; }
 const ZERO32 = Buffer.alloc(32);
@@ -475,7 +627,7 @@ function boundary(input) {
   // The prefix digest is taken under the suite IN FORCE when the boundary was written.
   // n29 presents the successor suite's digest of the same bytes: an engine that
   // re-hashes history agrees with it, which is exactly why this discriminates.
-  const want = contentAddress(prefixNode);
+  const want = boundAddress(prefixNode, 'boundary_reject');
   if (hexNorm(ev.prefixDigest) !== want) {
     throw new Reject('boundary_reject', `boundary names prefix ${want}, presented prefix digests to ${hexNorm(ev.prefixDigest)}`);
   }
@@ -506,13 +658,19 @@ function evaluate(kind, input) {
       // p25/n35 present the payload as raw TEXT precisely so the number token survives.
       const textNode = get(input, 'payload_text');
       const node = textNode ? parseJson(toJS(textNode)) : get(input, 'payload');
-      const got = jcs(node);
+      const got = canonicalBytes(node);
       const claimed = toJS(get(input, 'claimed_canonical'));
       if (got !== claimed) throw new Reject('canonicalization_reject', 'claimed canonical bytes are not the canonical form');
       return true;
     }
     case 'chain_link': {
       const j = toJS(input);
+      // MANIFEST.chain_link: "seq is an integer TOKEN in [1, 2^53-1]". The token class
+      // is the boundary, so an exponent or fraction form rejects even when
+      // integer-valued. 0 (n75), past 2^53-1 (n76), fraction (n77), exponent (n97),
+      // string (n87), boolean (n88) and null (n89) all reject with continuity_reject.
+      // Checked on the raw token, before any arithmetic — BigInt(null) used to throw.
+      assertSeqToken(get(input, 'seq'));
       const got = chainLink(j.artifact_digest, j.prev_digest ?? null, j.seq);
       if (got !== hexNorm(j.expected_link)) throw new Reject('continuity_reject', `link recomputes to 0x${got}, presented 0x${hexNorm(j.expected_link)}`);
       return true;
@@ -531,14 +689,14 @@ function evaluate(kind, input) {
       const receipt = toJS(get(input, 'receipt')) || {};
       // A receipt committing to no offer digest cannot bind terms, and fails closed.
       if (typeof receipt.offerDigest !== 'string') throw new Reject('binding_reject', 'receipt commits to no offer digest');
-      const got = contentAddress(get(input, 'offer'));
+      const got = boundAddress(get(input, 'offer'), 'binding_reject');
       if (got !== hexNorm(receipt.offerDigest)) throw new Reject('binding_reject', `presented offer digests to 0x${got}, receipt commits to 0x${hexNorm(receipt.offerDigest)}`);
       return true;
     }
     case 'decision_evidence_binding': {
       const rec = toJS(get(input, 'record')) || {};
       if (typeof rec.decisionEvidenceDigest !== 'string') throw new Reject('binding_reject', 'record binds no decision evidence');
-      const got = contentAddress(get(input, 'decision_evidence'));
+      const got = boundAddress(get(input, 'decision_evidence'), 'binding_reject');
       if (got !== hexNorm(rec.decisionEvidenceDigest)) throw new Reject('binding_reject', `presented reduction digests to 0x${got}, record commits to 0x${hexNorm(rec.decisionEvidenceDigest)}`);
       return true;
     }
@@ -659,9 +817,20 @@ function selfTest() {
   ok('address normalizes case and whitespace', sameId(normId(' 0xAbC0000000000000000000000000000000000001 '), normId('0xabc0000000000000000000000000000000000001')));
   ok('unparseable attestor fails closed', normId('0x9d38BA84730271eb27Ac9bD4​Bd2620c08dB4FDa6') === null);
   ok('urn trailing slash is the same identifier', sameId(normId('org:caldera-robotics/'), normId('org:caldera-robotics')));
-  ok('urn path case is significant', !sameId(normId('org:Caldera'), normId('org:caldera')));
+  // v0.5.4 made normalization lowercase the whole identifier, scheme included
+  // (n45/n58/p31). This assertion previously encoded the opposite, which was correct
+  // against v0.5.3 and is wrong against this corpus.
+  ok('urn case folds, scheme and path', sameId(normId('ORG:Caldera'), normId('org:caldera')));
   ok('urn with inner slash is kept', normId('org:trustline-custody/eu-west').v === 'org:trustline-custody/eu-west');
-  ok('two colons do not parse', normId('a:b:c') === null);
+  // Rule (5) requires CAIP-10 (eip155:8453:0x...) and did:pkh to parse and to name
+  // their final 0x component, so a multi-colon identifier must NOT be rejected.
+  // The old single-colon assertion predates that rule.
+  ok('caip-10 parses and names its address',
+    sameId(normId('eip155:8453:0xabc0000000000000000000000000000000000001'), normId('0xABC0000000000000000000000000000000000001')));
+  ok('did:pkh names the same address across schemes',
+    sameId(normId('did:pkh:eip155:1:0xabc0000000000000000000000000000000000001'), normId('ethereum:0xAbC0000000000000000000000000000000000001')));
+  ok('distinct addresses stay distinct',
+    !sameId(normId('eip155:1:0xabc0000000000000000000000000000000000001'), normId('0xdef0000000000000000000000000000000000002')));
 
   ok('present-and-null is distinguishable from absent', hasKey(parseJson('{"record_commits":null}'), 'record_commits') === true
     && hasKey(parseJson('{"x":1}'), 'record_commits') === false);
@@ -772,6 +941,9 @@ module.exports = {
   parseJson, jcs, contentAddress, normId, evaluate, run, selfTest,
   eip191Digest, recoverPersonalSign, verifyLinkCounterSignatures, cryptoSelfTest,
   policyMatrix, POLICY, chainSet,
+  // exported for tersign-crypto-profile.cjs so the crypto runner reuses the SAME
+  // link recipe rather than reimplementing it and agreeing with itself.
+  chainLink, canonicalBytes, assertSeqToken, toJS,
 };
 
 if (require.main === module) {

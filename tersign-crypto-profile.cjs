@@ -22,6 +22,13 @@
  *   unrecoverable             no public key recovers from (hash, r, s, v)
  *   signer_mismatch           recovers, but not to ledger_signer
  *
+ * RELATIONSHIP TO crypto-profile/verify_crypto.cjs (2026-09-29). That file was the
+ * second independent runner #11 asked for, against the 8 vectors the profile had
+ * then, and it vendored its own copy of them. It is path-bound to that vendored
+ * directory and does not read a corpus argument, so it cannot run v0.5.6's 46. It
+ * stays as the artifact cited on #11 (cn3 is credited in the suite's
+ * CONTRIBUTORS.md); this file is the runner for the profile as released.
+ *
  *   node tersign-crypto-profile.cjs <path-to-corpus>          # run crypto/vectors
  *   node tersign-crypto-profile.cjs <path-to-corpus> --json
  */

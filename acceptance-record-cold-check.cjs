@@ -283,26 +283,109 @@ function run(file, alwaysAccept) {
   return rows;
 }
 
+/* SELF-TEST (2026-10-22). Pins the MECHANISM, never the score — the score is
+ * runtime-dependent and asserting a fixed number is the defect this release fixes.
+ * Run it on every runtime you intend to publish a row for:
+ *   node acceptance-record-cold-check.cjs <vectors.json> --self-test */
+function selfTest(file) {
+  let pass = 0; let fail = 0;
+  const t = (name, got, want) => {
+    JSON.stringify(got) === JSON.stringify(want)
+      ? pass++
+      : (fail++, console.log(`  FAIL ${name}\n    got  ${JSON.stringify(got)}\n    want ${JSON.stringify(want)}`));
+  };
+  const SPURIOUS = ['acc-mixed-order-key-accepted-by-both-equations', 'acc-mixed-order-key-equations-disagree'];
+  const baseRows = run(file, false);
+  const basePass = new Set(baseRows.filter((r) => r.ok).map((r) => r.id));
+  const baseFail = baseRows.filter((r) => !r.ok).map((r) => r.id).sort();
+  t('50 vectors at this pin', baseRows.length, 50);
+  t('baseline is 48/50', basePass.size, 48);
+  t('the two baseline failures are the sentence-9 mixed-order-key vectors', baseFail, SPURIOUS.slice().sort());
+  const names = Object.keys(MUTANTS);
+  t('11 mutants', names.length, 11);
+  let killed = 0; let smallOrderR = null;
+  for (const name of names) {
+    MUT = name;
+    const rows = run(file, false);
+    MUT = null;
+    const allFails = rows.filter((r) => !r.ok).map((r) => r.id);
+    const witnesses = allFails.filter((id) => basePass.has(id));
+    if (witnesses.length) killed++;
+    if (name === 'no_small_order_r') smallOrderR = witnesses;
+    // THE COUNTING RULE. A baseline-failing vector may never witness a kill.
+    t(`${name}: no witness is a baseline failure`, witnesses.filter((id) => SPURIOUS.includes(id)), []);
+  }
+  // Both spurious vectors DO mismatch under mutants — that is exactly why the old
+  // rule over-counted. Assert they are present-but-excluded, not simply absent.
+  MUT = 'trim_party';
+  const tp = run(file, false).filter((r) => !r.ok).map((r) => r.id);
+  MUT = null;
+  t('the spurious pair really does mismatch under a mutant (so exclusion is load-bearing)',
+    SPURIOUS.every((id) => tp.includes(id)), true);
+  // Runtime dependence, stated as a disjunction rather than a number.
+  t('score is 10 or 11 depending on runtime', killed === 10 || killed === 11, true);
+  t('the score is 11 exactly when no_small_order_r is killed', killed === 11, smallOrderR.length > 0);
+  t('no_small_order_r has at most one witness, and it is acc-small-order-r-real-key',
+    smallOrderR.every((w) => w === 'acc-small-order-r-real-key') && smallOrderR.length <= 1, true);
+  t('a runtime is always reported', typeof process.versions.openssl === 'string' && process.versions.openssl.length > 0, true);
+  console.log(`self-test: ${pass} passed, ${fail} failed  [Node ${process.version} / OpenSSL ${process.versions.openssl}, score ${killed}/11]`);
+  process.exit(fail ? 1 : 0);
+}
+
 if (require.main === module) {
   const file = process.argv[2];
-  if (!file) { console.error('usage: node acceptance-record-cold-check.cjs <vectors.json> [--json] [--always-accept]'); process.exit(2); }
+  if (!file) { console.error('usage: node acceptance-record-cold-check.cjs <vectors.json> [--json] [--always-accept] [--mutants] [--self-test]'); process.exit(2); }
+  if (process.argv.includes('--self-test')) selfTest(file);
   const alwaysAccept = process.argv.includes('--always-accept');
   if (process.argv.includes('--mutants')) {
-    const base = run(file, false).filter((r) => r.ok).length;
-    console.log(`baseline ${base}/${run(file, false).length}\n`);
-    let killed = 0;
+    /* BASELINE-AWARE COUNTING (2026-10-22). The previous version counted a mutant as
+     * KILLED if ANY vector failed under it — including vectors the UNMODIFIED checker
+     * already fails. @TKCollective measured this on x402-foundation/wg-identity#21:
+     * at b18a864 against the 50 vectors at 9d4cf2c the baseline is 48/50, because the
+     * three sentence-9 vectors landed after that commit and two of them already
+     * disagree. Those two then appeared as "killers" of six separate mutants, so the
+     * published 11/11 was partly counting our own pre-existing disagreements.
+     *
+     * A mutant is now killed only when a vector THE BASELINE PASSES changes to a
+     * mismatch. A vector that is already failing cannot witness anything about a
+     * mutant: its verdict is wrong either way.
+     *
+     * The runtime is stamped because the result depends on it — TKCollective measured
+     * no_small_order_r caught on Node 22.22.0 / OpenSSL 3.0.13 and SURVIVING on
+     * Node 24.21.0 / OpenSSL 3.5.8. A mutation score with no runtime is not a
+     * reproducible number. */
+    const baseRows = run(file, false);
+    const basePass = new Set(baseRows.filter((r) => r.ok).map((r) => r.id));
+    const baseFail = baseRows.filter((r) => !r.ok).map((r) => r.id);
+    const rt = { node: process.version, openssl: process.versions.openssl, platform: `${process.platform}-${process.arch}` };
     const names = Object.keys(MUTANTS);
+    const report = { runtime: rt, vectors: baseRows.length, baseline_pass: basePass.size,
+      baseline_failing: baseFail, mutants: [] };
     for (const name of names) {
       MUT = name;
       const rows = run(file, false);
       MUT = null;
-      const fails = rows.filter((r) => !r.ok);
-      if (fails.length) killed++;
-      console.log(`  ${fails.length ? 'KILLED  ' : 'SURVIVED'} ${name.padEnd(28)} ${fails.length}/${rows.length} vectors catch it`);
-      console.log(`           ${MUTANTS[name]}`);
-      if (fails.length) console.log(`           by: ${fails.slice(0, 3).map((f) => f.id).join(', ')}${fails.length > 3 ? ` (+${fails.length - 3})` : ''}`);
+      const allFails = rows.filter((r) => !r.ok);
+      // Only vectors that pass at baseline can witness a kill.
+      const witnesses = allFails.filter((r) => basePass.has(r.id));
+      const spurious = allFails.filter((r) => !basePass.has(r.id)).map((r) => r.id);
+      report.mutants.push({ name, description: MUTANTS[name], killed: witnesses.length > 0,
+        witnesses: witnesses.map((w) => w.id), spurious_witnesses: spurious });
     }
-    console.log(`\nmutants killed by the corpus: ${killed}/${names.length}`);
+    const killed = report.mutants.filter((m) => m.killed).length;
+    report.killed = killed; report.total = names.length;
+    report.counting_rule = 'a mutant is killed only by a vector the unmodified checker already agrees on';
+    if (process.argv.includes('--json')) { console.log(JSON.stringify(report, null, 2)); process.exit(0); }
+    console.log(`runtime  Node ${rt.node} / OpenSSL ${rt.openssl} / ${rt.platform}`);
+    console.log(`baseline ${basePass.size}/${baseRows.length}${baseFail.length ? `  (failing: ${baseFail.join(', ')})` : ''}`);
+    console.log('counting rule: a mutant is killed only by a vector the baseline passes\n');
+    for (const m of report.mutants) {
+      console.log(`  ${m.killed ? 'KILLED  ' : 'SURVIVED'} ${m.name.padEnd(28)} ${m.witnesses.length}/${basePass.size} baseline-passing vectors catch it`);
+      console.log(`           ${m.description}`);
+      if (m.witnesses.length) console.log(`           by: ${m.witnesses.slice(0, 3).join(', ')}${m.witnesses.length > 3 ? ` (+${m.witnesses.length - 3})` : ''}`);
+      if (m.spurious_witnesses.length) console.log(`           NOT counted (already failing at baseline): ${m.spurious_witnesses.join(', ')}`);
+    }
+    console.log(`\nmutants killed by the corpus: ${killed}/${names.length}  [baseline-passing vectors only, Node ${rt.node} / OpenSSL ${rt.openssl}]`);
     process.exit(0);
   }
   const rows = run(file, alwaysAccept);

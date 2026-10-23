@@ -1,0 +1,179 @@
+{
+ "as_of": "2026-10-23",
+ "method": {
+  "name": "killing power",
+  "one_line": "of N plausible misreadings of a suite’s own stated rules, how many does the corpus catch?",
+  "how": [
+   "Implement the suite from its normative text alone, never from another checker.",
+   "Run it. A clean score is the starting point, not the result.",
+   "Mutate each rule into a plausible misreading of the same text — not a random code edit.",
+   "Run the corpus against each mutant. A mutant that survives names a rule the corpus states but does not bind.",
+   "Publish the survivor, and the vector that would kill it."
+  ],
+  "caveat": "Killing power is a property of a corpus measured through one implementation. A different implementation may express a different mutant set and get a different number. It is a floor on what the corpus catches, never a ceiling, and never a verdict on the suite’s authors.",
+  "survivor_discipline": "A surviving mutant must be verified as a real misreading before it is reported. Measured on 2026-10-13: the evidence-record battery first reported a survivor for unpaired surrogates in member names. It was false — the checker had TWO name-check sites and the mutant guarded only one, so the misreading was never actually expressed; vector n82 had been killing it all along. A false survivor is a public, specific, wrong claim about a named maintainer. Check the instrument before the finding."
+ },
+ "corpora": [
+  {
+   "id": "evidence-record-conformance",
+   "owner": "tersignhq",
+   "url": "https://github.com/tersignhq/evidence-record-conformance",
+   "pin": "v0.5.6",
+   "manifest_sha256": "cb73cd80dfb05ca3b3d5fc1f9d64e4a011b38cfd44567130fa8f0d4c7a62a63d",
+   "vectors": {
+    "structural": 162,
+    "crypto": 46
+   },
+   "scope": "evidence records: canonical bytes, digests, chain links and sets, bindings, phases, independence claims, plus a secp256k1 counter-signature profile",
+   "killing_power": {
+    "killed": 15,
+    "total": 15,
+    "killed_on": "identical on both runtimes measured",
+    "by": "@stillmarcus24 / Still OS",
+    "date": "2026-10-13",
+    "link": "https://github.com/stillmarcus24/assurance-run/blob/b18a864/tersign-reproduction.cjs",
+    "baseline": "162/162 — a fully PASSING baseline, so no kill here can be an artifact of a pre-existing disagreement",
+    "counting_rule": "a mutant is killed only by a vector the unmodified checker already agrees on",
+    "runtimes": [
+     "Node 22.22.1 / OpenSSL 3.5.5 — 15/15",
+     "Node 24.21.0 / OpenSSL 3.5.8 — 15/15"
+    ],
+    "runtime_dependent": false
+   },
+   "killing_power_note": "fifteen plausible misreadings of the suite’s own normative text, each run against the corpus. Every one was caught, each by a named vector — code-point vs code-unit member sort, duplicate names, an integer-valued float token, the I-JSON bound, unpaired surrogates in names, shape-before-numbers ordering, seq as value rather than token, String.trim() stripping U+FEFF, percent-decoding, trailing-punctuation stripping, identifier case, the 0x/0X prefix fold, CAIP-10 address equivalence, and a genesis prev_digest. No mutant survived.",
+   "implementations": [
+    {
+     "name": "verify.py (reference)",
+     "by": "@wowlegend / Tersign",
+     "lang": "Python",
+     "run": "reference for these vectors",
+     "pin": "v0.5.6"
+    },
+    {
+     "name": "tersign-reproduction.cjs",
+     "by": "@stillmarcus24 / Still OS",
+     "lang": "Node",
+     "run": "162/162 structural, 46/46 crypto, verdicts and reasons",
+     "pin": "v0.5.6",
+     "evidence": "https://github.com/stillmarcus24/assurance-run/blob/main/verdicts/tersign-v0.5.6-structural.json",
+     "note": "confirmed by the suite’s own tools/compare_run.py"
+    },
+    {
+     "name": "clean-room Python verifier",
+     "by": "@robertolocatelli81-dev",
+     "lang": "Python",
+     "run": "69/69 at the earlier pin",
+     "pin": "0eda303"
+    },
+    {
+     "name": "boundary-layer reader",
+     "by": "@Tetsurohhori",
+     "lang": "Python",
+     "run": "boundary_binding layer only, 5 vectors",
+     "pin": "1cc5ea3"
+    }
+   ],
+   "unpinned": [
+    {
+     "rule": "a surrogate pair written half raw, half escaped, where it repeats no name",
+     "source": "MANIFEST.canonicalization states it is unpinned",
+     "consequence": "a wrong reading scored 162/162. Found by probe 2026-10-12, outside the mutation battery — the battery expresses misreadings of rules the suite states, and this is a case the suite explicitly declines to state.",
+     "status": "probe published",
+     "link": "https://github.com/stillmarcus24/assurance-run/tree/main/probes"
+    },
+    {
+     "rule": "scheme equivalences beyond rule (5) — default port, ENS, did:web",
+     "source": "MANIFEST.identifier_normalization: \"Not folded, and pinned by no vector\"",
+     "consequence": "not probed; needs a full independence_claim construction",
+     "status": "open"
+    }
+   ]
+  },
+  {
+   "id": "acceptance-record-cold",
+   "owner": "babyblueviper1/preaction-governance-conformance",
+   "url": "https://github.com/babyblueviper1/preaction-governance-conformance/tree/main/examples/acceptance-record-cold",
+   "pin": "9d4cf2c",
+   "manifest_sha256": "0b5a2c8340fa435969fbad86fc64ff197157a9ea3c5a7f0d7370fc53bb74ef6d",
+   "manifest_scope": "sha256 over the sorted file list of examples/acceptance-record-cold at commit 9d4cf2c; vectors.json alone is c5d0a142cf22b1cfff366fb1b6689de0b0d88ba0ad5cf846db9027204f0c138a",
+   "vectors": {
+    "acceptance": 50
+   },
+   "scope": "acceptance records: the draft-krausz-verification-state-03 key step, malformed conditions with type-check suppression, authority resolution, and eight stated sentences",
+   "killing_power": {
+    "killed": 11,
+    "total": 11,
+    "killed_on": "Node 22.22.1 / OpenSSL 3.5.5 — the headline figure names its runtime because it does not hold on all of them; see runtimes",
+    "by": "@stillmarcus24 / Still OS",
+    "date": "2026-10-22",
+    "link": "https://github.com/stillmarcus24/assurance-run/blob/main/acceptance-record-cold-check.cjs",
+    "baseline": "48/50 at pin 9d4cf2c — acc-mixed-order-key-accepted-by-both-equations and acc-mixed-order-key-equations-disagree already disagree, because the three sentence-9 vectors landed after our checker commit b18a864",
+    "counting_rule": "a mutant is killed only by a vector the unmodified checker already agrees on; the two baseline failures above are excluded as witnesses",
+    "runtimes": [
+     "Node 22.22.1 / OpenSSL 3.5.5 — 11/11",
+     "Node 24.21.0 / OpenSSL 3.5.8 — 10/11"
+    ],
+    "runtime_dependent": true,
+    "runtime_note": "The ONLY difference is no_small_order_r: killed on the older stack by acc-small-order-r-real-key, SURVIVED on the newer one where that vector’s result does not change with the mutant. Measured by @TKCollective on x402-foundation/wg-identity#21 and reproduced here on both stacks. A mutation score published without its runtime is not reproducible.",
+    "single_witness_mutants": [
+     "precedence_not_strict",
+     "no_hex_typecheck",
+     "complete_truthy",
+     "no_small_order_r",
+     "no_alg_check",
+     "trim_party"
+    ],
+    "fragility_note": "6 of the 11 mutants are killed by EXACTLY ONE baseline-passing vector. Over half the profile’s rules are pinned by a single vector each, so one regression or one runtime-sensitive vector moves the aggregate."
+   },
+   "killing_power_note": "eleven plausible misreadings of the profile’s own stated rules, each run against the corpus. At pin 37fdb85 ten were caught and one survived: a checker that trims `confirming_party` scored 46/46 while contradicting sentence 7, which says that member is byte-exact and not trimmed. The vector separating the readings was filed as PR #15 and merged 2026-10-13T05:25:36Z, and the same battery re-run against main now scores 11/11 — `trim_party` is caught by acc-confirming-party-whitespace-only — and by that vector ALONE. This sentence previously also credited acc-mixed-order-key-accepted-by-both-equations and acc-mixed-order-key-equations-disagree, which is wrong: both already fail at baseline, so neither can witness anything about a mutant. Corrected 2026-10-22. The gap is recorded here rather than erased, because the before-and-after is the evidence that the method does something.",
+   "implementations": [
+    {
+     "name": "acceptance_record_check.py (reference)",
+     "by": "@babyblueviper1",
+     "lang": "Python",
+     "run": "46/46 at its pin",
+     "pin": "536681b"
+    },
+    {
+     "name": "acceptance-record-cold-check.cjs",
+     "by": "@stillmarcus24 / Still OS",
+     "lang": "Node",
+     "run": "46/46 at 37fdb85; always-accept control 4/46 across 13 distinct outcomes",
+     "pin": "37fdb85",
+     "evidence": "https://github.com/stillmarcus24/assurance-run/blob/main/acceptance-record-cold-check.cjs",
+     "note": "first implementation in a host language other than Python"
+    },
+    {
+     "name": "x402-acceptance-check-omega",
+     "by": "@robertolocatelli81-dev (Noûs)",
+     "lang": "Python",
+     "run": "45/46 at its pin",
+     "pin": "acfad3d"
+    },
+    {
+     "name": "x402-acceptance-check-cold",
+     "by": "@actaseal",
+     "lang": "Python",
+     "run": "46/46 on the published runner",
+     "pin": "41d9071"
+    },
+    {
+     "name": "acceptance-record-cold reader",
+     "by": "@Tetsurohhori",
+     "lang": "Python",
+     "run": "46/46 at 37fdb85",
+     "pin": "37fdb85"
+    }
+   ],
+   "unpinned": [
+    {
+     "rule": "sentence 7 — confirming_party is byte-exact and NOT trimmed, so whitespace only is a party name",
+     "source": "stated in the profile README; was pinned by no vector at 37fdb85",
+     "consequence": "a checker that trimmed scored 46/46. The nearest vector then, acc-confirming-party-empty, is the empty string, which both readings call absent",
+     "status": "CLOSED — PR #15 merged 2026-10-13T05:25:36Z; acc-confirming-party-whitespace-only now pins it and the battery scores 11/11",
+     "link": "https://github.com/babyblueviper1/preaction-governance-conformance/pull/15"
+    }
+   ]
+  }
+ ]
+}

@@ -6,27 +6,30 @@ Verifier: [`war-verify.cjs`](../../war-verify.cjs) — Node.js, no dependencies 
 | | |
 |---|---|
 | vectors | 90 |
-| agree on every field | **67** |
-| disagree on `tsa_signature` only | 23 |
+| agree on every field | **90** |
+| disagree on `tsa_signature` only | **0** |
 | disagree on any other field | **0** |
 | crashes | **0** |
 
-## Scope, stated rather than implied
+## Scope
 
-Steps 1-8 of the verification procedure are implemented.
+**Steps 1-9 are implemented**, `tsa_signature` included: CMS SignedData signature
+verification (RSA PKCS#1 v1.5, RSASSA-PSS, ECDSA P-256/P-384, with other curves
+reported `unsupported`), the `contentType` and `messageDigest` signed attributes read
+under the SignerInfo's **declared** digest algorithm, ESS signing-certificate binding,
+`id-kp-timeStamping`, and a chain of CA issuers reaching an anchor matched by subject
+name **and** public key, with the signer and every intermediate valid at `genTime`.
 
-**Step 9 (`tsa_signature`) is implemented only for the no-anchor case**, where the
-profile states the value is `not_evaluated` and that an absent field reads the same.
-When `tsa_roots_base64` is supplied, a real value requires CMS and X.509 work that is
-**not implemented here**: SignedData signature verification over RSA PKCS#1 v1.5 and
-ECDSA P-256/P-384, the `contentType` signed attribute, ESS signing-certificate
-binding, `id-kp-timeStamping`, and a chain of CA issuers reaching an anchor matched by
-subject name and public key with every certificate valid at `genTime`.
+Two things that cost real verdicts and are worth passing on:
 
-In that case the field is **omitted rather than asserted**. A wrong `verified` would
-claim a time had been validated against a trust anchor when nothing of the kind
-happened, which is worse than an absent field. The 23 disagreements are exactly those
-vectors, and no other outcome field disagrees on any vector.
+- **The messageDigest algorithm is declared, not assumed.** FreeTSA's real token
+  declares SHA-512. Hardcoding SHA-256 produced six wrong `failed` verdicts on tokens
+  that are entirely valid (31, 50, 51, 58, 59, and the receipt half of 34).
+- **A name-matching anchor with another key is not a failed check.** Verifying against
+  it and recording a signature failure turns "we do not know this authority" into
+  "this token is broken" — the distinction 33 and 53 exist to preserve. A name-only
+  anchor is never verified against; the chain simply stopped short, which is
+  `untrusted`.
 
 ## Independence
 

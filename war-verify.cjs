@@ -681,9 +681,16 @@ function verify(inputs, opts = {}) {
    * The comparison therefore has to apply the equivalence, and it does. */
   let tsaSignature;
   if (anchors.length > 0 && tokensPresent.length) {
-    // Anchors supplied: a real value is required and the CMS work above is not
-    // implemented, so the field is left absent rather than asserted wrongly.
-    tsaSignature = undefined;
+    const anchorDers = anchors.map((a) => b64(a)).filter(Boolean);
+    tsaSignature = {};
+    for (const which of tokensPresent) {
+      const raw = b64(which === 'criteria' ? inputs.criteria_tsr_base64 : inputs.receipt_tsr_base64);
+      if (!raw) { tsaSignature[which] = 'failed'; continue; }
+      // genTime for the validity window comes from this token's own TSTInfo.
+      const t = parseTimeStampResp(raw);
+      const gt = t ? parseGenTime(t.genTimeRaw) : null;
+      tsaSignature[which] = tsaValue(raw, anchorDers, gt);
+    }
   }
 
   return {
@@ -830,3 +837,256 @@ if (require.main === module) {
   }
   process.exit(0);
 }
+
+/* ══ STEP 9: tsa_signature — CMS + X.509 ══════════════════════════════════════
+ * Implemented after the first listing run declared it absent. The values and
+ * their precedence are the profile's: "When a token has more than one defect, the
+ * value is `failed` if any check that can run fails; otherwise `no_signer`, then
+ * `unsupported`, then `untrusted`."
+ *
+ * ⚠️ `untrusted` IS NOT A FAILURE, AND THAT DISTINCTION IS THE WHOLE POINT.
+ * "an anchor with the issuer's name but another key is not that issuer, so if
+ * ONLY SUCH ANCHORS FAIL the value is `untrusted`" (53). A verifier that treats a
+ * name match as an issuer match reports `verified` for an impostor root; one that
+ * collapses untrusted into failed cannot tell "we do not know this authority"
+ * from "this token is broken". 33 and 53 exist to separate those.
+ *
+ * ⚠️ ANCHORS MATCH BY SUBJECT NAME **AND** PUBLIC KEY (RFC 5280 §6.1.1), never by
+ * certificate bytes — "a root inside the token is not an anchor."
+ */
+const EKU_TIMESTAMPING = '1.3.6.1.5.5.7.3.8';
+const OID_CONTENT_TYPE = '1.2.840.113549.1.9.3';
+const OID_MESSAGE_DIGEST = '1.2.840.113549.1.9.4';
+const OID_SIGNING_CERT = '1.2.840.113549.1.9.16.2.12';    // ESS signingCertificate
+const OID_SIGNING_CERT_V2 = '1.2.840.113549.1.9.16.2.47';  // ESS signingCertificateV2
+
+/** Full TLV bytes of a node, taken from the buffer it was read from. */
+const tlvOf = (buf, n) => Buffer.from(buf.subarray(n.start, n.end));
+
+/** Descend TimeStampResp -> ContentInfo -> SignedData, returning the pieces. */
+function cmsOf(der) {
+  const top = derRead(der, 0);
+  if (!top || top.tag !== 0x30) return null;
+  const ci = derChildren(top).find((k) => k.tag === 0x30 && (() => {
+    const c = derChildren(k);
+    return c.length && c[0].tag === 0x06 && oidString(c[0].body) === OID_SIGNED_DATA;
+  })());
+  if (!ci) return null;
+  const a0 = derChildren(ci).find((k) => k.tag === 0xa0);
+  if (!a0) return null;
+  const sd = derRead(a0.body, 0);
+  if (!sd || sd.tag !== 0x30) return null;
+  const sdk = derChildren(sd);
+  const certSet = sdk.find((k) => k.tag === 0xa0);
+  const certs = certSet ? derChildren(certSet).map((c) => tlvOf(certSet.body, c)) : [];
+  const siSet = sdk.filter((k) => k.tag === 0x31).pop();
+  const signerInfos = siSet ? derChildren(siSet).map((s) => ({ node: s, der: tlvOf(siSet.body, s), buf: siSet.body })) : [];
+  // eContent, needed for the messageDigest signed attribute
+  const eci = sdk.find((k) => k.tag === 0x30 && (() => {
+    const c = derChildren(k);
+    return c.length && c[0].tag === 0x06 && oidString(c[0].body) === OID_TSTINFO;
+  })());
+  let eContent = null;
+  if (eci) {
+    const inner = derChildren(eci).find((k) => k.tag === 0xa0);
+    if (inner) { const oct = derRead(inner.body, 0); if (oct && oct.tag === 0x04) eContent = Buffer.from(oct.body); }
+  }
+  return { certs, signerInfos, eContent };
+}
+
+/** SignerInfo ::= SEQUENCE { version, sid, digestAlgorithm, [0] signedAttrs, sigAlg, signature, [1] unsignedAttrs } */
+function parseSignerInfo(si) {
+  const k = derChildren(si.node);
+  const signedAttrsNode = k.find((x) => x.tag === 0xa0);
+  // The signature is computed over the signedAttrs re-tagged as a DER SET OF
+  // (RFC 5652 §5.4): the implicit [0] becomes 0x31. Rebuilding the header rather
+  // than flipping one byte keeps it correct for long-form lengths too.
+  let signedAttrsDer = null, attrs = [];
+  if (signedAttrsNode) {
+    const body = Buffer.from(signedAttrsNode.body);
+    const hdr = Buffer.from(tlvOf(si.node.body, signedAttrsNode).subarray(0, signedAttrsNode.hLen));
+    hdr[0] = 0x31;
+    signedAttrsDer = Buffer.concat([hdr, body]);
+    attrs = derChildren(signedAttrsNode).map((a) => {
+      const c = derChildren(a);
+      const oid = c.length && c[0].tag === 0x06 ? oidString(c[0].body) : '';
+      const vals = c.find((x) => x.tag === 0x31);
+      return { oid, valuesNode: vals, valuesBuf: a.body };
+    });
+  }
+  const seqs = k.filter((x) => x.tag === 0x30);
+  /* SignerInfo ::= { version, sid, digestAlgorithm, [0] signedAttrs, sigAlg, signature }
+   * so the SEQUENCEs are [sid, digestAlgorithm, signatureAlgorithm]. The DIGEST
+   * algorithm is the middle one and it is NOT safe to assume SHA-256: FreeTSA's
+   * real token declares SHA-512, and hardcoding SHA-256 made the messageDigest
+   * attribute mismatch on every genuinely valid token (31, 50, 51, 58, 59 and the
+   * receipt half of 34 — six wrong `failed` verdicts from one assumption). */
+  const digestAlgNode = seqs.length >= 3 ? seqs[seqs.length - 2] : null;
+  const digestAlgOid = digestAlgNode ? (() => { const c = derChildren(digestAlgNode); return c.length && c[0].tag === 0x06 ? oidString(c[0].body) : ''; })() : '';
+  const sigAlgNode = seqs[seqs.length - 1];
+  const sigAlgOid = sigAlgNode ? (() => { const c = derChildren(sigAlgNode); return c.length && c[0].tag === 0x06 ? oidString(c[0].body) : ''; })() : '';
+  const sigOct = k.filter((x) => x.tag === 0x04).pop();
+  const signature = sigOct ? Buffer.from(sigOct.body) : null;
+  const unsignedAttrs = k.find((x) => x.tag === 0xa1);
+  return { signedAttrsDer, attrs, sigAlgOid, digestAlgOid, signature, hasUnsigned: !!unsignedAttrs };
+}
+
+const DIGEST_ALG = {
+  '2.16.840.1.101.3.4.2.1': 'sha256',
+  '2.16.840.1.101.3.4.2.2': 'sha384',
+  '2.16.840.1.101.3.4.2.3': 'sha512',
+  '1.3.14.3.2.26': 'sha1',
+};
+const SIG_ALG = {
+  '1.2.840.113549.1.1.11': { type: 'rsa', hash: 'sha256' },
+  '1.2.840.113549.1.1.1': { type: 'rsa', hash: 'sha256' },
+  '1.2.840.113549.1.1.10': { type: 'pss', hash: 'sha256' },
+  '1.2.840.10045.4.3.2': { type: 'ecdsa', hash: 'sha256' },
+  '1.2.840.10045.4.3.3': { type: 'ecdsa', hash: 'sha384' },
+  '1.2.840.10045.4.3.4': { type: 'ecdsa', hash: 'sha512' },
+};
+const SUPPORTED_CURVES = new Set(['prime256v1', 'secp384r1']);
+
+/**
+ * One token's tsa_signature value against the supplied anchors.
+ * Returns 'verified' | 'failed' | 'untrusted' | 'unsupported' | 'no_signer'.
+ */
+function tsaValue(tokenDer, anchorDers, genTimeMs) {
+  const cms = cmsOf(tokenDer);
+  if (!cms) return 'failed';
+  if (!cms.signerInfos.length) return 'no_signer';
+
+  const si = parseSignerInfo(cms.signerInfos[0]);
+  let failed = false, unsupported = false;
+
+  // Signer certificate: without one there is nothing to check the signature with.
+  const parsed = [];
+  for (const der of cms.certs) { try { parsed.push({ der, x: new crypto.X509Certificate(der) }); } catch { /* skip */ } }
+  const signerCandidates = parsed.filter((p) => (p.x.keyUsage || []).includes(EKU_TIMESTAMPING));
+  const signer = signerCandidates[0] || parsed.find((p) => !p.x.ca) || null;
+  /* 45 carries NO certificates and a bad messageDigest, and expects `failed`.
+   * The precedence sentence is "failed if ANY CHECK THAT CAN RUN fails;
+   * otherwise no_signer" — the digest check can run without a certificate, and
+   * it fails, so `failed` wins. Returning no_signer here short-circuits the
+   * checks the profile says to run first. */
+  if (!signer) {
+    const md0 = si.attrs.find((a) => a.oid === OID_MESSAGE_DIGEST);
+    const d0 = DIGEST_ALG[si.digestAlgOid] || null;
+    if (md0 && md0.valuesNode && cms.eContent && d0) {
+      const vs0 = derChildren(md0.valuesNode);
+      const got0 = vs0.length && vs0[0].tag === 0x04 ? Buffer.from(vs0[0].body) : null;
+      const want0 = crypto.createHash(d0).update(cms.eContent).digest();
+      if (!got0 || !got0.equals(want0)) return 'failed';
+    }
+    return 'no_signer';
+  }
+
+  // id-kp-timeStamping on the signer (48).
+  if (!(signer.x.keyUsage || []).includes(EKU_TIMESTAMPING)) failed = true;
+
+  // contentType signed attribute must equal an eContentType of id-ct-TSTInfo (39).
+  const ct = si.attrs.find((a) => a.oid === OID_CONTENT_TYPE);
+  if (!ct || !ct.valuesNode) failed = true;
+  else {
+    const vs = derChildren(ct.valuesNode);
+    const got = vs.length && vs[0].tag === 0x06 ? oidString(vs[0].body) : '';
+    if (got !== OID_TSTINFO) failed = true;
+  }
+
+  // messageDigest signed attribute must be the digest of eContent (44, 45).
+  const md = si.attrs.find((a) => a.oid === OID_MESSAGE_DIGEST);
+  const dalg = DIGEST_ALG[si.digestAlgOid] || null;
+  if (md && md.valuesNode && cms.eContent) {
+    const vs = derChildren(md.valuesNode);
+    const got = vs.length && vs[0].tag === 0x04 ? Buffer.from(vs[0].body) : null;
+    if (!dalg) unsupported = true;
+    else {
+      const want = crypto.createHash(dalg).update(cms.eContent).digest();
+      if (!got || !got.equals(want)) failed = true;
+    }
+  } else if (!md) failed = true;
+
+  // ESS signing-certificate binding: the attribute must name THIS signer (46).
+  const ess = si.attrs.find((a) => a.oid === OID_SIGNING_CERT_V2) || si.attrs.find((a) => a.oid === OID_SIGNING_CERT);
+  if (ess && ess.valuesNode) {
+    const blob = Buffer.from(ess.valuesNode.body);
+    // v1 binds a SHA-1 cert hash, v2 binds one under the declared algorithm.
+    const cands = ['sha1', 'sha256', 'sha384', 'sha512']
+      .map((h) => crypto.createHash(h).update(signer.der).digest());
+    if (!cands.some((h) => blob.includes(h))) failed = true;
+  }
+
+  // Algorithm support. A curve outside P-256/P-384 is `unsupported` (42).
+  const alg = SIG_ALG[si.sigAlgOid];
+  const pub = signer.x.publicKey;
+  const kd = pub.asymmetricKeyDetails || {};
+  if (pub.asymmetricKeyType === 'ec' && !SUPPORTED_CURVES.has(kd.namedCurve)) unsupported = true;
+  if (!alg) unsupported = true;
+
+  // The CMS signature itself, over the re-tagged signedAttrs (34).
+  if (alg && !unsupported && si.signedAttrsDer && si.signature) {
+    try {
+      const opts = alg.type === 'pss'
+        ? { key: pub, padding: crypto.constants.RSA_PKCS1_PSS_PADDING, saltLength: crypto.constants.RSA_PSS_SALTLEN_DIGEST }
+        : pub;
+      if (!crypto.verify(alg.hash, si.signedAttrsDer, opts, si.signature)) failed = true;
+    } catch { failed = true; }
+  } else if (!si.signedAttrsDer || !si.signature) failed = true;
+
+  /* ── chain to an anchor ──
+   * Anchors are matched by SUBJECT NAME AND PUBLIC KEY. A name-only match is an
+   * impostor (53) and must not trust the chain; when that is the ONLY reason the
+   * chain does not reach an anchor, the value is `untrusted`, not `failed`. */
+  const anchors = [];
+  for (const a of anchorDers) { try { anchors.push(new crypto.X509Certificate(a)); } catch { /* skip */ } }
+  const anchorMatches = (cert) => anchors.some((an) => an.subject === cert.subject
+    && an.publicKey.export({ type: 'spki', format: 'der' }).equals(cert.publicKey.export({ type: 'spki', format: 'der' })));
+  const nameOnlyMatch = (cert) => anchors.some((an) => an.subject === cert.subject) && !anchorMatches(cert);
+
+  let node = signer, reached = false, nameOnly = false, hops = 0;
+  const at = genTimeMs === null ? Date.now() : genTimeMs;
+  while (node && hops++ < 10) {
+    if (anchorMatches(node.x)) { reached = true; break; }
+    if (nameOnlyMatch(node.x)) { nameOnly = true; break; }
+    /* Issuers are looked for among the token's own certificates AND among the
+     * anchors. The anchor is usually NOT inside the token — "a root inside the
+     * token is not an anchor" — so a walk that only searches the token's bag
+     * terminates one hop short and reports `untrusted` for a chain that does
+     * reach a supplied anchor (37, 40, 41, 83). */
+    let issuer = parsed.find((p) => p.x.subject === node.x.issuer && p.x !== node.x);
+    if (!issuer) {
+      /* Prefer an anchor that actually VERIFIES this node. A name match alone is
+       * not an issuer: "an anchor with the issuer's name but another key is not
+       * that issuer, so if only such anchors fail the value is `untrusted`" (53).
+       * Verifying against the impostor and recording a signature failure is the
+       * bug that reading produces — it turns "we do not know this authority"
+       * into "this token is broken", which is the one distinction 33 and 53
+       * exist to preserve. So a name-only anchor is never verified against and
+       * never sets `failed`; it only means the chain stopped short. */
+      const named = anchors.filter((a) => a.subject === node.x.issuer);
+      if (named.length) {
+        const real = named.find((a) => { try { return node.x.verify(a.publicKey); } catch { return false; } });
+        if (real) { reached = true; break; }
+        nameOnly = true; break;
+      }
+    }
+    if (!issuer) break;
+    // "the signer and every issuer other than the anchor valid at genTime" (38, 54)
+    if (at < Date.parse(issuer.x.validFrom) || at > Date.parse(issuer.x.validTo)) failed = true;
+    // an issuer in the chain must be a CA (49)
+    if (!issuer.x.ca) failed = true;
+    try { if (!node.x.verify(issuer.x.publicKey)) failed = true; } catch { failed = true; }
+    if (anchorMatches(issuer.x)) { reached = true; break; }
+    if (nameOnlyMatch(issuer.x)) { nameOnly = true; break; }
+    node = issuer;
+  }
+  if (at < Date.parse(signer.x.validFrom) || at > Date.parse(signer.x.validTo)) failed = true;
+
+  // Precedence, verbatim: failed, then no_signer, then unsupported, then untrusted.
+  if (failed) return 'failed';
+  if (unsupported) return 'unsupported';
+  if (!reached) return nameOnly ? 'untrusted' : 'untrusted';
+  return 'verified';
+}
+module.exports.tsaValue = tsaValue;
+module.exports.cmsOf = cmsOf;

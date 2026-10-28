@@ -6,10 +6,10 @@
  "implementation": "stillmarcus24/assurance-run war-verify.cjs",
  "language": "Node.js (JavaScript)",
  "vectors": 90,
- "agree_all_fields": 67,
- "disagree_tsa_signature_only": 23,
+ "agree_all_fields": 90,
+ "disagree_tsa_signature_only": 0,
  "disagree_other": 0,
- "scope": "Steps 1-8 implemented. Step 9 tsa_signature is implemented ONLY for the no-anchor case, where the profile states not_evaluated and that an absent field reads the same. With tsa_roots_base64 supplied, CMS and X.509 chain validation are NOT implemented and the field is omitted rather than asserted.",
+ "scope": "Steps 1-9 implemented, including tsa_signature with relying-party anchors: CMS SignedData signature verification (RSA PKCS#1 v1.5, RSASSA-PSS, ECDSA P-256/P-384), the contentType and messageDigest signed attributes under the SignerInfo declared digest algorithm, ESS signing-certificate binding, id-kp-timeStamping, and a chain of CA issuers reaching an anchor matched by subject name AND public key with every certificate valid at genTime.",
  "rows": [
   {
    "vector": "01-valid.json",
@@ -577,6 +577,10 @@
   {
    "vector": "31-tsa-freetsa-verified.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "verified",
+     "receipt": "verified"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -587,15 +591,17 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
    "vector": "32-tsa-digicert-verified.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "verified",
+     "receipt": "verified"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -606,15 +612,17 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
    "vector": "33-tsa-unrelated-root-untrusted.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "untrusted",
+     "receipt": "untrusted"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -625,15 +633,17 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
    "vector": "34-tsa-tampered-signature-failed.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "failed",
+     "receipt": "verified"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -644,15 +654,16 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
    "vector": "35-tsa-token-without-signer-certificate.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "no_signer"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -663,10 +674,8 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
@@ -689,6 +698,9 @@
   {
    "vector": "37-tsa-synthetic-control-verified.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "verified"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -699,15 +711,16 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
    "vector": "38-tsa-intermediate-expired-failed.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "failed"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -718,15 +731,16 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
    "vector": "39-tsa-content-type-mismatch-failed.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "failed"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -737,15 +751,16 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
    "vector": "40-tsa-rsassa-pss-verified.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "verified"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -756,15 +771,16 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
    "vector": "41-tsa-ecdsa-p256-verified.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "verified"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -775,15 +791,16 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
    "vector": "42-tsa-ecdsa-p521-unsupported.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "unsupported"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -794,10 +811,8 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
@@ -820,6 +835,9 @@
   {
    "vector": "44-tsa-unsupported-curve-and-bad-digest-failed.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "failed"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -830,15 +848,16 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
    "vector": "45-tsa-no-certificates-and-bad-digest-failed.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "failed"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -849,15 +868,16 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
    "vector": "46-tsa-unsupported-curve-and-ess-mismatch-failed.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "failed"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -868,10 +888,8 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
@@ -894,6 +912,9 @@
   {
    "vector": "48-tsa-signer-without-timestamping-eku-failed.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "failed"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -904,15 +925,16 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
    "vector": "49-tsa-issuer-not-a-ca-failed.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "failed"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -923,15 +945,17 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
    "vector": "50-criteria-token-imprint-only-in-status-string.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "verified",
+     "receipt": "verified"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -946,15 +970,17 @@
      "CRITERIA_COMMITMENT_UNVERIFIED"
     ]
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
    "vector": "51-record-token-imprint-only-in-status-string.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "verified",
+     "receipt": "verified"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -965,10 +991,8 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
@@ -991,6 +1015,9 @@
   {
    "vector": "53-tsa-anchor-same-name-other-key-untrusted.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "untrusted"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -1001,15 +1028,16 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
    "vector": "54-tsa-expired-intermediate-no-anchor-failed.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "failed"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -1020,10 +1048,8 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
@@ -1080,6 +1106,10 @@
   {
    "vector": "58-criteria-token-imprint-only-in-unsigned-attribute.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "verified",
+     "receipt": "verified"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -1094,15 +1124,17 @@
      "CRITERIA_COMMITMENT_UNVERIFIED"
     ]
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
    "vector": "59-record-token-imprint-only-in-unsigned-attribute.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "verified",
+     "receipt": "verified"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -1113,10 +1145,8 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {
@@ -1559,6 +1589,9 @@
   {
    "vector": "83-tsa-signer-info-unsigned-attributes-ignored.json",
    "outcome": {
+    "tsa_signature": {
+     "criteria": "verified"
+    },
     "criteria_committed_before_check": "yes",
     "criteria_hash": "match",
     "independence": "independent",
@@ -1569,10 +1602,8 @@
     "verdict_stated": "pass",
     "warning_codes": []
    },
-   "agrees": false,
-   "fields_disagreeing": [
-    "tsa_signature"
-   ],
+   "agrees": true,
+   "fields_disagreeing": [],
    "crashed": false
   },
   {

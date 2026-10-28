@@ -703,3 +703,130 @@ function verify(inputs, opts = {}) {
 module.exports.verify = verify;
 module.exports.recomputeVerdict = recomputeVerdict;
 module.exports.schemaAcceptable = schemaAcceptable;
+
+/* ── SELF-TEST + CLI ──────────────────────────────────────────────────────────
+ * Added immediately after the run README was pushed documenting
+ * `node war-verify.cjs --self-test`, which at that moment did nothing: the file
+ * had no CLI at all. A published instruction that silently exits 0 is worse than
+ * no instruction, because it reads as a passing test to anyone who runs it.
+ */
+function selfTest() {
+  let pass = 0, fail = 0;
+  const ok = (n, c) => { if (c) pass++; else { fail++; console.log(`  FAIL ${n}`); } };
+
+  // JCS (RFC 8785)
+  ok('jcs sorts members by UTF-16 code unit', jcs({ b: 1, a: 2 }) === '{"a":2,"b":1}');
+  ok('jcs orders integer-like keys as strings ("1"<"10"<"2")', jcs({ 10: 1, 2: 1, 1: 1 }) === '{"1":1,"10":1,"2":1}');
+  ok('jcs recurses into arrays and objects', jcs({ a: [1, { z: 1, y: 2 }] }) === '{"a":[1,{"y":2,"z":1}]}');
+  ok('jcs literals', jcs([null, true, false]) === '[null,true,false]');
+
+  // Canonical base64 (profile 1.4.2)
+  ok('b64 accepts a canonical string', b64('YWJj').toString() === 'abc');
+  ok('b64 accepts padding', b64('YQ==').toString() === 'a');
+  ok('b64 rejects embedded whitespace', b64('YW Jj') === null);
+  ok('b64 rejects missing padding', b64('YWJjZA') === null);
+  ok('b64 rejects the URL-safe alphabet', b64('a-b_') === null);
+  ok('b64 rejects a non-round-tripping string', b64('YWJjZB==') === null);
+
+  // genTime grammar — the fields are range-checked by hand because new Date()
+  // rolls February 30th into March 2nd and so cannot see "real calendar fields".
+  ok('genTime plain', parseGenTime('20260301000000Z') === Date.UTC(2026, 2, 1));
+  ok('genTime requires Z', parseGenTime('20260301000000') === null);
+  ok('genTime rejects a fraction ending in 0', parseGenTime('20260301000000.10Z') === null);
+  ok('genTime keeps a fraction', parseGenTime('20260301000000.1Z') === Date.UTC(2026, 2, 1) + 100);
+  ok('genTime rejects month 13', parseGenTime('20261301000000Z') === null);
+  ok('genTime rejects February 30', parseGenTime('20260230000000Z') === null);
+  ok('genTime accepts February 29 in a leap year', parseGenTime('20280229000000Z') !== null);
+  ok('genTime rejects February 29 in a non-leap year', parseGenTime('20260229000000Z') === null);
+
+  // Stated times
+  ok('stated time plain', parseStatedTime('2026-03-01T00:00:00Z') === Date.UTC(2026, 2, 1));
+  ok('stated time rejects a numeric offset', parseStatedTime('2026-03-01T00:00:00+00:00') === null);
+  ok('stated time requires Z', parseStatedTime('2026-03-01T00:00:00') === null);
+  ok('digests must be 64 lowercase hex', isLowerDigest('a'.repeat(64)) && !isLowerDigest(`AB${'c'.repeat(62)}`));
+
+  // The step-2 key rule. All four canonical small-order / neutral encodings must
+  // be rejected, and a real vector key accepted.
+  const small = ['0100000000000000000000000000000000000000000000000000000000000000',
+    'ECFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7F',
+    '0000000000000000000000000000000000000000000000000000000000000080',
+    '0000000000000000000000000000000000000000000000000000000000000000'];
+  ok('all small-order and neutral keys rejected', small.every((h) => !keyAcceptable(Buffer.from(h, 'hex'))));
+  ok('a real Ed25519 vector key is accepted', keyAcceptable(Buffer.from('IG8NU3Wa4RNk++CwdHYLlfOxAtwRl2hz0hJKfLgZyJk=', 'base64')));
+  ok('a non-canonical y >= p is rejected', !keyAcceptable(Buffer.from('EDFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF7F', 'hex')));
+
+  // Verdict recomputation (property 4)
+  const V = (rs) => recomputeVerdict(rs).verdict;
+  ok('all required pass -> pass', V([{ required: true, result: 'pass' }]) === 'pass');
+  ok('a required fail -> fail', V([{ required: true, result: 'fail' }, { required: true, result: 'not-evaluated' }]) === 'fail');
+  ok('a required not-evaluated -> incomplete', V([{ required: true, result: 'not-evaluated' }]) === 'incomplete');
+  ok('an optional not-evaluated does not spoil a pass', V([{ required: true, result: 'pass' }, { required: false, result: 'not-evaluated' }]) === 'pass');
+  ok('a required result outside the vocabulary is never a pass', V([{ required: true, result: 'maybe' }]) === 'incomplete');
+
+  // Step 1 refusal
+  ok('an unknown schema is refused', !schemaAcceptable({ receipt: { schema: 'x/9.9', canonicalization: CANON, suite: { digest: 'sha-256', signature: 'Ed25519' } } }));
+  ok('a result id that is an object is refused (77)', !schemaAcceptable({
+    receipt: { schema: SCHEMA, canonicalization: CANON, suite: { digest: 'sha-256', signature: 'Ed25519' }, key_id: 'k', verdict: 'pass', issued_utc: '2026-01-01T00:00:00Z', criteria: {}, parties: {}, results: [{ id: {}, result: 'pass' }] },
+    signature: { value: 'AA==', key_id: 'k' },
+  }));
+
+  console.log(`\nwar-verify self-test: ${pass} passed, ${fail} failed`);
+  return { pass, fail };
+}
+module.exports.selfTest = selfTest;
+
+/** Score a corpus directory's vectors/*.json against their own `expected` objects. */
+function runCorpus(dir) {
+  const vdir = path.join(dir, 'vectors');
+  const files = fs.readdirSync(vdir).filter((f) => f.endsWith('.json')).sort();
+  // The profile's own equivalence, step 9: "Without relying-party anchors ... it is
+  // `not_evaluated`, and an absent field reads the same." A comparison that treats
+  // them as different is stricter than the specification, which is not a stricter
+  // test but a wrong one.
+  const normTsa = (x) => {
+    if (x === undefined) return 'ABSENT_OR_NOT_EVALUATED';
+    const vals = Object.values(x);
+    if (vals.length && vals.every((v) => v === 'not_evaluated')) return 'ABSENT_OR_NOT_EVALUATED';
+    return JSON.stringify(x);
+  };
+  const rows = [];
+  for (const f of files) {
+    const v = JSON.parse(fs.readFileSync(path.join(vdir, f), 'utf8'));
+    let got, crashed = false;
+    try { got = verify(v.inputs); }
+    catch (e) { got = { error: `${e.constructor.name}: ${e.message}` }; crashed = true; }
+    const keys = [...new Set([...Object.keys(v.expected), ...Object.keys(got)])];
+    const bad = keys.filter((k) => {
+      if (k === 'tsa_signature') return normTsa(v.expected[k]) !== normTsa(got[k]);
+      const a = v.expected[k], b = got[k];
+      if (Array.isArray(a) && Array.isArray(b)) return JSON.stringify([...a].sort()) !== JSON.stringify([...b].sort());
+      return JSON.stringify(a) !== JSON.stringify(b);
+    });
+    rows.push({ vector: f, outcome: got, agrees: bad.length === 0, fields_disagreeing: bad, crashed });
+  }
+  return rows;
+}
+module.exports.runCorpus = runCorpus;
+
+if (require.main === module) {
+  if (process.argv.includes('--self-test')) {
+    const r = selfTest();
+    process.exit(r.fail ? 1 : 0);
+  }
+  const dir = process.argv[2];
+  if (!dir) { console.error('usage: node war-verify.cjs <corpus-dir> [--json]'); process.exit(2); }
+  const rows = runCorpus(dir);
+  const agree = rows.filter((r) => r.agrees).length;
+  const tsaOnly = rows.filter((r) => !r.agrees && r.fields_disagreeing.length === 1 && r.fields_disagreeing[0] === 'tsa_signature').length;
+  if (process.argv.includes('--json')) {
+    console.log(JSON.stringify({ vectors: rows.length, agree_all_fields: agree, disagree_tsa_signature_only: tsaOnly, disagree_other: rows.length - agree - tsaOnly, rows }, null, 1));
+  } else {
+    for (const r of rows) console.log(`  [${r.agrees ? 'AGREE ' : '  DIFF'}] ${r.vector.replace('.json', '').padEnd(48)} ${r.fields_disagreeing.join(',')}`);
+    console.log(`\n  vectors                      : ${rows.length}`);
+    console.log(`  agree on every field         : ${agree}`);
+    console.log(`  disagree on tsa_signature ONLY: ${tsaOnly}`);
+    console.log(`  disagree on any other field  : ${rows.length - agree - tsaOnly}`);
+    console.log(`  crashes                      : ${rows.filter((r) => r.crashed).length}`);
+  }
+  process.exit(0);
+}

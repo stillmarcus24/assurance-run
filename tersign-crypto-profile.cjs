@@ -90,7 +90,46 @@ const member = (objNode, name) => {
 };
 const plain = (node) => (node === undefined ? undefined : R.toJS ? R.toJS(node) : undefined);
 
+/* ── defined_fields, STEP 1 (crypto/MANIFEST.json, v0.5.9) ─────────────────────
+ * Added 2026-10-28. Same open-world defect as the structural suite: this runner
+ * read the six fields it knew and ignored every other key, so cn36/cn38 accepted
+ * outright and cn37/cn39 rejected for the wrong reason.
+ *
+ * The manifest fixes both the set and the PRECEDENCE: "A key outside these six
+ * rejects as malformed_input IN STEP 1, whatever its value, BEFORE the link version
+ * and the signature are read" — cn37 adds a key to cn14's input (signature missing
+ * its 0x prefix) and must reject malformed_input, NOT malformed_signature; cn39
+ * adds one to cn27's input (link_version 1000) and must reject malformed_input, NOT
+ * unsupported_link_version. So this runs ahead of assertLinkVersionToken.
+ *
+ * Pinned here, asserted against the manifest prose below, for the same reason as
+ * the structural suite: reading the set out of the manifest would make the check
+ * agree with any corpus by construction.
+ *
+ * ⚠️ The manifest notes the field domain rejects with the SAME reason, so "no vector
+ * can show whether the key check comes before it." We put the key check first
+ * because the manifest calls it step 1; no vector can falsify either order, and
+ * that is recorded rather than presented as a finding.
+ */
+const DEFINED_FIELDS = ['artifact_digest', 'seq', 'countersignature', 'ledger_signer',
+  'prev_digest', 'link_version'];
+
+function assertDefinedFields(inputNode) {
+  // An input that is not a JSON object has no keys to read; the field domain below
+  // produces the verdict, as it did before.
+  if (!inputNode || inputNode.t !== 'o') return;
+  for (const [name] of inputNode.e) {
+    // Exact strings. The manifest records that no vector pins a near-spelling, so
+    // this deliberately does no folding of any kind.
+    if (!DEFINED_FIELDS.includes(name)) {
+      throw new Rej('malformed_input', `input carries undefined field ${JSON.stringify(name)}`);
+    }
+  }
+}
+
 function evaluate(inputNode) {
+  // STEP 1 — before the link version and before the signature.
+  assertDefinedFields(inputNode);
   // link_version_rule: absent means 1; any other value, token included, is unsupported.
   assertLinkVersionToken(member(inputNode, 'link_version'));
   const artifact = fieldHex(plain(member(inputNode, 'artifact_digest')), 64, 'artifact_digest');

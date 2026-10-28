@@ -522,6 +522,23 @@ function chainSet(input) {
   const hseq = Number(seqNode.tok);
   if (hseq < 1) throw new Reject('completeness_reject', `head commits no records (seq ${hseq} < 1)`);
 
+  // head.digest is read HERE, in the completeness stage, not later with continuity.
+  // MANIFEST.chain_set is explicit and names both vectors: "a head with no digest
+  // (n165) or with a digest that does not parse (n169, 0x and 62 hex digits) rejects
+  // with completeness_reject, NOT with continuity_reject." Our reader only looked at
+  // head.digest when comparing it to the final record's artifact digest, so an
+  // absent or malformed digest fell through to the continuity comparison and got
+  // continuity_reject — the right verdict for the wrong reason.
+  // The distinction is substantive: a head whose digest cannot be read is a set we
+  // cannot close, which is a completeness failure. Continuity is about whether the
+  // links between records hold, and it has not been reached yet.
+  // 32-byte hex after the whitespace strip of identifier_normalization, lowercased.
+  const hdigRaw = head.digest;
+  const hdig = typeof hdigRaw === 'string' ? wsStrip(hdigRaw).toLowerCase().replace(/^0x/, '') : null;
+  if (hdig === null || !/^[0-9a-f]{64}$/.test(hdig)) {
+    throw new Reject('completeness_reject', `head digest ${JSON.stringify(hdigRaw)} does not parse as a 32-byte hex digest`);
+  }
+
   const recsNode = get(input, 'records');
   const recs = recsNode && recsNode.t === 'a' ? recsNode.v.map(toJS) : null;
   if (!recs) throw new Reject('completeness_reject', 'no records');
@@ -675,15 +692,256 @@ function boundary(input) {
   // replayed at any point in the sequence (n25).
   if (!Number.isInteger(ev.position)) throw new Reject('boundary_reject', 'boundary binds no position');
   if (ev.position !== prefix.length) throw new Reject('boundary_reject', `boundary position ${ev.position} is not the prefix length ${prefix.length}`);
-  // Coverage claimed past what was attested is a downgrade (n26).
-  const covered = hasKey(input, 'covered_through') ? toJS(get(input, 'covered_through')) : null;
-  if (covered !== null) {
-    if (!Number.isInteger(ev.attestedPrefixLength)) throw new Reject('boundary_reject', 'coverage claimed with no attested prefix length');
-    if (ev.attestedPrefixLength < covered) {
-      throw new Reject('boundary_reject', `coverage through ${covered} claimed over an attestation of length ${ev.attestedPrefixLength}`);
+  /* ── attestedPrefixLength and covered_through, rewritten 2026-10-28 ───────────
+   * 9 of 284 vectors were accepting here and should reject, and every one of them
+   * is this field. The defect was that we only looked at `attestedPrefixLength`
+   * when `covered_through` was present and non-null — i.e. we treated it as an
+   * input to the coverage comparison rather than as a field with its own validity.
+   *
+   * MANIFEST.boundary_binding: "when the member is PRESENT, WHATEVER ITS VALUE, it
+   * must be an integer token from 0 to the number of entries in `prefix`,
+   * inclusive, WHETHER OR NOT COVERAGE IS CLAIMED." So presence is the trigger, not
+   * coverage, and the bound is checked unconditionally.
+   *
+   * ⚠️ "INTEGER TOKEN", which is why this reads NODES and not toJS(). n156 carries
+   * the token `0.0`: numerically 0, inside the range, and `Number.isInteger(0)` is
+   * true — a reader working from parsed numbers accepts it and cannot do otherwise.
+   * The vector exists to catch exactly that reader. Same shape as n38's `3.0` head
+   * seq in chain_set. This is the second time in this corpus that carrying the raw
+   * token this far is the only thing that makes a vector visible.
+   *
+   * Vectors: n153 (one past, beside coverage), n155 (99), n159 (3 for a two-entry
+   * prefix), n154 (-1), n156 (token 0.0), n157 (false), n158 (null), n170 (the
+   * string "0"), n171 (covered_through null). Accepting twins that pin the
+   * boundaries: p67 (absent), p63 (0, no coverage claimed), p18/p20/p64 (the
+   * prefix's own length).
+   */
+  const intToken = (node) => {
+    if (!node || node.t !== 'n') return null;                 // false, null, a string: not a token
+    if (!/^-?(0|[1-9][0-9]*)$/.test(node.tok)) return null;   // `0.0`, `1e2`: not an integer token
+    return Number(node.tok);
+  };
+
+  const aplPresent = hasKey(evNode, 'attestedPrefixLength');
+  let apl = null;
+  if (aplPresent) {
+    apl = intToken(get(evNode, 'attestedPrefixLength'));
+    if (apl === null) {
+      throw new Reject('boundary_reject', 'attestedPrefixLength is present and is not an integer token');
+    }
+    if (apl < 0 || apl > prefix.length) {
+      throw new Reject('boundary_reject', `attestedPrefixLength ${apl} is outside 0..${prefix.length} for the presented prefix`);
+    }
+  }
+
+  // `covered_through`: may be absent; when PRESENT, whatever its value, it must be a
+  // non-negative integer token (n171 carries null and rejects), the event must carry
+  // `attestedPrefixLength` (n167 carries none and rejects), and coverage may not
+  // exceed it (n26 over an empty attestation, n166 over one reaching 2).
+  if (hasKey(input, 'covered_through')) {
+    const covered = intToken(get(input, 'covered_through'));
+    if (covered === null || covered < 0) {
+      throw new Reject('boundary_reject', 'covered_through is present and is not a non-negative integer token');
+    }
+    if (!aplPresent) throw new Reject('boundary_reject', 'coverage claimed with no attested prefix length');
+    if (apl < covered) {
+      throw new Reject('boundary_reject', `coverage through ${covered} claimed over an attestation of length ${apl}`);
     }
   }
   return true;
+}
+
+/* ── COMPOSITION INDEPENDENCE (MANIFEST.composition_independence) ──────────────
+ * Added 2026-10-28. This kind was added upstream after this reader was written, so
+ * all 39 of its vectors were producing `error / instrument_failure` — no verdict at
+ * all, which is the failure the corpus exists to catch.
+ *
+ * TWO RECORDS JOINED BY DIGEST: `findings` (a record of findings about a party's
+ * work) and `decision` (the counterparty's decision on that work, committing to the
+ * findings by `findings_digest`).
+ *
+ * ORDER IS NORMATIVE AND IT IS NOT THE ORDER I WOULD HAVE PICKED:
+ *   1. THE JOIN IS DECIDED FIRST -> binding_reject.
+ *   2. Then `claimed` is read exactly as independence_claim reads it.
+ *   3. Under a claim, the findings are evaluated as an independence_claim record
+ *      whose `attestations` are `findings_attestations` and whose `parties` are
+ *      `parties` followed by `counterparty`.  -> independence_reject
+ * Defined-member validation sits ahead of all three (see assertDefinedMembers).
+ *
+ * WHY THIS REUSES independence() ON A SYNTHETIC NODE rather than reimplementing it:
+ * the manifest says the findings are evaluated *as an independence_claim record*.
+ * Two copies of that logic would drift, and a second implementation that happened
+ * to agree would prove nothing about the first. The substitution is only in which
+ * members supply attestations and parties.
+ *
+ * ⚠️ THE DECISION IS NOT AN INDEPENDENT FINDING. Of the decision the criterion reads
+ * ONLY `findings_digest`. `decision_attestations` and an attestation's `role` are
+ * read by no criterion — so an attestor named only on the decision is never counted
+ * toward independence, and whether `counterparty` names the decision's attestor is
+ * not checked. Counting the decision's attestors here would be the exact confusion
+ * the kind exists to catch: a party's own decision laundered into independence.
+ *
+ * ⚠️ wsStrip, NOT hexNorm, for the digest. `hexNorm` uses JS `.trim()`, whose
+ * whitespace set includes U+FEFF; identifier_normalization strips only the Unicode
+ * White_Space property characters and says U+FEFF explicitly does NOT parse. On a
+ * digest the difference is an accept where the suite rejects.
+ */
+function compositionIndependence(input) {
+  // ── 1. the join, decided first ──
+  const findingsNode = get(input, 'findings');
+  const decisionNode = get(input, 'decision');
+  if (!findingsNode || findingsNode.t !== 'o') throw new Reject('binding_reject', 'findings is not a JSON object');
+  if (!decisionNode || decisionNode.t !== 'o') throw new Reject('binding_reject', 'decision is not a JSON object');
+
+  const fdNode = get(decisionNode, 'findings_digest');
+  const fdRaw = fdNode === undefined ? undefined : toJS(fdNode);
+  if (typeof fdRaw !== 'string') throw new Reject('binding_reject', 'decision carries no findings_digest string');
+  const fd = wsStrip(fdRaw).toLowerCase();
+  if (!/^0x[0-9a-f]{64}$/.test(fd)) {
+    throw new Reject('binding_reject', `findings_digest ${JSON.stringify(fdRaw)} is not 0x followed by 64 hex digits`);
+  }
+  const want = `0x${boundAddress(findingsNode, 'binding_reject')}`;
+  if (fd !== want) throw new Reject('binding_reject', `decision commits to ${fd}, findings canonicalize to ${want}`);
+
+  // ── 2/3. claimed, then the findings as an independence_claim record ──
+  const partiesNode = get(input, 'parties');
+  if (!partiesNode || partiesNode.t !== 'a' || !partiesNode.v.length) {
+    throw new Reject('independence_reject', 'parties is not a non-empty array');
+  }
+  const cpNode = get(input, 'counterparty');
+  // "whose `parties` are `parties` followed by `counterparty`" — the parties the
+  // record declares AND the counterparty are all parties to the transaction, so an
+  // attestor naming the counterparty is inside, not outside.
+  const synthParties = { t: 'a', v: cpNode === undefined ? [...partiesNode.v] : [...partiesNode.v, cpNode] };
+  const synth = {
+    t: 'o',
+    e: [
+      ['claimed', get(input, 'claimed')],
+      ['parties', synthParties],
+      ['attestations', get(input, 'findings_attestations')],
+    ].filter(([, v]) => v !== undefined),
+  };
+  independence(synth);
+  return true;
+}
+
+/* ── CLOSED-WORLD MEMBER VALIDATION (defined_members, v0.5.8+) ─────────────────
+ * Added 2026-10-28. This reader was built OPEN-WORLD: it checked the members it
+ * knew and let every other name through, so 46 of 284 vectors at v0.6.2 walked
+ * past it — 30 accepting outright that must reject, and 16 rejecting for a
+ * content reason where the suite expects unknown_member_reject.
+ *
+ * The precedence was the one thing the manifest did not make obvious to me and
+ * Tersign stated it directly (tersignhq/evidence-record-conformance#16,
+ * 2026-10-27): "the member check runs first, in every kind and inside each closed
+ * object" — MANIFEST.json `defined_members.rule`: "an input that also fails the
+ * criterion rejects with unknown_member_reject". So this runs BEFORE evaluate(),
+ * not inside it. A content-first engine lands somewhere defensible but different,
+ * which is exactly the 16 wrong-reason misses.
+ *
+ * THE LISTS ARE PINNED HERE AND ASSERTED AGAINST THE MANIFEST, because the rule
+ * requires it: "Each engine pins the lists in its code, and its run fails if
+ * `closed` differs from them." Reading them out of the manifest at runtime would
+ * make this check unfalsifiable — it would agree with any corpus by construction,
+ * including a corpus whose lists had silently changed.
+ *
+ * ⚠️ EXACT STRING COMPARISON ONLY. No case folding, no trimming, no Unicode
+ * normalization, no confusable mapping. The vectors that punish each shortcut:
+ * n126 `Presented_as`, n127 `sеq` with a Cyrillic U+0435, n128 fullwidth `ｂｙ`
+ * which NFKC folds to `by`, n149 `covered_through ` with a trailing space. A
+ * reader that normalizes names accepts all four.
+ *
+ * ⚠️ `constructor` (n131) and `__proto__` (n132) are members like any other. Safe
+ * here only because the parser keeps members as an entry ARRAY — a reader that
+ * rebuilt plain JS objects would lose `__proto__` to the prototype slot entirely.
+ */
+const CLOSED = {
+  digest_recompute: { input: ['expected_digest', 'payload'] },
+  canonical_bytes: { input: ['claimed_canonical', 'payload', 'payload_text'] },
+  chain_link: { input: ['artifact_digest', 'expected_link', 'prev_digest', 'seq'] },
+  chain_set: {
+    input: ['attestations', 'head', 'records', 'witness'],
+    'input.head': ['digest', 'seq'],
+    'input.records[]': ['artifact_digest', 'link', 'prev_digest', 'seq'],
+  },
+  chain_commitment: {
+    input: ['attestations', 'head', 'records', 'witness'],
+    'input.head': ['acc', 'digest', 'seq'],
+    'input.records[]': ['artifact_digest', 'link', 'prev_digest', 'seq'],
+  },
+  anchor_relation: { input: ['anchored_digest', 'subject_digest'] },
+  phase_claim: { input: ['presented_as', 'record'] },
+  independence_claim: {
+    input: ['attestations', 'claimed', 'covers', 'deliverable_bytes', 'deliverable_digest',
+      'deliverable_signer', 'parties', 'payTo', 'record_commits', 'settlement_result'],
+    'input.attestations[]': ['by', 'role'],
+  },
+  offer_binding: { input: ['offer', 'receipt'] },
+  decision_evidence_binding: { input: ['decision_evidence', 'record'] },
+  boundary_binding: { input: ['boundary_event', 'covered_through', 'prefix'] },
+  composition_independence: {
+    input: ['claimed', 'counterparty', 'decision', 'decision_attestations', 'findings',
+      'findings_attestations', 'parties'],
+    'input.decision_attestations[]': ['by', 'role'],
+    'input.findings_attestations[]': ['by', 'role'],
+  },
+};
+
+/** The rule's own requirement: the run FAILS if the pinned lists drift from the corpus. */
+function assertClosedListsMatchManifest(manifest) {
+  const theirs = (manifest.defined_members || {}).closed;
+  if (!theirs) throw new Error('MANIFEST.json carries no defined_members.closed — cannot verify pinned lists');
+  const norm = (o) => JSON.stringify(Object.keys(o).sort().map((k) =>
+    [k, Object.keys(o[k]).sort().map((p) => [p, [...o[k][p]].sort()])]));
+  if (norm(theirs) !== norm(CLOSED)) {
+    throw new Error('pinned CLOSED lists differ from MANIFEST.json defined_members.closed — '
+      + 'the corpus changed its closed sets; update the pinned lists deliberately, do not read theirs at runtime');
+  }
+}
+
+/**
+ * Members of one closed object. Returns the offending name, or null.
+ *
+ * A closed object that is NOT a JSON object has no members to read, and the kind's
+ * criterion decides it as before (n16, p62) — and the entries AFTER it are still
+ * checked (n148). So a non-object is skipped, never treated as an error and never
+ * allowed to abort the walk.
+ */
+function unknownMemberIn(node, allowed) {
+  if (!node || node.t !== 'o') return null;
+  for (const [name] of node.e) if (!allowed.includes(name)) return name;
+  return null;
+}
+
+function assertDefinedMembers(kind, input) {
+  const spec = CLOSED[kind];
+  if (!spec) return;                       // kind outside the closed-member rule
+  // "An `input` that is not a JSON object is outside the suite, and no vector pins
+  // what a verifier does with one." Leave it to the criterion.
+  if (!input || input.t !== 'o') return;
+
+  for (const [p, allowed] of Object.entries(spec)) {
+    if (p === 'input') {
+      const bad = unknownMemberIn(input, allowed);
+      if (bad !== null) throw new Reject('unknown_member_reject', `input carries undefined member ${JSON.stringify(bad)} for kind ${kind}`);
+      continue;
+    }
+    const m = /^input\.([A-Za-z_][A-Za-z0-9_]*)(\[\])?$/.exec(p);
+    if (!m) throw new Error(`unrecognized closed-object path in pinned lists: ${p}`);
+    const [, field, isArray] = m;
+    const node = get(input, field);
+    if (node === undefined) continue;      // "a listed name may be absent"
+    if (isArray) {
+      if (!node || node.t !== 'a') continue;   // not an array: criterion's problem, not a member one
+      for (let i = 0; i < node.v.length; i++) {
+        const bad = unknownMemberIn(node.v[i], allowed);
+        if (bad !== null) throw new Reject('unknown_member_reject', `${field}[${i}] carries undefined member ${JSON.stringify(bad)} for kind ${kind}`);
+      }
+    } else {
+      const bad = unknownMemberIn(node, allowed);
+      if (bad !== null) throw new Reject('unknown_member_reject', `${field} carries undefined member ${JSON.stringify(bad)} for kind ${kind}`);
+    }
+  }
 }
 
 function evaluate(kind, input) {
@@ -752,6 +1010,7 @@ function evaluate(kind, input) {
     }
     case 'independence_claim': independence(input); return true;
     case 'boundary_binding': boundary(input); return true;
+    case 'composition_independence': compositionIndependence(input); return true;
     // An unimplemented criterion must NOT return a reject. First run of this file
     // had boundary_binding written but never wired into this switch, and the
     // `unknown_kind` reject AGREED with the expected verdict on 3 of the 5 boundary
@@ -771,6 +1030,8 @@ function run(corpusDir, policy) {
 }
 function runInner(corpusDir) {
   const manifest = JSON.parse(fs.readFileSync(path.join(corpusDir, 'MANIFEST.json'), 'utf8'));
+  // The rule requires the engine to pin the lists and FAIL if the corpus differs.
+  assertClosedListsMatchManifest(manifest);
   const rows = [];
   for (const entry of manifest.vectors) {
     const raw = fs.readFileSync(path.join(corpusDir, 'vectors', entry.file), 'utf8');
@@ -787,7 +1048,12 @@ function runInner(corpusDir) {
     const input = get(vecNode, 'input');
 
     let verdict, reason = null, detail = null;
-    try { evaluate(kind, input); verdict = 'valid'; }
+    try {
+      // defined_members: decided BEFORE the kind's criterion (MANIFEST.json
+      // defined_members.rule; confirmed by Tersign in issue #16, 2026-10-27).
+      assertDefinedMembers(kind, input);
+      evaluate(kind, input); verdict = 'valid';
+    }
     catch (e) {
       if (e instanceof Reject) { verdict = 'reject'; reason = e.reason; detail = e.message; }
       // An exception that is not a verdict IS the failure this corpus names: a verifier

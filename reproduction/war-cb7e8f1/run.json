@@ -1,0 +1,1622 @@
+{
+ "corpus": "maximusrufus/work-acceptance-record",
+ "commit": "cb7e8f1",
+ "profile": "1.4.2",
+ "schema": "1.2",
+ "implementation": "stillmarcus24/assurance-run war-verify.cjs",
+ "language": "Node.js (JavaScript)",
+ "vectors": 90,
+ "agree_all_fields": 67,
+ "disagree_tsa_signature_only": 23,
+ "disagree_other": 0,
+ "scope": "Steps 1-8 implemented. Step 9 tsa_signature is implemented ONLY for the no-anchor case, where the profile states not_evaluated and that an absent field reads the same. With tsa_roots_base64 supplied, CMS and X.509 chain validation are NOT implemented and the field is omitted rather than asserted.",
+ "rows": [
+  {
+   "vector": "01-valid.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "imprint_match",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "02-criteria-committed-after-issue.json",
+   "outcome": {
+    "criteria_committed_before_check": "no",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_COMMITTED_AFTER_CHECK"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "03-self-checked.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "self-checked",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "SELF_CHECKED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "04-required-not-evaluated.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "incomplete",
+    "verdict_stated": "incomplete",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "05-checker-key-equals-producer-key.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "self-checked",
+    "problem_codes": [
+     "KEY_COLLISION"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "SELF_CHECKED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "06-receipt-edited-after-signing.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "SIGNATURE_INVALID"
+    ],
+    "receipt_timestamp": "imprint_mismatch",
+    "signature_valid": false,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "07-criteria-file-swapped.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "mismatch",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_HASH_MISMATCH"
+    ],
+    "receipt_timestamp": "imprint_match",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "08-receipt-token-over-another-receipt.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "imprint_mismatch",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "09-stated-pass-recomputes-incomplete.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "VERDICT_MISMATCH"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "incomplete",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "10-committed-at-contradicts-token.json",
+   "outcome": {
+    "criteria_committed_before_check": "no",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_COMMITTED_AFTER_CHECK",
+     "CRITERIA_TIME_MISMATCH"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "11-required-criterion-fails.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "fail",
+    "verdict_stated": "fail",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "12-signer-is-not-the-checker.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "CHECKER_NOT_SIGNER"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "13-independent-but-same-party.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "INDEPENDENCE_INCONSISTENT"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "14-results-not-in-criteria.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_RESULTS_MISMATCH"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "15-criteria-token-over-other-bytes.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_TIMESTAMP_MISMATCH"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "CRITERIA_COMMITMENT_UNVERIFIED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "16-no-criteria-token.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "CRITERIA_COMMITMENT_UNVERIFIED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "17-committed-at-equals-reference.json",
+   "outcome": {
+    "criteria_committed_before_check": "no",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_COMMITTED_AFTER_CHECK"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "18-mismatching-record-token-later-time.json",
+   "outcome": {
+    "criteria_committed_before_check": "no",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_COMMITTED_AFTER_CHECK"
+    ],
+    "receipt_timestamp": "imprint_mismatch",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "19-result-outside-vocabulary.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "RESULT_VOCABULARY",
+     "VERDICT_MISMATCH"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "incomplete",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "20-producer-undeclared.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "INDEPENDENCE_INCONSISTENT"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "PRODUCER_UNDECLARED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "21-unknown-schema.json",
+   "outcome": {
+    "refused": true,
+    "reason": "unknown schema, canonicalization or suite"
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "22-matching-record-token-later-than-issued.json",
+   "outcome": {
+    "criteria_committed_before_check": "no",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_COMMITTED_AFTER_CHECK"
+    ],
+    "receipt_timestamp": "imprint_match",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "23-criteria-token-imprint-oid-sha384.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_TIMESTAMP_MISMATCH"
+    ],
+    "receipt_timestamp": "imprint_match",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "CRITERIA_COMMITMENT_UNVERIFIED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "24-criteria-token-imprint-oid-sha3-256.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_TIMESTAMP_MISMATCH"
+    ],
+    "receipt_timestamp": "imprint_match",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "CRITERIA_COMMITMENT_UNVERIFIED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "25-criteria-token-imprint-oid-sha512-256.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_TIMESTAMP_MISMATCH"
+    ],
+    "receipt_timestamp": "imprint_match",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "CRITERIA_COMMITMENT_UNVERIFIED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "26-key-small-order.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "KEY_REJECTED"
+    ],
+    "receipt_timestamp": "imprint_match",
+    "signature_valid": false,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "27-key-non-canonical-encoding.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "KEY_REJECTED"
+    ],
+    "receipt_timestamp": "imprint_match",
+    "signature_valid": false,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "28-key-file-with-unrelated-bad-entry.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "imprint_match",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "29-criteria-token-accuracy-flips-commitment.json",
+   "outcome": {
+    "criteria_committed_before_check": "no",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_COMMITTED_AFTER_CHECK"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "30-criteria-token-accuracy-millis-still-before.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "31-tsa-freetsa-verified.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "imprint_match",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "32-tsa-digicert-verified.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "imprint_match",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "33-tsa-unrelated-root-untrusted.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "imprint_match",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "34-tsa-tampered-signature-failed.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "imprint_match",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "35-tsa-token-without-signer-certificate.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "36-tsa-no-anchors-not-evaluated.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "imprint_match",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "37-tsa-synthetic-control-verified.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "38-tsa-intermediate-expired-failed.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "39-tsa-content-type-mismatch-failed.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "40-tsa-rsassa-pss-verified.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "41-tsa-ecdsa-p256-verified.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "42-tsa-ecdsa-p521-unsupported.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "43-tsa-empty-anchor-list-not-evaluated.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "imprint_match",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "44-tsa-unsupported-curve-and-bad-digest-failed.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "45-tsa-no-certificates-and-bad-digest-failed.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "46-tsa-unsupported-curve-and-ess-mismatch-failed.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "47-receipt-payment-x402-exact.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "48-tsa-signer-without-timestamping-eku-failed.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "49-tsa-issuer-not-a-ca-failed.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "50-criteria-token-imprint-only-in-status-string.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_TIMESTAMP_MISMATCH"
+    ],
+    "receipt_timestamp": "imprint_match",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "CRITERIA_COMMITMENT_UNVERIFIED"
+    ]
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "51-record-token-imprint-only-in-status-string.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "imprint_mismatch",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "52-receipt-non-integer-numbers.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "53-tsa-anchor-same-name-other-key-untrusted.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "54-tsa-expired-intermediate-no-anchor-failed.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "55-receipt-payment-outside-the-form.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "56-third-party-checker-live-receipt.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "imprint_match",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "57-receipt-integer-valued-doubles.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "58-criteria-token-imprint-only-in-unsigned-attribute.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_TIMESTAMP_MISMATCH"
+    ],
+    "receipt_timestamp": "imprint_match",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "CRITERIA_COMMITMENT_UNVERIFIED"
+    ]
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "59-record-token-imprint-only-in-unsigned-attribute.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "imprint_mismatch",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "60-signature-base64-invalid-character.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "SIGNATURE_INVALID"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": false,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "61-signature-base64-internal-whitespace.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "SIGNATURE_INVALID"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": false,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "62-signature-base64-noncanonical-trailing-bits.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "SIGNATURE_INVALID"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": false,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "63-signature-base64-missing-padding.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "SIGNATURE_INVALID"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": false,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "64-envelope-key-id-differs-from-signed-key-id.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "SIGNATURE_INVALID"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": false,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "65-one-public-key-under-two-key-ids.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "self-checked",
+    "problem_codes": [
+     "KEY_COLLISION"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "SELF_CHECKED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "66-criteria-gentime-fraction-makes-it-after-issue.json",
+   "outcome": {
+    "criteria_committed_before_check": "no",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_COMMITTED_AFTER_CHECK"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "67-criteria-sha256-upper-case.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "mismatch",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_HASH_MISMATCH",
+     "CRITERIA_TIMESTAMP_MISMATCH"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "CRITERIA_COMMITMENT_UNVERIFIED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "68-criteria-time-equals-issue-time-at-millisecond.json",
+   "outcome": {
+    "criteria_committed_before_check": "no",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_COMMITTED_AFTER_CHECK"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "69-key-alias-noncanonical-base64-dodges-same-key.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "self-checked",
+    "problem_codes": [
+     "KEY_REJECTED"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "SELF_CHECKED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "70-criteria-gentime-with-offset.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "CRITERIA_COMMITMENT_UNVERIFIED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "71-criteria-gentime-month-13.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "CRITERIA_COMMITMENT_UNVERIFIED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "72-criteria-gentime-feb-30.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "CRITERIA_COMMITMENT_UNVERIFIED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "73-criteria-gentime-comma-fraction.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "CRITERIA_COMMITMENT_UNVERIFIED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "74-criteria-gentime-trailing-zero-fraction.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "CRITERIA_COMMITMENT_UNVERIFIED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "75-duplicate-key-id-in-keys-file.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "self-checked",
+    "problem_codes": [
+     "KEY_REJECTED"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": false,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "SELF_CHECKED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "76-committed-at-malformed.json",
+   "outcome": {
+    "criteria_committed_before_check": "no",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "RECEIPT_TIME_UNREADABLE"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "CRITERIA_COMMITMENT_UNVERIFIED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "77-result-id-is-an-object.json",
+   "outcome": {
+    "refused": true,
+    "reason": "unknown schema, canonicalization or suite"
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "78-token-imprint-matches-gentime-unusable.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "CRITERIA_COMMITMENT_UNVERIFIED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "79-unrelated-duplicate-key-id.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "KEY_REJECTED"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "80-independent-claim-producer-key-id-empty.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "INDEPENDENCE_INCONSISTENT"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "81-independent-claim-producer-key-id-unknown.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "INDEPENDENCE_INCONSISTENT"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "82-independent-claim-producer-key-id-absent.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "83-tsa-signer-info-unsigned-attributes-ignored.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": false,
+   "fields_disagreeing": [
+    "tsa_signature"
+   ]
+  },
+  {
+   "vector": "84-receipt-exponent-numbers.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "85-receipt-key-outside-bmp.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "86-envelope-key-id-differs-from-signed.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "SIGNATURE_INVALID"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": false,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "87-same-key-under-two-ids.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "self-checked",
+    "problem_codes": [
+     "KEY_COLLISION"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "SELF_CHECKED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "88-committed-at-malformed-with-token.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_TIME_MISMATCH"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "89-criteria-file-base64-noncanonical.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "mismatch",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_HASH_MISMATCH"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": []
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  },
+  {
+   "vector": "90-criteria-token-base64-noncanonical.json",
+   "outcome": {
+    "criteria_committed_before_check": "yes",
+    "criteria_hash": "match",
+    "independence": "independent",
+    "problem_codes": [
+     "CRITERIA_TIMESTAMP_MISMATCH"
+    ],
+    "receipt_timestamp": "none",
+    "signature_valid": true,
+    "verdict_recomputed": "pass",
+    "verdict_stated": "pass",
+    "warning_codes": [
+     "CRITERIA_COMMITMENT_UNVERIFIED"
+    ]
+   },
+   "agrees": true,
+   "fields_disagreeing": []
+  }
+ ]
+}

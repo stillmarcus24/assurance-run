@@ -1,0 +1,1336 @@
+[
+ {
+  "file": "p1-live-genesis-receipt.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p2-canonical-key-order.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p3-integer-key-utf16-order.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p4-chain-link-genesis.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p5-live-bitcoin-anchor.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p6-chain-set-complete.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p7-phase-consistent.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p8-non-party-attestation.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p9-no-independence-claim.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n1-value-drift.json",
+  "verdict": "reject",
+  "reason": "recompute_mismatch"
+ },
+ {
+  "file": "n2-hoisted-integer-keys.json",
+  "verdict": "reject",
+  "reason": "canonicalization_reject"
+ },
+ {
+  "file": "n3-chain-link-wrong-prev.json",
+  "verdict": "reject",
+  "reason": "continuity_reject"
+ },
+ {
+  "file": "n4-omitted-record.json",
+  "verdict": "reject",
+  "reason": "completeness_reject"
+ },
+ {
+  "file": "n5-truncated-anchor.json",
+  "verdict": "reject",
+  "reason": "existence_reject"
+ },
+ {
+  "file": "n6-phase-confusion.json",
+  "verdict": "reject",
+  "reason": "phase_reject"
+ },
+ {
+  "file": "n7-issuer-only-independence.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p10-claim-set-independent.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p11-claim-set-silence-only.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n8-unrecognized-independence-claim.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p12-ijson-integer-boundary.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p13-decimal-string-beside-integer.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n10-float-in-digest-domain.json",
+  "verdict": "reject",
+  "reason": "number_domain_reject"
+ },
+ {
+  "file": "n11-integer-beyond-ijson-range.json",
+  "verdict": "reject",
+  "reason": "number_domain_reject"
+ },
+ {
+  "file": "p14-supplementary-plane-key-order.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n12-codepoint-key-order.json",
+  "verdict": "reject",
+  "reason": "canonicalization_reject"
+ },
+ {
+  "file": "n13-party-alias-whitespace.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n14-unparseable-attestor.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n15-claim-without-attestations.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n16-attestation-not-an-object.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n17-renumbered-omission.json",
+  "verdict": "reject",
+  "reason": "continuity_reject"
+ },
+ {
+  "file": "n18-unrecognized-phase.json",
+  "verdict": "reject",
+  "reason": "phase_reject"
+ },
+ {
+  "file": "p16-independence-scope-committed.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n20-independence-scope-uncommitted.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p17-independence-scope-derived-settlement.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n21-independence-scope-empty-settlement.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n22-independence-scope-declared-override.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n23-independence-scope-null-declared.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n24-independence-scope-declared-no-scope.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p22-delivery-commitment-recomputed.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n32-delivery-self-attested.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p23-delivery-independence-within-commitment.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n33-delivery-substitution-scope-overreach.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p24-witnessed-complete-set.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n34-witnessed-inclusion-not-completeness.json",
+  "verdict": "reject",
+  "reason": "completeness_reject"
+ },
+ {
+  "file": "p18-boundary-binds-prefix-and-position.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n25-boundary-prefix-only-no-position.json",
+  "verdict": "reject",
+  "reason": "boundary_reject"
+ },
+ {
+  "file": "n26-coverage-claimed-over-empty-attestation.json",
+  "verdict": "reject",
+  "reason": "boundary_reject"
+ },
+ {
+  "file": "p19-authority-reduction-bound.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n27-authority-reduction-unbound.json",
+  "verdict": "reject",
+  "reason": "binding_reject"
+ },
+ {
+  "file": "n28-authority-reduction-substitution.json",
+  "verdict": "reject",
+  "reason": "binding_reject"
+ },
+ {
+  "file": "p20-suite-transition-preserves-prefix.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n29-suite-transition-redigests-prefix.json",
+  "verdict": "reject",
+  "reason": "boundary_reject"
+ },
+ {
+  "file": "p21-independence-urn-identities.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n30-independence-urn-self-attested.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n31-independence-urn-alias-trailing-slash.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p31-independence-urn-case-and-trailing-punctuation-outside-party.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p32-independence-urn-percent-encoded-outside-party.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p33-independence-identifier-whitespace-set.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n45-independence-urn-alias-case.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n46-independence-urn-alias-trailing-dot.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n47-independence-urn-alias-trailing-hash.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n48-independence-urn-alias-percent-encoded.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n49-independence-urn-alias-party-side-encoded-dot.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n50-independence-urn-percent-encoded-reserved.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n51-independence-urn-empty-after-normalization.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n52-independence-identifier-format-character-padding.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n53-independence-identifier-control-character-padding.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n58-independence-urn-alias-scheme-case.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p34-independence-urn-percent-encoded-unreserved-set-outside-party.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n54-independence-urn-alias-percent-encoded-unreserved-set.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n55-independence-urn-percent-encoded-percent-sign.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n56-independence-urn-triplet-assembled-by-decoding.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n59-independence-urn-alias-dot-segment.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n60-independence-urn-encoded-trailing-dot-segment.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n67-independence-urn-alias-leading-dot-segment.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n70-independence-urn-alias-leading-dot-dot-segment.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p36-independence-urn-dots-within-segments-outside-party.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n61-independence-urn-query-component.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n62-independence-urn-fragment-component.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n63-independence-address-alias-caip10-and-did-pkh.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n64-independence-address-alias-party-in-caip10.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p37-independence-address-caip10-outside-party.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n65-independence-address-alias-did-ethr.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n66-independence-address-alias-party-in-ethereum-namespace.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n69-independence-address-alias-any-scheme.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p38-independence-address-other-namespaces-outside-party.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p15-offer-binding.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n19-offer-substitution.json",
+  "verdict": "reject",
+  "reason": "binding_reject"
+ },
+ {
+  "file": "n9-unrecognized-member-in-claim-set.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p25-integer-token-in-text.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n35-integer-valued-float-token.json",
+  "verdict": "reject",
+  "reason": "number_domain_reject"
+ },
+ {
+  "file": "p30-canonical-bytes-name-repeated-across-objects.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n41-canonical-bytes-duplicate-name.json",
+  "verdict": "reject",
+  "reason": "canonicalization_reject"
+ },
+ {
+  "file": "n42-canonical-bytes-escaped-duplicate-name.json",
+  "verdict": "reject",
+  "reason": "canonicalization_reject"
+ },
+ {
+  "file": "n43-canonical-bytes-non-json-constant.json",
+  "verdict": "reject",
+  "reason": "canonicalization_reject"
+ },
+ {
+  "file": "n44-canonical-bytes-text-not-a-string.json",
+  "verdict": "reject",
+  "reason": "canonicalization_reject"
+ },
+ {
+  "file": "n57-canonical-bytes-duplicate-name-after-array.json",
+  "verdict": "reject",
+  "reason": "canonicalization_reject"
+ },
+ {
+  "file": "p35-canonical-bytes-string-value-equal-to-a-name.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n68-canonical-bytes-duplicate-name-in-nested-object.json",
+  "verdict": "reject",
+  "reason": "canonicalization_reject"
+ },
+ {
+  "file": "p26-chain-commitment-complete.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p27-live-chain-commitment-genesis-chain.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n36-chain-commitment-prefix-substituted.json",
+  "verdict": "reject",
+  "reason": "continuity_reject"
+ },
+ {
+  "file": "n37-chain-commitment-last-link-only.json",
+  "verdict": "reject",
+  "reason": "continuity_reject"
+ },
+ {
+  "file": "n38-chain-set-float-seq-token.json",
+  "verdict": "reject",
+  "reason": "completeness_reject"
+ },
+ {
+  "file": "p28-issuer-sequence-distinct-seq.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n39-issuer-sequence-duplicate-seq.json",
+  "verdict": "reject",
+  "reason": "completeness_reject"
+ },
+ {
+  "file": "p29-committed-prefix-one-record-per-position.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n40-equivocating-record-at-committed-position.json",
+  "verdict": "reject",
+  "reason": "continuity_reject"
+ },
+ {
+  "file": "p39-digest-non-ascii-latin1-value.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n71-digest-non-ascii-escaped-before-hashing.json",
+  "verdict": "reject",
+  "reason": "recompute_mismatch"
+ },
+ {
+  "file": "p40-digest-non-ascii-cjk-value.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n72-digest-non-ascii-latin1-bytes.json",
+  "verdict": "reject",
+  "reason": "recompute_mismatch"
+ },
+ {
+  "file": "p41-digest-non-ascii-astral-value.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n73-digest-non-ascii-cesu8-bytes.json",
+  "verdict": "reject",
+  "reason": "recompute_mismatch"
+ },
+ {
+  "file": "p42-digest-non-ascii-decomposed-value.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n74-digest-non-ascii-normalized-before-hashing.json",
+  "verdict": "reject",
+  "reason": "recompute_mismatch"
+ },
+ {
+  "file": "n75-chain-link-seq-zero.json",
+  "verdict": "reject",
+  "reason": "continuity_reject"
+ },
+ {
+  "file": "n76-chain-link-seq-past-ijson-range.json",
+  "verdict": "reject",
+  "reason": "continuity_reject"
+ },
+ {
+  "file": "p43-chain-link-seq-ijson-boundary.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n77-chain-link-float-seq-token.json",
+  "verdict": "reject",
+  "reason": "continuity_reject"
+ },
+ {
+  "file": "n78-phase-claim-no-economic-phase.json",
+  "verdict": "reject",
+  "reason": "phase_reject"
+ },
+ {
+  "file": "n79-phase-claim-record-not-an-object.json",
+  "verdict": "reject",
+  "reason": "phase_reject"
+ },
+ {
+  "file": "n80-phase-claim-unrecognized-phase-presented-as-itself.json",
+  "verdict": "reject",
+  "reason": "phase_reject"
+ },
+ {
+  "file": "p44-canonical-bytes-surrogate-pair.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n81-canonical-bytes-lone-high-surrogate-in-value.json",
+  "verdict": "reject",
+  "reason": "canonicalization_reject"
+ },
+ {
+  "file": "n82-canonical-bytes-lone-low-surrogate-in-name.json",
+  "verdict": "reject",
+  "reason": "canonicalization_reject"
+ },
+ {
+  "file": "n83-digest-lone-surrogate-in-value.json",
+  "verdict": "reject",
+  "reason": "canonicalization_reject"
+ },
+ {
+  "file": "n84-digest-lone-surrogate-in-name.json",
+  "verdict": "reject",
+  "reason": "canonicalization_reject"
+ },
+ {
+  "file": "p45-digest-line-separators-value.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n85-digest-line-separators-escaped.json",
+  "verdict": "reject",
+  "reason": "recompute_mismatch"
+ },
+ {
+  "file": "p46-digest-decomposed-name.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n86-digest-decomposed-name-normalized.json",
+  "verdict": "reject",
+  "reason": "recompute_mismatch"
+ },
+ {
+  "file": "n87-chain-link-seq-string.json",
+  "verdict": "reject",
+  "reason": "continuity_reject"
+ },
+ {
+  "file": "n88-chain-link-seq-boolean.json",
+  "verdict": "reject",
+  "reason": "continuity_reject"
+ },
+ {
+  "file": "n89-chain-link-seq-null.json",
+  "verdict": "reject",
+  "reason": "continuity_reject"
+ },
+ {
+  "file": "n90-phase-claim-delivery-presented-as-funding.json",
+  "verdict": "reject",
+  "reason": "phase_reject"
+ },
+ {
+  "file": "n91-phase-claim-phase-letter-case.json",
+  "verdict": "reject",
+  "reason": "phase_reject"
+ },
+ {
+  "file": "p47-phase-claim-funding-as-itself.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p48-phase-claim-settlement-as-itself.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p49-phase-claim-refund-as-itself.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p50-phase-claim-reversal-as-itself.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n92-canonical-bytes-lone-surrogate-after-number.json",
+  "verdict": "reject",
+  "reason": "canonicalization_reject"
+ },
+ {
+  "file": "n93-canonical-bytes-duplicate-name-half-escaped-pair.json",
+  "verdict": "reject",
+  "reason": "canonicalization_reject"
+ },
+ {
+  "file": "n94-offer-binding-lone-surrogate.json",
+  "verdict": "reject",
+  "reason": "binding_reject"
+ },
+ {
+  "file": "n95-decision-evidence-binding-lone-surrogate.json",
+  "verdict": "reject",
+  "reason": "binding_reject"
+ },
+ {
+  "file": "n96-boundary-binding-lone-surrogate-in-prefix.json",
+  "verdict": "reject",
+  "reason": "boundary_reject"
+ },
+ {
+  "file": "n97-chain-link-exponent-seq-token.json",
+  "verdict": "reject",
+  "reason": "continuity_reject"
+ },
+ {
+  "file": "n103-canonical-bytes-exponent-token.json",
+  "verdict": "reject",
+  "reason": "number_domain_reject"
+ },
+ {
+  "file": "p51-digest-html-significant-value.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n98-digest-html-significant-escaped.json",
+  "verdict": "reject",
+  "reason": "recompute_mismatch"
+ },
+ {
+  "file": "p52-digest-del-and-c1-controls-value.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n102-digest-del-and-c1-controls-escaped.json",
+  "verdict": "reject",
+  "reason": "recompute_mismatch"
+ },
+ {
+  "file": "p53-canonical-bytes-names-differ-only-in-normalization.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n99-phase-claim-presented-as-letter-case.json",
+  "verdict": "reject",
+  "reason": "phase_reject"
+ },
+ {
+  "file": "n100-phase-claim-presented-as-absent.json",
+  "verdict": "reject",
+  "reason": "phase_reject"
+ },
+ {
+  "file": "n101-phase-claim-refund-presented-as-reversal.json",
+  "verdict": "reject",
+  "reason": "phase_reject"
+ },
+ {
+  "file": "n104-independence-scope-settlement-no-transaction.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p54-independence-scope-settlement-with-transaction.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n105-independence-scope-settlement-over-delivery-only.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p55-independence-scope-delivery-only.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n106-independence-address-alias-letter-case.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p56-independence-address-letter-case-outside-party.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n107-unknown-member-digest-recompute.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n108-unknown-member-canonical-bytes.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n109-unknown-member-chain-link.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n110-unknown-member-chain-set.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n111-unknown-member-chain-commitment.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n112-unknown-member-anchor-relation.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n113-unknown-member-phase-claim.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n114-unknown-member-independence-claim.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n115-unknown-member-offer-binding.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n116-unknown-member-decision-evidence-binding.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n117-unknown-member-boundary-binding.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n118-unknown-member-in-chain-set-head.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n119-unknown-member-in-chain-set-record.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n120-unknown-member-in-chain-commitment-head.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n121-unknown-member-in-chain-commitment-record.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n122-unknown-member-in-attestation.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n123-unknown-member-null-value.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n124-unknown-member-empty-string-value.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n125-unknown-member-empty-object-value.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n126-member-name-letter-case.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n127-member-name-cyrillic-homoglyph.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n128-member-name-fullwidth-compatibility-form.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n129-member-of-another-kind.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n130-chain-commitment-head-read-as-chain-set.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n131-member-named-constructor.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n132-member-named-proto.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n133-unknown-member-before-criterion.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "p57-chain-commitment-witness-and-attestations.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p58-chain-set-not-read-contents.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p59-settlement-result-open.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p60-receipt-open.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n134-unknown-member-before-criterion-digest-recompute.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n135-unknown-member-before-criterion-canonical-bytes.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n136-unknown-member-before-criterion-chain-link.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n137-unknown-member-before-criterion-chain-commitment.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n138-unknown-member-before-criterion-anchor-relation.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n139-unknown-member-before-criterion-phase-claim.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n140-unknown-member-before-criterion-independence-claim.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n141-unknown-member-before-criterion-offer-binding.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n142-unknown-member-before-criterion-decision-evidence-binding.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n143-unknown-member-before-criterion-boundary-binding.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n144-unknown-member-in-head-before-criterion.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n145-unknown-member-in-attestation-before-criterion.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n146-unknown-member-in-party-attestation.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n147-unknown-member-in-attestation-no-claim.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n148-unknown-member-after-non-object-entry.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n149-member-name-trailing-space.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "p61-chain-commitment-not-read-contents.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p62-attestation-not-an-object-no-claim.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n150-unknown-member-in-record-before-criterion.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n151-unknown-member-in-commitment-head-before-criterion.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n152-unknown-member-in-commitment-record-before-criterion.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "p63-boundary-empty-attestation-no-coverage.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n153-boundary-attested-length-past-prefix.json",
+  "verdict": "reject",
+  "reason": "boundary_reject"
+ },
+ {
+  "file": "n154-boundary-attested-length-negative.json",
+  "verdict": "reject",
+  "reason": "boundary_reject"
+ },
+ {
+  "file": "n155-boundary-attested-length-far-past-prefix.json",
+  "verdict": "reject",
+  "reason": "boundary_reject"
+ },
+ {
+  "file": "n156-boundary-attested-length-fraction-token.json",
+  "verdict": "reject",
+  "reason": "boundary_reject"
+ },
+ {
+  "file": "n157-boundary-attested-length-boolean.json",
+  "verdict": "reject",
+  "reason": "boundary_reject"
+ },
+ {
+  "file": "n158-boundary-attested-length-null.json",
+  "verdict": "reject",
+  "reason": "boundary_reject"
+ },
+ {
+  "file": "n159-boundary-attested-length-past-shorter-prefix.json",
+  "verdict": "reject",
+  "reason": "boundary_reject"
+ },
+ {
+  "file": "p64-boundary-attested-length-equals-shorter-prefix.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n166-boundary-coverage-past-attestation.json",
+  "verdict": "reject",
+  "reason": "boundary_reject"
+ },
+ {
+  "file": "n167-boundary-coverage-without-attested-length.json",
+  "verdict": "reject",
+  "reason": "boundary_reject"
+ },
+ {
+  "file": "n168-boundary-position-not-prefix-end.json",
+  "verdict": "reject",
+  "reason": "boundary_reject"
+ },
+ {
+  "file": "n160-chain-set-head-digest-not-final-record.json",
+  "verdict": "reject",
+  "reason": "continuity_reject"
+ },
+ {
+  "file": "n161-chain-set-first-prev-not-null.json",
+  "verdict": "reject",
+  "reason": "continuity_reject"
+ },
+ {
+  "file": "p65-chain-set-complete-no-links.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n162-chain-set-prev-break-no-links.json",
+  "verdict": "reject",
+  "reason": "continuity_reject"
+ },
+ {
+  "file": "n163-offer-binding-receipt-without-offer-digest.json",
+  "verdict": "reject",
+  "reason": "binding_reject"
+ },
+ {
+  "file": "p66-digest-integer-negative-bound.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n164-digest-integer-past-negative-bound.json",
+  "verdict": "reject",
+  "reason": "number_domain_reject"
+ },
+ {
+  "file": "n165-chain-set-head-digest-absent.json",
+  "verdict": "reject",
+  "reason": "completeness_reject"
+ },
+ {
+  "file": "p67-boundary-position-without-attested-length.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n169-chain-set-head-digest-unparseable.json",
+  "verdict": "reject",
+  "reason": "completeness_reject"
+ },
+ {
+  "file": "n170-boundary-attested-length-string.json",
+  "verdict": "reject",
+  "reason": "boundary_reject"
+ },
+ {
+  "file": "n171-boundary-coverage-null.json",
+  "verdict": "reject",
+  "reason": "boundary_reject"
+ },
+ {
+  "file": "n172-independence-non-object-attestation-beside-outside-attestor.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p68-composition-findings-outside-attestor.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n173-composition-findings-attested-by-counterparty-only.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n174-composition-outside-attestation-on-decision-only.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n175-composition-decision-binds-other-findings.json",
+  "verdict": "reject",
+  "reason": "binding_reject"
+ },
+ {
+  "file": "n176-unknown-member-composition-independence.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n177-unknown-member-in-findings-attestation.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n178-unknown-member-in-decision-attestation.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n179-unknown-member-before-criterion-composition-independence.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n180-composition-findings-attested-by-counterparty-and-worker.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p69-composition-outside-attestor-did-pkh.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n181-composition-counterparty-attestation-caip10.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n182-composition-findings-substituted-outside-attestor.json",
+  "verdict": "reject",
+  "reason": "binding_reject"
+ },
+ {
+  "file": "n183-composition-findings-unattested-outside-on-decision.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p70-composition-decision-unattested.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n184-composition-counterparty-caip10.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p71-composition-outside-attestor-urn.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n185-composition-counterparty-attestation-unlabelled.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p72-composition-outside-attestor-labelled.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p73-composition-outside-attestor-on-both-records.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n186-composition-parties-caip10.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p74-composition-unlabelled.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n187-composition-decision-outside-attestor-labelled-first.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p75-composition-outside-attestor-labelled-on-decision.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p76-composition-decision-rejected.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n188-composition-findings-other-work.json",
+  "verdict": "reject",
+  "reason": "binding_reject"
+ },
+ {
+  "file": "p77-composition-findings-attested-outside-only.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n189-composition-findings-attestations-reversed.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n190-composition-decision-attested-outside-only.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n191-composition-party-attestation-caip10.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p78-composition-parties-and-counterparty-caip10.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p79-composition-counterparty-and-outside-exchanged.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n192-composition-counterparty-and-outside-exchanged.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p80-composition-outside-attestor-first-and-labelled-counterparty-on-both-records.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p81-composition-findings-attested-outside-only-unlabelled.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n193-composition-party-first-on-both-records-labelled-counterparty.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p82-composition-decision-attested-by-another-outside-address.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p83-composition-decision-on-findings-not-meeting-terms.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "p84-composition-decision-rejected-on-findings-not-meeting-terms.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n194-composition-decision-rejected-binds-other-findings.json",
+  "verdict": "reject",
+  "reason": "binding_reject"
+ },
+ {
+  "file": "p85-composition-findings-digest-upper-case.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n195-composition-parties-other-address.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "n196-composition-parties-three-second-attests.json",
+  "verdict": "reject",
+  "reason": "independence_reject"
+ },
+ {
+  "file": "p86-composition-parties-two.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "n197-unknown-member-in-counterparty-findings-attestation.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ },
+ {
+  "file": "n198-unknown-member-in-first-decision-attestation.json",
+  "verdict": "reject",
+  "reason": "unknown_member_reject"
+ }
+]

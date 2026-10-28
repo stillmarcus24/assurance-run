@@ -1,0 +1,223 @@
+[
+ {
+  "file": "ep1-live-p1-payload-signature.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "ep2-test-key-accepting-twin.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "ep3-server-key-not-payer.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "ep4-recovery-byte-28.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "ep5-non-ascii-string.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "ep6-non-ascii-latin1-range-string.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "en1-domain-chainid-8453.json",
+  "verdict": "reject",
+  "reason": "signer_mismatch"
+ },
+ {
+  "file": "en2-domain-name-altered.json",
+  "verdict": "reject",
+  "reason": "signer_mismatch"
+ },
+ {
+  "file": "en3-type-fields-reordered.json",
+  "verdict": "reject",
+  "reason": "signer_mismatch"
+ },
+ {
+  "file": "en4-issuedat-drift.json",
+  "verdict": "reject",
+  "reason": "signer_mismatch"
+ },
+ {
+  "file": "en5-payer-recased.json",
+  "verdict": "reject",
+  "reason": "signer_mismatch"
+ },
+ {
+  "file": "en6-high-s-malleated.json",
+  "verdict": "reject",
+  "reason": "non_canonical_s"
+ },
+ {
+  "file": "en7-personal-sign-over-struct.json",
+  "verdict": "reject",
+  "reason": "signer_mismatch"
+ },
+ {
+  "file": "en8-version-string.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "en9-issuedat-negative.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "en10-field-missing.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "en12-format-not-eip712.json",
+  "verdict": "reject",
+  "reason": "unsupported_format"
+ },
+ {
+  "file": "en13-ledger-key-is-not-payload-signer.json",
+  "verdict": "reject",
+  "reason": "signer_mismatch"
+ },
+ {
+  "file": "en14-recovery-byte-29.json",
+  "verdict": "reject",
+  "reason": "malformed_signature"
+ },
+ {
+  "file": "en15-unrecoverable-r-off-curve.json",
+  "verdict": "reject",
+  "reason": "unrecoverable"
+ },
+ {
+  "file": "en16-required-field-missing.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "en17-unsupported-version.json",
+  "verdict": "reject",
+  "reason": "unsupported_version"
+ },
+ {
+  "file": "en19-payer-lone-surrogate.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "en20-recovery-byte-zero.json",
+  "verdict": "reject",
+  "reason": "malformed_signature"
+ },
+ {
+  "file": "en21-recovery-byte-one.json",
+  "verdict": "reject",
+  "reason": "malformed_signature"
+ },
+ {
+  "file": "en22-low-s-boundary-accepted-then-mismatch.json",
+  "verdict": "reject",
+  "reason": "signer_mismatch"
+ },
+ {
+  "file": "en23-low-s-boundary-plus-one.json",
+  "verdict": "reject",
+  "reason": "non_canonical_s"
+ },
+ {
+  "file": "ep7-issuedat-max-uint256.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "en25-issuedat-2pow256.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "en26-version-integral-float-token.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "en27-malformed-payload-and-signature.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "en24-signature-uppercase-0X-prefix.json",
+  "verdict": "reject",
+  "reason": "malformed_signature"
+ },
+ {
+  "file": "en28-signer-not-an-address.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "ep8-issuedat-zero.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "en29-issuedat-minus-one.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "en30-version-bool-true.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "ep9-issuedat-one.json",
+  "verdict": "valid"
+ },
+ {
+  "file": "en31-issuedat-bool-true.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "en32-transaction-null.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "en33-payer-number.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "en34-payload-undefined-field.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "en35-envelope-undefined-key.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "en36-payload-undefined-field-and-malformed-signature.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "en37-envelope-undefined-key-and-malformed-signature.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "en38-payload-undefined-field-null-value.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ },
+ {
+  "file": "en39-envelope-undefined-key-null-value.json",
+  "verdict": "reject",
+  "reason": "malformed_input"
+ }
+]

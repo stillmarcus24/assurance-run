@@ -1,0 +1,108 @@
+work-acceptance-record profile 1.4.2 — independent Node verifier (war-verify.cjs)
+corpus: maximusrufus/work-acceptance-record @ e4032eb
+        vectors tree hash f5556a81505d41361189a8f41aa35262faf40ff4 == same tree at cb7e8f1
+verifier: stillmarcus24/assurance-run war-verify.cjs sha256:3710bfd5d39b2a65...
+host: node v22.22.1, zero dependencies (package.json deps {} devDeps {}; requires: fs, path, crypto)
+run at: 2026-10-29T18:23:07Z
+
+
+war-verify self-test: 32 passed, 0 failed
+
+  [AGREE ] 01-valid                                         
+  [AGREE ] 02-criteria-committed-after-issue                
+  [AGREE ] 03-self-checked                                  
+  [AGREE ] 04-required-not-evaluated                        
+  [AGREE ] 05-checker-key-equals-producer-key               
+  [AGREE ] 06-receipt-edited-after-signing                  
+  [AGREE ] 07-criteria-file-swapped                         
+  [AGREE ] 08-receipt-token-over-another-receipt            
+  [AGREE ] 09-stated-pass-recomputes-incomplete             
+  [AGREE ] 10-committed-at-contradicts-token                
+  [AGREE ] 11-required-criterion-fails                      
+  [AGREE ] 12-signer-is-not-the-checker                     
+  [AGREE ] 13-independent-but-same-party                    
+  [AGREE ] 14-results-not-in-criteria                       
+  [AGREE ] 15-criteria-token-over-other-bytes               
+  [AGREE ] 16-no-criteria-token                             
+  [AGREE ] 17-committed-at-equals-reference                 
+  [AGREE ] 18-mismatching-record-token-later-time           
+  [AGREE ] 19-result-outside-vocabulary                     
+  [AGREE ] 20-producer-undeclared                           
+  [AGREE ] 21-unknown-schema                                
+  [AGREE ] 22-matching-record-token-later-than-issued       
+  [AGREE ] 23-criteria-token-imprint-oid-sha384             
+  [AGREE ] 24-criteria-token-imprint-oid-sha3-256           
+  [AGREE ] 25-criteria-token-imprint-oid-sha512-256         
+  [AGREE ] 26-key-small-order                               
+  [AGREE ] 27-key-non-canonical-encoding                    
+  [AGREE ] 28-key-file-with-unrelated-bad-entry             
+  [AGREE ] 29-criteria-token-accuracy-flips-commitment      
+  [AGREE ] 30-criteria-token-accuracy-millis-still-before   
+  [AGREE ] 31-tsa-freetsa-verified                          
+  [AGREE ] 32-tsa-digicert-verified                         
+  [AGREE ] 33-tsa-unrelated-root-untrusted                  
+  [AGREE ] 34-tsa-tampered-signature-failed                 
+  [AGREE ] 35-tsa-token-without-signer-certificate          
+  [AGREE ] 36-tsa-no-anchors-not-evaluated                  
+  [AGREE ] 37-tsa-synthetic-control-verified                
+  [AGREE ] 38-tsa-intermediate-expired-failed               
+  [AGREE ] 39-tsa-content-type-mismatch-failed              
+  [AGREE ] 40-tsa-rsassa-pss-verified                       
+  [AGREE ] 41-tsa-ecdsa-p256-verified                       
+  [AGREE ] 42-tsa-ecdsa-p521-unsupported                    
+  [AGREE ] 43-tsa-empty-anchor-list-not-evaluated           
+  [AGREE ] 44-tsa-unsupported-curve-and-bad-digest-failed   
+  [AGREE ] 45-tsa-no-certificates-and-bad-digest-failed     
+  [AGREE ] 46-tsa-unsupported-curve-and-ess-mismatch-failed 
+  [AGREE ] 47-receipt-payment-x402-exact                    
+  [AGREE ] 48-tsa-signer-without-timestamping-eku-failed    
+  [AGREE ] 49-tsa-issuer-not-a-ca-failed                    
+  [AGREE ] 50-criteria-token-imprint-only-in-status-string  
+  [AGREE ] 51-record-token-imprint-only-in-status-string    
+  [AGREE ] 52-receipt-non-integer-numbers                   
+  [AGREE ] 53-tsa-anchor-same-name-other-key-untrusted      
+  [AGREE ] 54-tsa-expired-intermediate-no-anchor-failed     
+  [AGREE ] 55-receipt-payment-outside-the-form              
+  [AGREE ] 56-third-party-checker-live-receipt              
+  [AGREE ] 57-receipt-integer-valued-doubles                
+  [AGREE ] 58-criteria-token-imprint-only-in-unsigned-attribute 
+  [AGREE ] 59-record-token-imprint-only-in-unsigned-attribute 
+  [AGREE ] 60-signature-base64-invalid-character            
+  [AGREE ] 61-signature-base64-internal-whitespace          
+  [AGREE ] 62-signature-base64-noncanonical-trailing-bits   
+  [AGREE ] 63-signature-base64-missing-padding              
+  [AGREE ] 64-envelope-key-id-differs-from-signed-key-id    
+  [AGREE ] 65-one-public-key-under-two-key-ids              
+  [AGREE ] 66-criteria-gentime-fraction-makes-it-after-issue 
+  [AGREE ] 67-criteria-sha256-upper-case                    
+  [AGREE ] 68-criteria-time-equals-issue-time-at-millisecond 
+  [AGREE ] 69-key-alias-noncanonical-base64-dodges-same-key 
+  [AGREE ] 70-criteria-gentime-with-offset                  
+  [AGREE ] 71-criteria-gentime-month-13                     
+  [AGREE ] 72-criteria-gentime-feb-30                       
+  [AGREE ] 73-criteria-gentime-comma-fraction               
+  [AGREE ] 74-criteria-gentime-trailing-zero-fraction       
+  [AGREE ] 75-duplicate-key-id-in-keys-file                 
+  [AGREE ] 76-committed-at-malformed                        
+  [AGREE ] 77-result-id-is-an-object                        
+  [AGREE ] 78-token-imprint-matches-gentime-unusable        
+  [AGREE ] 79-unrelated-duplicate-key-id                    
+  [AGREE ] 80-independent-claim-producer-key-id-empty       
+  [AGREE ] 81-independent-claim-producer-key-id-unknown     
+  [AGREE ] 82-independent-claim-producer-key-id-absent      
+  [AGREE ] 83-tsa-signer-info-unsigned-attributes-ignored   
+  [AGREE ] 84-receipt-exponent-numbers                      
+  [AGREE ] 85-receipt-key-outside-bmp                       
+  [AGREE ] 86-envelope-key-id-differs-from-signed           
+  [AGREE ] 87-same-key-under-two-ids                        
+  [AGREE ] 88-committed-at-malformed-with-token             
+  [AGREE ] 89-criteria-file-base64-noncanonical             
+  [AGREE ] 90-criteria-token-base64-noncanonical            
+
+  vectors                      : 90
+  agree on every field         : 90
+  disagree on tsa_signature ONLY: 0
+  disagree on any other field  : 0
+  crashes                      : 0
+  expected fields compared     : 831
+  vectors agreeing             : 90/90

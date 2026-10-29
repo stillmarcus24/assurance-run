@@ -12,13 +12,26 @@
  * a datetime parser, an ASN.1 decoder or a base64 edge case with the reference.
  *
  * INDEPENDENCE, stated precisely so it can be checked rather than believed:
- * `verifier/war_verify.py` and `verifier/check_payment.py` were NOT fetched to
- * this machine, let alone read. The fetch step pulled `README.md` and
- * `vectors/*.json` only; `verifier/` was listed and deliberately skipped. Every
- * rule below is implemented from README.md's "Properties", "Verification
+ * `verifier/war_verify.py` and `verifier/check_payment.py` have never been
+ * opened or run. While this file was written the fetch step pulled `README.md`
+ * and `vectors/*.json` only. On 2026-10-29, re-verifying against upstream HEAD,
+ * the repository was `git clone`d in full, so `verifier/` IS present on disk —
+ * it was listed (`ls verifier/`) and nothing in it was read, executed, or
+ * grepped. Stated plainly because "not fetched" is no longer true and the
+ * narrower claim is the one that is.
+ * Every rule below is implemented from README.md's "Properties", "Verification
  * procedure (summary)" and "Profile 1.4.2 rules", plus the vectors' own inputs.
  * Each vector's `expected` object is in the same file as its inputs and was
  * therefore visible while the inputs were read — disclosed, not hidden.
+ *
+ * FIRST FULL CLI RUN, 2026-10-29: 90/90 at upstream `e4032eb` (vectors
+ * byte-identical to `cb7e8f1`; only Implementations rows changed since).
+ * The run that produced the "90/90" commit message of 87fd658 had driven the
+ * corpus by require()ing `runCorpus`. Run through the CLI it reported 67/90
+ * with 23 crashes — the `if (require.main === module)` block sat ABOVE the
+ * step-9 declarations, so every TSA vector hit a TDZ ReferenceError on `tlvOf`
+ * while the hoisted `function cmsOf` resolved fine. The block now sits last.
+ * Discrimination control: `war-discrimination.cjs`.
  *
  * WHAT IS OURS vs BORROWED:
  *   · JCS (RFC 8785)        — written here
@@ -815,28 +828,6 @@ function runCorpus(dir) {
 }
 module.exports.runCorpus = runCorpus;
 
-if (require.main === module) {
-  if (process.argv.includes('--self-test')) {
-    const r = selfTest();
-    process.exit(r.fail ? 1 : 0);
-  }
-  const dir = process.argv[2];
-  if (!dir) { console.error('usage: node war-verify.cjs <corpus-dir> [--json]'); process.exit(2); }
-  const rows = runCorpus(dir);
-  const agree = rows.filter((r) => r.agrees).length;
-  const tsaOnly = rows.filter((r) => !r.agrees && r.fields_disagreeing.length === 1 && r.fields_disagreeing[0] === 'tsa_signature').length;
-  if (process.argv.includes('--json')) {
-    console.log(JSON.stringify({ vectors: rows.length, agree_all_fields: agree, disagree_tsa_signature_only: tsaOnly, disagree_other: rows.length - agree - tsaOnly, rows }, null, 1));
-  } else {
-    for (const r of rows) console.log(`  [${r.agrees ? 'AGREE ' : '  DIFF'}] ${r.vector.replace('.json', '').padEnd(48)} ${r.fields_disagreeing.join(',')}`);
-    console.log(`\n  vectors                      : ${rows.length}`);
-    console.log(`  agree on every field         : ${agree}`);
-    console.log(`  disagree on tsa_signature ONLY: ${tsaOnly}`);
-    console.log(`  disagree on any other field  : ${rows.length - agree - tsaOnly}`);
-    console.log(`  crashes                      : ${rows.filter((r) => r.crashed).length}`);
-  }
-  process.exit(0);
-}
 
 /* ══ STEP 9: tsa_signature — CMS + X.509 ══════════════════════════════════════
  * Implemented after the first listing run declared it absent. The values and
@@ -1090,3 +1081,33 @@ function tsaValue(tokenDer, anchorDers, genTimeMs) {
 }
 module.exports.tsaValue = tsaValue;
 module.exports.cmsOf = cmsOf;
+
+/* CLI entry point. MUST BE LAST: it runs at module evaluation, so every
+ * top-level const it reaches must already be initialized. It previously sat
+ * ABOVE the step-9 block, so every TSA vector died on a TDZ ReferenceError
+ * for tlvOf while "function cmsOf" hoisted fine. That is how a 90/90 claim
+ * shipped as 67/90 with 23 crashes: the corpus had only ever been driven by
+ * require()ing runCorpus, which completes module evaluation first.
+ * LAW: run the instrument through the ENTRY POINT YOU SHIP, not a harness. */
+if (require.main === module) {
+  if (process.argv.includes('--self-test')) {
+    const r = selfTest();
+    process.exit(r.fail ? 1 : 0);
+  }
+  const dir = process.argv[2];
+  if (!dir) { console.error('usage: node war-verify.cjs <corpus-dir> [--json]'); process.exit(2); }
+  const rows = runCorpus(dir);
+  const agree = rows.filter((r) => r.agrees).length;
+  const tsaOnly = rows.filter((r) => !r.agrees && r.fields_disagreeing.length === 1 && r.fields_disagreeing[0] === 'tsa_signature').length;
+  if (process.argv.includes('--json')) {
+    console.log(JSON.stringify({ vectors: rows.length, agree_all_fields: agree, disagree_tsa_signature_only: tsaOnly, disagree_other: rows.length - agree - tsaOnly, rows }, null, 1));
+  } else {
+    for (const r of rows) console.log(`  [${r.agrees ? 'AGREE ' : '  DIFF'}] ${r.vector.replace('.json', '').padEnd(48)} ${r.fields_disagreeing.join(',')}`);
+    console.log(`\n  vectors                      : ${rows.length}`);
+    console.log(`  agree on every field         : ${agree}`);
+    console.log(`  disagree on tsa_signature ONLY: ${tsaOnly}`);
+    console.log(`  disagree on any other field  : ${rows.length - agree - tsaOnly}`);
+    console.log(`  crashes                      : ${rows.filter((r) => r.crashed).length}`);
+  }
+  process.exit(0);
+}

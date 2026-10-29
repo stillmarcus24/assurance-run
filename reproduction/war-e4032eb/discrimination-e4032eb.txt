@@ -1,0 +1,24 @@
+DISCRIMINATION CONTROLS for the run above (war-discrimination.cjs sha256:719d1ed33266c24b...)
+corpus: maximusrufus/work-acceptance-record @ e4032eb
+run at: 2026-10-29T18:23:09Z
+
+  CONTROL 1 — always-accept stub : agreed on 3 of 90 vectors
+  CONTROL 2 — mutation battery   : 519 applied, 519 killed, 0 survived
+                                   18876 probes evaluated; 65 not applied (vector already in that failure state)
+
+  KILL DEPTH — every swept position evaluated, not stopped at the first kill:
+    mutation class                     applied  positions     kill    rate  min/mutation
+    signature-bit-flipped                   78       4992     4992  100.0%            64
+    signed-body-edited                      78         78       78  100.0%             1
+    required-result-flipped-to-fail         87         87       87  100.0%             1
+    criteria-file-byte-flipped              85       5440     5440  100.0%            64
+    criteria-token-byte-flipped             72       4608     2761   59.9%             2
+    record-token-byte-flipped               18       1152      455   39.5%             2
+    signing-key-bit-flipped                 78       2496     2496  100.0%            32
+    anchor-list-emptied                     23         23       23  100.0%             1
+    A min/mutation of 0 would be a survivor; a min of 1 on a swept class would mean
+    that control rested on a single lucky byte. Token classes sit below 100% because
+    much of a DER response (certificates, serials, nonces) decides no outcome.
+
+  SURVIVORS: none — every applicable mutation was noticed.
+

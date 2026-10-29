@@ -1,0 +1,14 @@
+vectors whose tsa_signature changes when the digest is hardcoded to SHA-256: 8
+  31  correct={"criteria":"verified","receipt":"verified"}  hardcoded={"criteria":"failed","receipt":"failed"}
+  33  correct={"criteria":"untrusted","receipt":"untrusted"}  hardcoded={"criteria":"failed","receipt":"failed"}
+  34  correct={"criteria":"failed","receipt":"verified"}  hardcoded={"criteria":"failed","receipt":"failed"}
+  35  correct={"criteria":"no_signer"}  hardcoded={"criteria":"failed"}
+  50  correct={"criteria":"verified","receipt":"verified"}  hardcoded={"criteria":"failed","receipt":"failed"}
+  51  correct={"criteria":"verified","receipt":"verified"}  hardcoded={"criteria":"failed","receipt":"failed"}
+  58  correct={"criteria":"verified","receipt":"verified"}  hardcoded={"criteria":"failed","receipt":"failed"}
+  59  correct={"criteria":"verified","receipt":"verified"}  hardcoded={"criteria":"failed","receipt":"failed"}
+
+method: war-verify.cjs lines 965 and 989 — DIGEST_ALG[si.digestAlgOid] — replaced by the
+literal "sha256", everything else unchanged. Declared algorithm read independently from
+each token SignerInfo: vector 31 (FreeTSA) = 2.16.840.1.101.3.4.2.3 SHA-512;
+vector 32 (DigiCert) and 37 (test PKI) = 2.16.840.1.101.3.4.2.1 SHA-256.

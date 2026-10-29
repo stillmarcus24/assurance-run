@@ -1,5 +1,19 @@
 # work-acceptance record, profile 1.4.2 — independent Node run
 
+> ## ⚠️ SUPERSEDED — see [`../war-e4032eb/`](../war-e4032eb/)
+>
+> **The 90/90 below was not reachable through the entry point this repository ships.**
+> Driven through the CLI for the first time on 2026-10-29, `war-verify.cjs` reported
+> **67/90 with 23 crashes**: the `if (require.main === module)` block sat above the step-9
+> declarations, so every TSA vector raised a TDZ `ReferenceError` on `const tlvOf`. The
+> corpus had only ever been driven by `require()`ing `runCorpus`, which completes module
+> evaluation first. Fixed by moving the block to the end of the file; the corrected run at
+> `e4032eb` (vectors byte-identical to `cb7e8f1`) is 90/90 with 0 crashes, and now carries
+> discrimination controls.
+>
+> Also corrected in this file: the self-test is **32** known-answer checks, not 25; and the
+> independence claim is narrowed below, because a later full clone put `verifier/` on disk.
+
 Corpus: [`maximusrufus/work-acceptance-record`](https://github.com/maximusrufus/work-acceptance-record) at commit `cb7e8f1`.
 Verifier: [`war-verify.cjs`](../../war-verify.cjs) — Node.js, no dependencies outside `node:crypto`.
 
@@ -23,8 +37,12 @@ name **and** public key, with the signer and every intermediate valid at `genTim
 Two things that cost real verdicts and are worth passing on:
 
 - **The messageDigest algorithm is declared, not assumed.** FreeTSA's real token
-  declares SHA-512. Hardcoding SHA-256 produced six wrong `failed` verdicts on tokens
-  that are entirely valid (31, 50, 51, 58, 59, and the receipt half of 34).
+  declares SHA-512. ⚠️ **CORRECTED 2026-10-29 — "six wrong `failed` verdicts on 31, 50, 51,
+  58, 59, and the receipt half of 34" was wrong twice.** Re-measured as a counterfactual
+  (replacing the declared-algorithm lookup with the literal `"sha256"`), hardcoding moves
+  **14 token verdicts across 8 vectors: 31, 33, 34, 35, 50, 51, 58, 59.** The original
+  omitted 33 (`untrusted`→`failed`) and 35 (`no_signer`→`failed`), and counted per vector
+  where `tsa_signature` is reported per token.
 - **A name-matching anchor with another key is not a failed check.** Verifying against
   it and recording a signature failure turns "we do not know this authority" into
   "this token is broken" — the distinction 33 and 53 exist to preserve. A name-only
@@ -33,9 +51,10 @@ Two things that cost real verdicts and are worth passing on:
 
 ## Independence
 
-`verifier/war_verify.py` and `verifier/check_payment.py` were **not fetched to this
-machine**, let alone read. The fetch step pulled `README.md` and `vectors/*.json`
-only; `verifier/` was listed in the tree and deliberately skipped. Every rule is
+`verifier/war_verify.py` and `verifier/check_payment.py` **have never been opened, run or
+grepped.** While this verifier was written the fetch step pulled `README.md` and
+`vectors/*.json` only. A later full `git clone` (2026-10-29) put `verifier/` on disk; it was
+listed (`ls verifier/`) and nothing in it was read. The narrower claim is the true one. Every rule is
 implemented from the profile README's *Properties*, *Verification procedure (summary)*
 and *Profile 1.4.2 rules*, plus the vectors' own inputs.
 
@@ -57,6 +76,6 @@ Ed25519 verification and SHA-256 come from `node:crypto`.
 ## Run it
 
 ```
-node war-verify.cjs --self-test      # 25 primitive known-answer checks
+node war-verify.cjs --self-test      # 32 primitive known-answer checks
 node war-verify.cjs <corpus-dir>     # scores vectors/*.json
 ```

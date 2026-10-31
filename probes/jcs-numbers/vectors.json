@@ -1,0 +1,119 @@
+{
+  "note": "RFC 8785 s3.2.2.3 mandates ECMAScript Number::toString for doubles. These are values where the obvious non-JS primitive (Python json.dumps) diverges from it. A JS implementation INHERITS the required function and cannot fail these; every other host language must reimplement it. Inputs are given as JSON text so both sides parse the same doubles -- passing them through a JS String() conversion silently turns 1.0 into the integer 1 and hides four of the divergences.",
+  "required_by": "RFC 8785 section 3.2.2.3 -> ECMA-262 Number::toString",
+  "context": "https://github.com/x402-foundation/x402/issues/2887",
+  "vectors": [
+    {
+      "json_text": "1e-5",
+      "class": "negative exponent",
+      "required": "0.00001",
+      "python_json_dumps": "1e-05",
+      "diverges": true,
+      "stillos_canonicalJson": "0.00001",
+      "stillos_correct": true
+    },
+    {
+      "json_text": "1e-7",
+      "class": "negative exponent at the e-notation boundary",
+      "required": "1e-7",
+      "python_json_dumps": "1e-07",
+      "diverges": true,
+      "stillos_canonicalJson": "1e-7",
+      "stillos_correct": true
+    },
+    {
+      "json_text": "1.2345678901234568e+20",
+      "class": "large magnitude below 1e21",
+      "required": "123456789012345680000",
+      "python_json_dumps": "1.2345678901234568e+20",
+      "diverges": true,
+      "stillos_canonicalJson": "123456789012345680000",
+      "stillos_correct": true
+    },
+    {
+      "json_text": "0.1",
+      "class": "ordinary fraction",
+      "required": "0.1",
+      "python_json_dumps": "0.1",
+      "diverges": false,
+      "stillos_canonicalJson": "0.1",
+      "stillos_correct": true
+    },
+    {
+      "json_text": "1e21",
+      "class": "at the e-notation threshold",
+      "required": "1e+21",
+      "python_json_dumps": "1e+21",
+      "diverges": false,
+      "stillos_canonicalJson": "1e+21",
+      "stillos_correct": true
+    },
+    {
+      "json_text": "1e100",
+      "class": "large exponent",
+      "required": "1e+100",
+      "python_json_dumps": "1e+100",
+      "diverges": false,
+      "stillos_canonicalJson": "1e+100",
+      "stillos_correct": true
+    },
+    {
+      "json_text": "5e-324",
+      "class": "smallest subnormal",
+      "required": "5e-324",
+      "python_json_dumps": "5e-324",
+      "diverges": false,
+      "stillos_canonicalJson": "5e-324",
+      "stillos_correct": true
+    },
+    {
+      "json_text": "1.0",
+      "class": "integer-valued float",
+      "required": "1",
+      "python_json_dumps": "1.0",
+      "diverges": true,
+      "stillos_canonicalJson": "1",
+      "stillos_correct": true
+    },
+    {
+      "json_text": "100.0",
+      "class": "integer-valued float",
+      "required": "100",
+      "python_json_dumps": "100.0",
+      "diverges": true,
+      "stillos_canonicalJson": "100",
+      "stillos_correct": true
+    },
+    {
+      "json_text": "-0.0",
+      "class": "negative zero",
+      "required": "0",
+      "python_json_dumps": "-0.0",
+      "diverges": true,
+      "stillos_canonicalJson": "0",
+      "stillos_correct": true
+    },
+    {
+      "json_text": "3.0e2",
+      "class": "integer-valued float in e-notation",
+      "required": "300",
+      "python_json_dumps": "300.0",
+      "diverges": true,
+      "stillos_canonicalJson": "300",
+      "stillos_correct": true
+    }
+  ],
+  "summary": {
+    "total": 11,
+    "python_divergences": 7,
+    "stillos_correct": 11,
+    "divergence_classes": [
+      "negative exponent",
+      "negative exponent at the e-notation boundary",
+      "large magnitude below 1e21",
+      "integer-valued float",
+      "negative zero",
+      "integer-valued float in e-notation"
+    ]
+  }
+}
